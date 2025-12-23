@@ -140,6 +140,12 @@ justfuckingusecloudflare/
 │   ├── index.html           # HTML entry point
 │   └── index.css            # Global styles
 ├── public/                  # Static assets
+│   ├── favicon-16x16.png    # Favicon (16x16)
+│   ├── favicon-32x32.png    # Favicon (32x32)
+│   ├── android-chrome-192x192.png # PWA icon (192x192)
+│   ├── android-chrome-512x512.png # PWA icon (512x512)
+│   ├── apple-touch-icon.png # iOS home screen icon
+│   ├── site.webmanifest     # PWA manifest
 │   └── opengraph.png        # Open Graph image
 ├── dist/                    # Build output (generated)
 ├── vite.config.ts           # Vite configuration
