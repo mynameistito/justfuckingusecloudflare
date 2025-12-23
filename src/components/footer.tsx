@@ -55,7 +55,7 @@ export const Footer: React.FC = () => (
       <div className="mt-8 border-neutral-800 border-t pt-8 text-center">
         <div className="flex flex-col items-center gap-3 md:flex-row md:justify-between">
           <p className="font-mono text-neutral-600 text-xs">
-            Not affiliated with Cloudflare. Just someone who's love's their
+            Not affiliated with Cloudflare. Just someone who loves their
             products.
           </p>
           <Link
