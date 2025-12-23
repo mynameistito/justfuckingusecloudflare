@@ -199,6 +199,57 @@ All other product names, logos, and brands are property of their respective owne
 
 Software is provided "as is", without warranty of any kind. You are responsible for complying with each provider’s Terms of Service and Acceptable Use Policy.
 
+## 🔒 Privacy, Analytics & Cookies
+
+This project uses privacy-conscious analytics to understand how the site is used and to improve the content over time.
+
+- **Analytics tooling**  
+  - Analytics is provided by **Google Analytics**, delivered through **Cloudflare Zaraz**.  
+  - Cloudflare Zaraz acts as a proxy, so Google’s scripts are not loaded directly from your browser.
+
+- **IP handling**  
+  - Cloudflare Zaraz’s **“Hide originating IP address”** feature is enabled.  
+  - This means **Google Analytics does not receive your raw IP address**. Instead, GA only sees IP information proxied by Cloudflare, which reduces how directly identifiable the analytics data is.
+
+- **What is generally collected**  
+  - High-level usage data such as:
+    - Pages visited and basic navigation paths  
+    - Timestamps and approximate visit duration  
+    - Approximate location (for example, country/region), derived from network data  
+    - Device and browser information (for example, desktop vs mobile, browser family)  
+    - Referrer information (for example, which site or campaign sent you here, if available)  
+  - The project maintainers intentionally avoid sending **direct identifiers** (such as names, emails, or raw user IDs) into Google Analytics events.
+
+- **Why this data is collected**  
+  - To understand which parts of the site are most useful or confusing.  
+  - To prioritize improvements and content updates.  
+  - **Not** for ads, behavioral profiling, or selling user data.
+
+- **Who processes the data**  
+  - **Cloudflare** provides the infrastructure and Zaraz proxy/consent tooling.  
+  - **Google** acts as the analytics provider that receives pseudonymized/aggregated usage data.  
+  - Data may be processed outside of New Zealand, including in the United States or other regions where Cloudflare and Google operate.
+
+- **Consent and cookies**  
+  - If you see a **consent modal** on the live site, it is powered by **Cloudflare Zaraz Consent Management (CMP)**.  
+  - Tools like Google Analytics are associated with an **“Analytics” purpose** and are only loaded when you consent to that purpose.  
+  - Your consent preferences are stored in a **first-party cookie** managed by Cloudflare Zaraz, which records which purposes you have accepted or declined.
+
+- **Your controls**  
+  - You can:
+    - Use the on-site consent controls (where available) to accept or decline analytics.  
+    - Reopen the consent modal via any **“Cookie settings” / “Privacy settings”** link exposed by the site implementation.  
+    - Use your browser settings, extensions, or privacy tools to block analytics or cookies entirely.
+
+## 🧭 Privacy maintenance
+
+- This project may evolve over time (for example, adding or removing tools in Cloudflare Zaraz or changing Google Analytics property settings).  
+- When the analytics setup changes, the maintainers should update:
+  - This `README.md` section, and  
+  - The `/privacy-policy` page in the app  
+  so that they continue to accurately describe what is happening.
+- If you notice something that seems inconsistent or unclear from a privacy perspective, please open an issue in the repository so it can be reviewed and fixed.
+
 ## 🔗 Links
 
 - [Cloudflare Pages](https://pages.cloudflare.com/)

@@ -1,4 +1,5 @@
 import type React from "react";
+import { Link } from "react-router-dom";
 
 export const Footer: React.FC = () => (
   <footer className="border-neutral-800 border-t bg-neutral-950 px-6 py-12">
@@ -52,10 +53,18 @@ export const Footer: React.FC = () => (
         </div>
       </div>
       <div className="mt-8 border-neutral-800 border-t pt-8 text-center">
-        <p className="font-mono text-neutral-600 text-xs">
-          Not affiliated with Cloudflare. Just someone who's love's their
-          products.
-        </p>
+        <div className="flex flex-col items-center gap-3 md:flex-row md:justify-between">
+          <p className="font-mono text-neutral-600 text-xs">
+            Not affiliated with Cloudflare. Just someone who's love's their
+            products.
+          </p>
+          <Link
+            className="font-mono text-neutral-500 text-xs underline-offset-4 hover:text-orange-500 hover:underline focus-visible:outline-2 focus-visible:outline-orange-500 focus-visible:outline-offset-2"
+            to="/privacy-policy"
+          >
+            Privacy &amp; Cookies
+          </Link>
+        </div>
         <p className="mt-2 font-mono text-neutral-600 text-xs">
           Inspired by{" "}
           <a

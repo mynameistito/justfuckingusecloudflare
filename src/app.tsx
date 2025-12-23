@@ -1,11 +1,13 @@
 import type React from "react";
 import { useEffect } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Comparison } from "./components/comparison";
 import { CTA } from "./components/cta";
 import { Features } from "./components/features";
 import { Footer } from "./components/footer";
 import { Hero } from "./components/hero";
 import { Rant } from "./components/rant";
+import { PrivacyPolicyPage } from "./pages/privacy-policy";
 
 const App: React.FC = () => {
   useEffect(() => {
@@ -25,22 +27,34 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen selection:bg-orange-500 selection:text-black">
-      <a
-        className="sr-only focus:not-sr-only focus:absolute focus:top-6 focus:left-6 focus:z-50 focus:rounded-full focus:bg-orange-500 focus:px-6 focus:py-3 focus:font-bold focus:font-mono focus:text-black focus:uppercase focus:tracking-tight focus:outline-none"
-        href="#main-content"
-      >
-        Skip to main content
-      </a>
-      <main id="main-content">
-        <Hero />
-        <Rant />
-        <Comparison />
-        <Features />
-        <CTA />
-      </main>
-      <Footer />
-    </div>
+    <BrowserRouter>
+      <div className="min-h-screen selection:bg-orange-500 selection:text-black">
+        <a
+          className="sr-only focus:not-sr-only focus:absolute focus:top-6 focus:left-6 focus:z-50 focus:rounded-full focus:bg-orange-500 focus:px-6 focus:py-3 focus:font-bold focus:font-mono focus:text-black focus:uppercase focus:tracking-tight focus:outline-none"
+          href="#main-content"
+        >
+          Skip to main content
+        </a>
+        <main id="main-content">
+          <Routes>
+            <Route
+              element={
+                <>
+                  <Hero />
+                  <Rant />
+                  <Comparison />
+                  <Features />
+                  <CTA />
+                </>
+              }
+              path="/"
+            />
+            <Route element={<PrivacyPolicyPage />} path="/privacy-policy" />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </BrowserRouter>
   );
 };
 
