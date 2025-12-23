@@ -15,6 +15,8 @@
 
 This project is a modern, opinionated landing page that makes a compelling (and slightly profane) case for using Cloudflare's platform instead of juggling multiple AWS services. Built with React and Vite, optimized for Cloudflare Pages deployment, and designed to be fast, accessible, and maintainable.
 
+> This project is satire and for educational/demo purposes only; it is not official guidance from any cloud provider.
+
 ### Cloudflare Key Features
 
 - ⚡ **Zero cold starts** - Edge computing that actually works
@@ -185,6 +187,17 @@ Contributions are welcome! Feel free to:
 ## 📄 License
 
 This project is licensed under the terms specified in the [LICENSE](./LICENSE) file.
+
+## ⚖️ Legal
+
+This is a community-built, satirical, open-source project. It is not endorsed by, sponsored by, or affiliated with any of the companies mentioned.
+
+"Cloudflare", "Cloudflare Workers", "Cloudflare Pages", "Cloudflare R2", and "Cloudflare D1" are trademarks or registered trademarks of Cloudflare, Inc.  
+"Amazon Web Services", "AWS", and related service names are trademarks of Amazon.com, Inc. or its affiliates.  
+"Google Cloud", "Google", and related service names are trademarks of Google LLC.  
+All other product names, logos, and brands are property of their respective owners and are used for identification and comparative purposes only.
+
+Software is provided "as is", without warranty of any kind. You are responsible for complying with each provider’s Terms of Service and Acceptable Use Policy.
 
 ## 🔗 Links
 
