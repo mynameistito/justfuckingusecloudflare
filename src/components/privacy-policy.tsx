@@ -177,7 +177,7 @@ export const PrivacyPolicy: React.FC = () => (
             We're Not The Villains.
           </p>
           <p className="mt-4 font-anton text-2xl text-white uppercase leading-relaxed tracking-tight">
-            We're The Ones Telling You To Stop Paying serveral Bills.
+            We're The Ones Telling You To Stop Paying several Bills.
           </p>
           <p className="mt-4 font-anton text-2xl text-orange-500 uppercase leading-relaxed tracking-tight">
             Just FuckingUse Cloudflare.
