@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && bun scripts/copy-404.js",
     "preview": "vite preview",
     "fix": "bunx ultracite fix",
     "check": "bunx ultracite check",
