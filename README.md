@@ -250,7 +250,7 @@ This project uses privacy-conscious analytics to understand how the site is used
   so that they continue to accurately describe what is happening.
 - If you notice something that seems inconsistent or unclear from a privacy perspective, please open an issue in the repository so it can be reviewed and fixed.
 
-## 🔗 Links
+## 🔗 Cloudflare Links
 
 - [Cloudflare Pages](https://pages.cloudflare.com/)
 - [Cloudflare Workers](https://workers.cloudflare.com/)
