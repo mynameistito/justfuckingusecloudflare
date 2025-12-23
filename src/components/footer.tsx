@@ -62,8 +62,7 @@ export const Footer: React.FC = () => (
           </Link>
         </p>
         <p className="mt-4 font-mono text-neutral-600 text-xs">
-          Not affiliated with Cloudflare. Just someone who's love's their
-          products.
+          Not affiliated with Cloudflare. Just someone who loves their products.
         </p>
         <p className="mt-2 font-mono text-neutral-600 text-xs">
           Inspired by{" "}
