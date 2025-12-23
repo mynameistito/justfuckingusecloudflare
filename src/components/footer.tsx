@@ -1,4 +1,5 @@
 import type React from "react";
+import { Link } from "react-router-dom";
 
 export const Footer: React.FC = () => (
   <footer className="border-neutral-800 border-t bg-neutral-950 px-6 py-12">
@@ -53,6 +54,14 @@ export const Footer: React.FC = () => (
       </div>
       <div className="mt-8 border-neutral-800 border-t pt-8 text-center">
         <p className="font-mono text-neutral-600 text-xs">
+          <Link
+            className="text-orange-500 transition-colors hover:text-orange-400"
+            to="/privacy"
+          >
+            Privacy Policy
+          </Link>
+        </p>
+        <p className="mt-4 font-mono text-neutral-600 text-xs">
           Not affiliated with Cloudflare. Just someone who's love's their
           products.
         </p>
