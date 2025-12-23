@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+      name="description"
+      content="Stop paying SEVENTEEN DIFFERENT BILLS for your shitty todo app. Stop pretending you're an infra genius when you're just bleeding money."
+    >
+    <meta
+      name="keywords"
+      content="cloudflare, aws alternative, serverless, edge computing, cloudflare workers, r2 storage, d1 database"
+    >
+    <meta name="author" content="Just Fucking Use Cloudflare">
+    <meta property="og:title" content="Just Fucking Use Cloudflare">
+    <meta
+      property="og:description"
+      content="Stop paying SEVENTEEN DIFFERENT BILLS for your shitty todo app. Stop pretending you're an infra genius when you're just bleeding money."
+    >
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="/opengraph.png?v=2">
+    <meta property="og:site_name" content="Just Fucking Use Cloudflare">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Just Fucking Use Cloudflare">
+    <meta
+      name="twitter:description"
+      content="Stop paying SEVENTEEN DIFFERENT BILLS for your shitty todo app. Stop pretending you're an infra genius when you're just bleeding money."
+    >
+    <meta name="twitter:image" content="/opengraph.png?v=2">
+    <title>Just Fucking Use Cloudflare - Stop Getting Scammed</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    >
+    <style>
+    body {
+      font-family: "Space Grotesk", sans-serif;
+      background-color: #0a0a0a;
+      color: #fafafa;
+    }
+    .font-anton {
+      font-family: "Anton", sans-serif;
+    }
+    .font-mono {
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    /* Subtle noise overlay */
+    .noise::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 50;
+    }
+
+    ::selection {
+      background: #f6821f;
+      color: #0a0a0a;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-20px);
+      }
+      100% {
+        transform: translateY(0px);
+      }
+    }
+    .animate-float {
+      animation: float 6s ease-in-out infinite;
+    }
+
+    /* Smooth scroll */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Better focus states for accessibility */
+    *:focus-visible {
+      outline: 2px solid #f6821f;
+      outline-offset: 2px;
+    }
+
+    /* Smooth transitions */
+    * {
+      transition-property:
+        color, background-color, border-color, text-decoration-color, fill,
+        stroke, opacity, box-shadow, transform;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+    }
+
+    /* Screen reader only */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+
+    .focus\:not-sr-only:focus {
+      position: static;
+      width: auto;
+      height: auto;
+      padding: inherit;
+      margin: inherit;
+      overflow: visible;
+      clip: auto;
+      white-space: normal;
+    }
+    </style>
+  </head>
+  <body class="noise">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

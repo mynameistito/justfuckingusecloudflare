@@ -1,0 +1,13 @@
+{
+  "name": "just-fucking-use-cloudflare",
+  "compatibility_date": "2025-11-17",
+  "assets": {
+    "directory": "./dist"
+  },
+  "routes": [
+    {
+      "pattern": "justfuckingusecloudflare.mynameistito.com",
+      "custom_domain": true
+    }
+  ]
+}
