@@ -56,7 +56,7 @@ export const Footer: React.FC = () => (
         <p className="font-mono text-neutral-600 text-xs">
           <Link
             className="text-orange-500 transition-colors hover:text-orange-400"
-            to="/privacy"
+            to="/privacy-policy"
           >
             Privacy Policy
           </Link>
