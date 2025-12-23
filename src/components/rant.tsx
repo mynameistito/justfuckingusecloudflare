@@ -51,6 +51,10 @@ export const Rant: React.FC = () => (
           </span>
           ,{" "}
           <span className="bg-linear-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
+            Workflows
+          </span>
+          ,{" "}
+          <span className="bg-linear-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
             AI
           </span>
           ,{" "}
