@@ -51,7 +51,7 @@ const App: React.FC = () => (
     <div className="min-h-screen selection:bg-orange-500 selection:text-black">
       <Routes>
         <Route element={<HomePage />} path="/" />
-        <Route element={<PrivacyPolicy />} path="/privacy" />
+        <Route element={<PrivacyPolicy />} path="/privacy-policy" />
       </Routes>
     </div>
   </BrowserRouter>
