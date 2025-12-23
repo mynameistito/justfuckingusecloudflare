@@ -108,20 +108,29 @@ export const Footer: React.FC = () => (
           (
           <a
             className="text-orange-500 transition-colors hover:text-orange-400"
+            href="https://discord.com/users/611746802122620937"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Discord
+          </a>
+          ,{" "}
+          <a
+            className="text-orange-500 transition-colors hover:text-orange-400"
+            href="https://github.com/mynameistito/justfuckingusecloudflare"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            GitHub
+          </a>
+          ,{" "}
+          <a
+            className="text-orange-500 transition-colors hover:text-orange-400"
             href="https://x.com/mynameistito"
             rel="noopener noreferrer"
             target="_blank"
           >
             X
-          </a>
-          ,{" "}
-          <a
-            className="text-orange-500 transition-colors hover:text-orange-400"
-            href="https://github.com/mynameistito"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            GitHub
           </a>
           )
         </p>
