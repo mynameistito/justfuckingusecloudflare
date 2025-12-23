@@ -159,7 +159,8 @@ export const PrivacyPolicy: React.FC = () => (
             Contact Us
           </h2>
           <p className="mt-4 leading-relaxed">
-            If you have any questions about this privacy policy, please create an issue on our GitHub repository:
+            If you have any questions about this privacy policy, please create
+            an issue on our GitHub repository:
           </p>
           <div className="mt-4 space-y-2 font-mono text-neutral-400">
             <p>
