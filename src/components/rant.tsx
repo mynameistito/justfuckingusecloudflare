@@ -18,43 +18,47 @@ export const Rant: React.FC = () => (
         </p>
         <p>
           Meanwhile Cloudflare is literally{" "}
-          <span className="bg-linear-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
+          <span className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
             BEGGING
           </span>{" "}
           you to use their{" "}
-          <span className="bg-linear-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
+          <span className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
             Workers
           </span>
           ,{" "}
-          <span className="bg-linear-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
+          <span className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
             Pages
           </span>
           ,{" "}
-          <span className="bg-linear-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
+          <span className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
             R2
           </span>
           ,{" "}
-          <span className="bg-linear-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
+          <span className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
             D1
           </span>
           ,{" "}
-          <span className="bg-linear-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
+          <span className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
             KV
           </span>
           ,{" "}
-          <span className="bg-linear-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
+          <span className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
             Durable Objects
           </span>
           ,{" "}
-          <span className="bg-linear-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
+          <span className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
             Queues
           </span>
           ,{" "}
-          <span className="bg-linear-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
+          <span className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
+            Workflows
+          </span>
+          ,{" "}
+          <span className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
             AI
           </span>
           ,{" "}
-          <span className="bg-linear-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
+          <span className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
             Vectorize
           </span>{" "}
           — ALL ON ONE PLATFORM, ONE BILL, AND{" "}

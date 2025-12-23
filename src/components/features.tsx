@@ -9,11 +9,14 @@ const features = [
   "SQLite at the edge with D1",
   "Unlimited bandwidth on Pages",
   "Workers AI at the edge",
+  "Message queues with zero egress fees",
+  "Durable workflows that auto-resume",
   "Real preview deployments",
   "Git integration that just works",
   "Wholesale domain pricing",
   "Free SSL certificates",
   "DDoS protection included",
+  "One global network for security, performance, and Zero Trust",
 ];
 
 export const Features: React.FC = () => (
