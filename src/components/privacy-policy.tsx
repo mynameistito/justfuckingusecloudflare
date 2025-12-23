@@ -59,7 +59,7 @@ export const PrivacyPolicy: React.FC = () => (
             Sometimes we might screenshot or tweet some high-level stats like
             "10k degenerates visited today and didn't immediately close the
             tab". That's it. Pure aggregated numbers. Impossible to backtrack to
-            you. No individuals harmed in the making of these shitposts.
+            you. No individuals harmed in the making of these shit posts.
           </p>
         </section>
 
