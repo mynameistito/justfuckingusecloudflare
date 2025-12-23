@@ -15,7 +15,7 @@
 
 This project is a modern, opinionated landing page that makes a compelling (and slightly profane) case for using Cloudflare's platform instead of juggling multiple AWS services. Built with React and Vite, optimized for Cloudflare Pages deployment, and designed to be fast, accessible, and maintainable.
 
-### Key Features
+### Cloudflare Key Features
 
 - ⚡ **Zero cold starts** - Edge computing that actually works
 - 🌍 **300+ edge locations** worldwide
