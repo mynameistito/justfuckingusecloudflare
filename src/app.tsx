@@ -1,6 +1,6 @@
 import type React from "react";
 import { useEffect } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { Comparison } from "./components/comparison";
 import { CTA } from "./components/cta";
 import { Features } from "./components/features";
@@ -46,8 +46,22 @@ const HomePage: React.FC = () => {
   );
 };
 
+const ScrollToTop: React.FC = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    // Scroll to top when pathname changes
+    if (pathname) {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname]);
+
+  return null;
+};
+
 const App: React.FC = () => (
   <BrowserRouter>
+    <ScrollToTop />
     <div className="min-h-screen selection:bg-orange-500 selection:text-black">
       <Routes>
         <Route element={<HomePage />} path="/" />
