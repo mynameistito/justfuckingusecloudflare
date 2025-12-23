@@ -166,7 +166,7 @@ export const PrivacyPolicy: React.FC = () => (
               GitHub:{" "}
               <a
                 className="text-orange-500 transition-colors hover:text-orange-400"
-                href="https://github.com/mynameistito"
+                href="https://github.com/mynameistito/justfuckingusecloudflare"
                 rel="noopener noreferrer"
                 target="_blank"
               >
