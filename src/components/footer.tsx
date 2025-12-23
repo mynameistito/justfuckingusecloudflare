@@ -91,8 +91,17 @@ export const Footer: React.FC = () => (
             target="_blank"
           >
             justfuckingusereact.com
-          </a>
-          .
+          </a>{" "}
+          and the{" "}
+          <a
+            className="text-orange-500 transition-colors hover:text-orange-400"
+            href="https://justfuckinguse.com"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            justfuckinguse.com
+          </a>{" "}
+          ecosystem.
         </p>
         <p className="mt-2 font-mono text-neutral-600 text-xs">
           Made by:{" "}
