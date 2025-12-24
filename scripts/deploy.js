@@ -42,19 +42,62 @@ function createPreviewAlias() {
     .substring(0, 63) || "preview";
 }
 
-function getPreviewUrl(versionId) {
+function getAccountSubdomain() {
   try {
+    // Try to get account info from whoami
+    const whoamiOutput = execSync("npx wrangler whoami --format json", {
+      encoding: "utf-8",
+      stdio: "pipe",
+    });
+    const whoami = JSON.parse(whoamiOutput);
+    // Account subdomain might be in the account info
+    if (whoami?.account?.subdomain) {
+      return whoami.account.subdomain;
+    }
+    // Try to extract from account name or other fields
+    if (whoami?.account?.name) {
+      // Sometimes the subdomain is derived from account name
+      return whoami.account.name.toLowerCase().replace(/[^a-z0-9]/g, "");
+    }
+  } catch (e) {
+    // Ignore errors
+  }
+  return null;
+}
+
+function getPreviewUrl(versionId, previewAlias, workerName) {
+  try {
+    // Get the versions list to find the preview URL
+    // The preview URL should be in the format: <ALIAS>-<WORKER_NAME>.<ACCOUNT_SUBDOMAIN>.workers.dev
     const output = execSync("npx wrangler versions list --format json", {
       encoding: "utf-8",
       stdio: "pipe",
     });
     const versions = JSON.parse(output);
     const thisVersion = versions.find((v) => v.id === versionId);
+    
+    // Check for preview URLs in the version object
     if (thisVersion?.preview_urls?.length > 0) {
+      // Return the first preview URL (should be the full URL with account subdomain)
       return thisVersion.preview_urls[0];
     }
+    
+    // Also check if there's a preview_url field (singular)
+    if (thisVersion?.preview_url) {
+      return thisVersion.preview_url;
+    }
+    
+    // If preview_urls not available yet, try to construct from account subdomain
+    const accountSubdomain = getAccountSubdomain();
+    if (accountSubdomain) {
+      return `https://${previewAlias}-${workerName}.${accountSubdomain}.workers.dev`;
+    }
   } catch (e) {
-    // Ignore errors
+    // If versions list fails, try to get account subdomain and construct URL
+    const accountSubdomain = getAccountSubdomain();
+    if (accountSubdomain) {
+      return `https://${previewAlias}-${workerName}.${accountSubdomain}.workers.dev`;
+    }
   }
   return null;
 }
@@ -109,13 +152,15 @@ try {
       console.log(`🏷️  Preview Alias: ${previewAlias}`);
       
       // Try to get the actual preview URL
-      const previewUrl = getPreviewUrl(versionId);
+      // Format: <ALIAS>-<WORKER_NAME>.<ACCOUNT_SUBDOMAIN>.workers.dev
+      const previewUrl = getPreviewUrl(versionId, previewAlias, workerName);
       if (previewUrl) {
         console.log(`🔗 Preview URL: ${previewUrl}`);
       } else {
-        // Fallback: construct likely URL
-        console.log(`🔗 Preview URL: https://${previewAlias}-${workerName}.workers.dev`);
-        console.log("   (Check Cloudflare dashboard for exact URL)");
+        // Fallback: show expected format (without account subdomain)
+        console.log(`🔗 Preview URL: https://${previewAlias}-${workerName}.<ACCOUNT_SUBDOMAIN>.workers.dev`);
+        console.log("   (Check Cloudflare dashboard or 'wrangler versions list' for exact URL)");
+        console.log("   The account subdomain can be found in your Cloudflare dashboard");
       }
       console.log("=".repeat(70));
     } else {
