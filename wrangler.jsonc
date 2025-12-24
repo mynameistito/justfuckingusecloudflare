@@ -1,9 +1,11 @@
 {
   "name": "justfuckingusecloudflare",
   "compatibility_date": "2025-12-24",
+  "main": "./worker/index.ts",
   "assets": {
     "directory": "./dist",
-    "not_found_handling": "single-page-application"
+    "not_found_handling": "single-page-application",
+    "binding": "ASSETS"
   },
   "routes": [
     {
