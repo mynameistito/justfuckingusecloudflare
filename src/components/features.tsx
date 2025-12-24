@@ -16,7 +16,7 @@ const features = [
   "Wholesale domain pricing",
   "Free SSL certificates",
   "DDoS protection included",
-  "One global network for security, performance, and Zero Trust",
+  "Security, performance & Zero Trust",
 ];
 
 export const Features: React.FC = () => (
