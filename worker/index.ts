@@ -18,4 +18,4 @@ export default {
 
     return env.ASSETS.fetch(indexRequest);
   },
-} satisfies ExportedHandler<Env>;
+};
