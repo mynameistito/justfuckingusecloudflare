@@ -23,5 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 
+# Wrangler
+src/.wrangler
+
 # Cursor
 .cursor
