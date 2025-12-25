@@ -1,1 +1,4 @@
-{"configPath":"..\\..\\..\\dist\\justfuckingusecloudflare\\wrangler.json","auxiliaryWorkers":[]}
+{
+  "configPath": "..\\..\\..\\dist\\justfuckingusecloudflare\\wrangler.json",
+  "auxiliaryWorkers": []
+}

@@ -116,6 +116,15 @@ export const Footer: React.FC = () => (
           (
           <a
             className="text-orange-500 transition-colors hover:text-orange-400"
+            href="https://buymeacoffee.com/mynameistito"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Buy Me a Coffee
+          </a>
+          ,{" "}
+          <a
+            className="text-orange-500 transition-colors hover:text-orange-400"
             href="https://discord.com/users/611746802122620937"
             rel="noopener noreferrer"
             target="_blank"
