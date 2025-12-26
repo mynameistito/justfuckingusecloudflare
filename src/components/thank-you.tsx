@@ -17,4 +17,3 @@ export const ThankYou: React.FC<ThankYouProps> = ({ from }) => {
     </section>
   );
 };
-
