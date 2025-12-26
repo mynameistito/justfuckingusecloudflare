@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 /**
  * Normalizes a name by capitalizing the first letter and trimming whitespace
  */
-function normalizeName(name: string | null): string | null {
+export function normalizeName(name: string | null): string | null {
   if (!name || name.trim().length === 0) {
     return null;
   }

@@ -13,7 +13,7 @@ import { ThankYou } from "./components/thank-you";
 import { usePersonalization } from "./hooks/use-personalization";
 
 const HomePage: React.FC = () => {
-  const { from, to } = usePersonalization();
+  const { from } = usePersonalization();
 
   useEffect(() => {
     // Console easter egg from original content
@@ -46,7 +46,7 @@ const HomePage: React.FC = () => {
         <Features />
         <CTA />
         <ShareLink />
-        {from && to && <ThankYou from={from} />}
+        {from && <ThankYou from={from} />}
       </main>
       <Footer />
     </>

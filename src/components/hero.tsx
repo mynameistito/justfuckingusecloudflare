@@ -11,7 +11,7 @@ export const Hero: React.FC = () => {
           <p className="mb-6 font-mono text-lg text-neutral-300 md:text-xl">
             Hey there, if{" "}
             <span className="font-bold text-orange-500">{from}</span> sent you
-            this link, you need to;{" "}
+            this link, you need to:{" "}
           </p>
         )}
         <p className="mb-4 font-mono text-2xl text-orange-500 uppercase tracking-[0.4em] md:text-3xl lg:text-4xl">

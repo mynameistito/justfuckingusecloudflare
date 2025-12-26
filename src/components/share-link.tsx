@@ -1,10 +1,22 @@
 import type React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { normalizeName } from "../hooks/use-personalization";
 
 export const ShareLink: React.FC = () => {
   const [theirName, setTheirName] = useState("");
   const [yourName, setYourName] = useState("");
   const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    if (copied) {
+      const timeoutId = setTimeout(() => {
+        setCopied(false);
+      }, 2000);
+      return () => {
+        clearTimeout(timeoutId);
+      };
+    }
+  }, [copied]);
 
   const handleCopyLink = async () => {
     if (!(theirName.trim() && yourName.trim())) {
@@ -18,9 +30,6 @@ export const ShareLink: React.FC = () => {
     try {
       await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
-      setTimeout(() => {
-        setCopied(false);
-      }, 2000);
     } catch (err) {
       console.error("Failed to copy link:", err);
     }
@@ -28,17 +37,8 @@ export const ShareLink: React.FC = () => {
 
   const isDisabled = !(theirName.trim() && yourName.trim());
 
-  // Normalize names for preview (capitalize first letter)
-  const normalizeForPreview = (name: string) => {
-    if (!name.trim()) {
-      return "";
-    }
-    const trimmed = name.trim();
-    return trimmed.charAt(0).toUpperCase() + trimmed.slice(1).toLowerCase();
-  };
-
-  const previewTheirName = normalizeForPreview(theirName);
-  const previewYourName = normalizeForPreview(yourName);
+  const previewTheirName = normalizeName(theirName) ?? "";
+  const previewYourName = normalizeName(yourName) ?? "";
 
   return (
     <section className="border-neutral-800 border-b bg-neutral-950 px-6 py-24 md:py-32">
