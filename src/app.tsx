@@ -8,8 +8,13 @@ import { Footer } from "./components/footer";
 import { Hero } from "./components/hero";
 import { PrivacyPolicy } from "./components/privacy-policy";
 import { Rant } from "./components/rant";
+import { ShareLink } from "./components/share-link";
+import { ThankYou } from "./components/thank-you";
+import { usePersonalization } from "./hooks/use-personalization";
 
 const HomePage: React.FC = () => {
+  const { from, to } = usePersonalization();
+
   useEffect(() => {
     // Console easter egg from original content
     console.log(
@@ -40,6 +45,8 @@ const HomePage: React.FC = () => {
         <Comparison />
         <Features />
         <CTA />
+        <ShareLink />
+        {from && to && <ThankYou from={from} />}
       </main>
       <Footer />
     </>
