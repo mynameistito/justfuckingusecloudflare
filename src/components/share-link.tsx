@@ -11,9 +11,9 @@ export const ShareLink: React.FC = () => {
       return;
     }
 
-    const shareUrl = `${window.location.origin}${window.location.pathname}?to=${encodeURIComponent(
-      theirName.trim()
-    )}&from=${encodeURIComponent(yourName.trim())}`;
+    const shareUrl = `${window.location.origin}${window.location.pathname}?from=${encodeURIComponent(
+      yourName.trim()
+    )}&to=${encodeURIComponent(theirName.trim())}`;
 
     try {
       await navigator.clipboard.writeText(shareUrl);
@@ -55,25 +55,6 @@ export const ShareLink: React.FC = () => {
           <div>
             <label
               className="mb-2 block font-bold font-mono text-neutral-300 text-sm uppercase tracking-tight"
-              htmlFor="their-name"
-            >
-              Their Name
-            </label>
-            <input
-              className="w-full rounded-lg border border-neutral-700 bg-neutral-900 px-4 py-3 font-mono text-white placeholder:text-neutral-600 focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50"
-              id="their-name"
-              onChange={(e) => {
-                setTheirName(e.target.value);
-              }}
-              placeholder="Enter their name"
-              type="text"
-              value={theirName}
-            />
-          </div>
-
-          <div>
-            <label
-              className="mb-2 block font-bold font-mono text-neutral-300 text-sm uppercase tracking-tight"
               htmlFor="your-name"
             >
               Your Name
@@ -87,6 +68,25 @@ export const ShareLink: React.FC = () => {
               placeholder="Enter your name"
               type="text"
               value={yourName}
+            />
+          </div>
+
+          <div>
+            <label
+              className="mb-2 block font-bold font-mono text-neutral-300 text-sm uppercase tracking-tight"
+              htmlFor="their-name"
+            >
+              Their Name
+            </label>
+            <input
+              className="w-full rounded-lg border border-neutral-700 bg-neutral-900 px-4 py-3 font-mono text-white placeholder:text-neutral-600 focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50"
+              id="their-name"
+              onChange={(e) => {
+                setTheirName(e.target.value);
+              }}
+              placeholder="Enter their name"
+              type="text"
+              value={theirName}
             />
           </div>
 
