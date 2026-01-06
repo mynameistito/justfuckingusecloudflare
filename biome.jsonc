@@ -1,4 +1,9 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-  "extends": ["ultracite/core", "ultracite/react"]
+  "extends": [
+    "ultracite/core",
+    "ultracite/react",
+    "ultracite/biome/core",
+    "ultracite/biome/react"
+  ]
 }
