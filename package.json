@@ -1,42 +1,42 @@
 {
-  "name": "jfuc---just-fucking-use-cloudflare",
+  "name": "just-fucking-use-cloudflare",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "portless justfuckingusecloudflare vite",
     "build": "vite build",
     "preview": "vite preview",
     "deploy": "node scripts/deploy.js",
-    "fix": "bunx ultracite fix",
-    "check": "bunx ultracite check",
+    "fix": "ultracite fix",
+    "check": "ultracite check",
     "ultracheck": "bunx ultracite fix && bunx ultracite check",
-    "tsc": "tsc --noEmit",
-    "prepare": "husky"
+    "typecheck": "tsc --noEmit",
+    "prepare": "lefthook install",
+    "test": "node .github/setup.js; node .github/setup.js"
   },
   "dependencies": {
-    "lucide-react": "^0.562.0",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3",
-    "react-router-dom": "^7.12.0"
+    "lucide-react": "^1.17.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-router-dom": "^7.16.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.3.11",
-    "@cloudflare/vite-plugin": "^1.21.0",
-    "@tailwindcss/vite": "^4.1.18",
-    "@types/node": "^25.0.9",
-    "@vitejs/plugin-react": "^5.1.2",
-    "husky": "^9.1.7",
-    "lint-staged": "^16.2.7",
-    "tailwindcss": "^4.1.18",
-    "typescript": "^5.9.3",
-    "ultracite": "7.0.11",
-    "vite": "^7.3.1",
-    "wrangler": "^4.59.2"
+    "@biomejs/biome": "2.4.16",
+    "@cloudflare/vite-plugin": "^1.39.1",
+    "@tailwindcss/vite": "^4.3.0",
+    "@types/node": "^25.9.1",
+    "@vitejs/plugin-react": "^6.0.2",
+    "lefthook": "^2.1.9",
+    "tailwindcss": "^4.3.0",
+    "typescript": "^6.0.3",
+    "ultracite": "7.8.1",
+    "vite": "^8.0.16",
+    "wrangler": "^4.96.0"
   },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx,json,jsonc,css,scss,md,mdx}": [
-      "bun x ultracite fix"
-    ]
+  "overrides": {
+    "minimatch": "^10.2.3",
+    "rollup": "^4.59.0",
+    "brace-expansion": "^5.0.6"
   }
 }
