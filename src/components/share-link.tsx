@@ -1,10 +1,14 @@
 import type React from "react";
 import { useEffect, useState } from "react";
-import { normalizeName } from "../hooks/use-personalization";
+import {
+  normalizeName,
+  usePersonalization,
+} from "../hooks/use-personalization";
 
 export const ShareLink: React.FC = () => {
+  const { to } = usePersonalization();
   const [theirName, setTheirName] = useState("");
-  const [yourName, setYourName] = useState("");
+  const [yourName, setYourName] = useState(to || "");
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
