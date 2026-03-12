@@ -34,6 +34,7 @@
     "wrangler": "^4.72.0"
   },
   "overrides": {
-    "minimatch": "^10.2.1"
+    "minimatch": "^10.2.3",
+    "rollup": "^4.59.0"
   }
 }
