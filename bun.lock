@@ -19,7 +19,7 @@
         "lefthook": "^2.1.4",
         "tailwindcss": "^4.2.1",
         "typescript": "^5.9.3",
-        "ultracite": "7.3.0",
+        "ultracite": "7.3.1",
         "vite": "^8.0.0",
         "wrangler": "^4.73.0",
       },
@@ -422,7 +422,7 @@
 
     "typescript": ["typescript@5.9.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw=="],
 
-    "ultracite": ["ultracite@7.3.0", "", { "dependencies": { "@clack/prompts": "^1.1.0", "commander": "^14.0.3", "deepmerge": "^4.3.1", "glob": "^13.0.6", "jsonc-parser": "^3.3.1", "nypm": "^0.6.5" }, "peerDependencies": { "oxlint": "^1.0.0" }, "optionalPeers": ["oxlint"], "bin": { "ultracite": "dist/index.js" } }, "sha512-lnzknmRmaLNPk2cYCpT+dI78Jyz+0Or1o8XOjHNxeIrBGrbQXZOTNwQjcFeYaQ1Ov5HK1NqPQirmzyMgA4lJSw=="],
+    "ultracite": ["ultracite@7.3.1", "", { "dependencies": { "@clack/prompts": "^1.1.0", "commander": "^14.0.3", "deepmerge": "^4.3.1", "glob": "^13.0.6", "jsonc-parser": "^3.3.1", "nypm": "^0.6.5" }, "peerDependencies": { "oxlint": "^1.0.0" }, "optionalPeers": ["oxlint"], "bin": { "ultracite": "dist/index.js" } }, "sha512-kz8DFNfHmxtUkute+JTvMfsGGLdNc5o8hkpnuuvERPTDZIIxQ7+qVdERD9oDpxl2kFJJ1tYxiQxCHdVv9SGRJQ=="],
 
     "undici": ["undici@7.18.2", "", {}, "sha512-y+8YjDFzWdQlSE9N5nzKMT3g4a5UBX1HKowfdXh0uvAnTaqqwqB92Jt4UXBAeKekDs5IaDKyJFR4X1gYVCgXcw=="],
 
