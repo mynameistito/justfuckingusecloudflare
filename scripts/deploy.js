@@ -33,7 +33,7 @@ function createPreviewAlias() {
       .replace(/[^a-z0-9-_]/g, "-")
       .replace(/-+/g, "-")
       .replace(/^-|-$/g, "")
-      .substring(0, 63) || "preview"
+      .slice(0, 63) || "preview"
   );
 }
 

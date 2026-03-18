@@ -11,7 +11,7 @@
     "fix": "ultracite fix",
     "check": "ultracite check",
     "ultracheck": "bunx ultracite fix && bunx ultracite check",
-    "tsc": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
     "prepare": "lefthook install"
   },
   "dependencies": {
@@ -21,13 +21,13 @@
     "react-router-dom": "^7.13.1"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.7",
+    "@biomejs/biome": "2.4.8",
     "@cloudflare/vite-plugin": "^1.29.1",
-    "@tailwindcss/vite": "^4.2.1",
+    "@tailwindcss/vite": "^4.2.2",
     "@types/node": "^25.5.0",
     "@vitejs/plugin-react": "^6.0.1",
     "lefthook": "^2.1.4",
-    "tailwindcss": "^4.2.1",
+    "tailwindcss": "^4.2.2",
     "typescript": "^5.9.3",
     "ultracite": "7.3.2",
     "vite": "^8.0.0",
