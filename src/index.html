@@ -65,8 +65,8 @@
     <style>
     body {
       font-family: "Space Grotesk", sans-serif;
-      background-color: #0a0a0a;
       color: #fafafa;
+      background-color: #0a0a0a;
     }
     .font-anton {
       font-family: "Anton", sans-serif;
@@ -77,21 +77,21 @@
 
     /* Subtle noise overlay */
     .noise::before {
-      content: "";
       position: fixed;
       top: 0;
       left: 0;
+      z-index: 50;
       width: 100%;
       height: 100%;
+      pointer-events: none;
+      content: "";
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
       opacity: 0.03;
-      pointer-events: none;
-      z-index: 50;
     }
 
     ::selection {
-      background: #f6821f;
       color: #0a0a0a;
+      background: #f6821f;
     }
 
     @keyframes float {
@@ -122,11 +122,11 @@
 
     /* Smooth transitions */
     * {
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
       transition-property:
         color, background-color, border-color, text-decoration-color, fill,
         stroke, opacity, box-shadow, transform;
-      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-      transition-duration: 150ms;
     }
 
     /* Screen reader only */
@@ -137,9 +137,9 @@
       padding: 0;
       margin: -1px;
       overflow: hidden;
-      clip: rect(0, 0, 0, 0);
       white-space: nowrap;
       border-width: 0;
+      clip: rect(0, 0, 0, 0);
     }
 
     .focus\:not-sr-only:focus {
@@ -149,8 +149,8 @@
       padding: inherit;
       margin: inherit;
       overflow: visible;
-      clip: auto;
       white-space: normal;
+      clip: auto;
     }
     </style>
   </head>
