@@ -1,0 +1,23 @@
+AGENTS.md
+  8875cbdcc650fe6f 114
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8",
+  "base_commit_sha": "79c7719df60d7cfd11402adcfa39fe7deac8eee5",
+  "prompts": {
+    "8875cbdcc650fe6f": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_289a0e5a7ffeJ7lWq0Itt4hfI3",
+        "model": "unknown"
+      },
+      "human_author": "Tito",
+      "messages": [],
+      "total_additions": 2,
+      "total_deletions": 2,
+      "accepted_lines": 116,
+      "overriden_lines": 0
+    }
+  }
+}
