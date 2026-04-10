@@ -1,0 +1,25 @@
+CLAUDE.md
+  8875cbdcc650fe6f 1
+AGENTS.md
+  8875cbdcc650fe6f 1-113
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8",
+  "base_commit_sha": "844a243dfb52f72754ee7437370e43cc5672c903",
+  "prompts": {
+    "8875cbdcc650fe6f": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_289a0e5a7ffeJ7lWq0Itt4hfI3",
+        "model": "unknown"
+      },
+      "human_author": "Tito",
+      "messages": [],
+      "total_additions": 114,
+      "total_deletions": 123,
+      "accepted_lines": 114,
+      "overriden_lines": 0
+    }
+  }
+}
