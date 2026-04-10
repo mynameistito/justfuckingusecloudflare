@@ -1,123 +1,114 @@
-# Ultracite Code Standards
+# PROJECT KNOWLEDGE BASE
 
-This project uses **Ultracite**, a zero-config preset that enforces strict code quality standards through automated formatting and linting.
+**Generated:** 2026-04-10
+**Commit:** 7346e3a
+**Branch:** main
 
-## Quick Reference
+## OVERVIEW
 
-- **Format code**: `bun x ultracite fix`
-- **Check for issues**: `bun x ultracite check`
-- **Diagnose setup**: `bun x ultracite doctor`
+Satirical landing page advocating Cloudflare over multi-vendor cloud infra. React 19 + Vite 8 + Tailwind CSS 4 SPA deployed to Cloudflare Workers with custom domain `justfuckingusecloudflare.com`. URL personalization via `?to=Name&from=Name` query params.
 
-Biome (the underlying engine) provides robust linting and formatting. Most issues are automatically fixable.
+## STRUCTURE
 
----
+```text
+justfuckingusecloudflare/
+├── src/                  # Vite root (NOT project root)
+│   ├── index.html        # HTML entry (inside src/ — non-standard)
+│   ├── index.tsx          # React mount point
+│   ├── index.css          # Single line: @import "tailwindcss"
+│   ├── app.tsx            # Router + HomePage composition
+│   ├── components/        # All UI components (React.FC, named exports)
+│   └── hooks/             # usePersonalization — URL param hook
+├── worker/
+│   └── index.ts           # SPA fallback handler (redundant with wrangler SPA mode)
+├── scripts/
+│   └── deploy.js          # Branch-aware: wrangler deploy (prod) vs versions upload (preview)
+└── public/                # Static assets (favicons, OG image, _headers, webmanifest)
+```
 
-## Core Principles
+## WHERE TO LOOK
 
-Write code that is **accessible, performant, type-safe, and maintainable**. Focus on clarity and explicit intent over brevity.
+| Task | Location | Notes |
+|------|----------|-------|
+| Add a page/route | `src/app.tsx` | Routes defined in `<Routes>` block |
+| Add a UI section | `src/components/` | Create new `.tsx` file, import in `app.tsx` |
+| Personalization logic | `src/hooks/use-personalization.ts` | Reads `?to=` and `?from=` params |
+| Worker logic | `worker/index.ts` | Currently just SPA fallback |
+| Deployment config | `wrangler.jsonc` | Worker name, assets dir, routes |
+| Build config | `vite.config.ts` | Root=src, plugins order matters |
+| Styling | `src/index.html` (inline `<style>`) + Tailwind | Custom fonts/anim in HTML, utils in Tailwind |
+| Static assets | `public/` | `_headers`, favicons, OG image, webmanifest |
+| Deploy script | `scripts/deploy.js` | Detects prod vs preview branch |
 
-### Type Safety & Explicitness
+## CODE MAP
 
-- Use explicit types for function parameters and return values when they enhance clarity
-- Prefer `unknown` over `any` when the type is genuinely unknown
-- Use const assertions (`as const`) for immutable values and literal types
-- Leverage TypeScript's type narrowing instead of type assertions
-- Use meaningful variable names instead of magic numbers - extract constants with descriptive names
+| Symbol | Type | Location | Role |
+|--------|------|----------|------|
+| `App` | Component | `src/app.tsx:69` | Root: BrowserRouter + routes |
+| `HomePage` | Component | `src/app.tsx:15` | Composes all sections, uses personalization |
+| `ScrollToTop` | Component | `src/app.tsx:56` | Scrolls to top on route change |
+| `usePersonalization` | Hook | `src/hooks/use-personalization.ts:18` | Reads/normalizes `?to=` `?from=` URL params |
+| `normalizeName` | Function | `src/hooks/use-personalization.ts:6` | Capitalizes first letter, trims whitespace |
+| `Hero` | Component | `src/components/hero.tsx` | Personalized hero banner |
+| `Rant` | Component | `src/components/rant.tsx` | Satirical comparison section |
+| `Comparison` | Component | `src/components/comparison.tsx` | AWS vs CF feature cards |
+| `Features` | Component | `src/components/features.tsx` | Cloudflare feature checklist |
+| `CTA` | Component | `src/components/cta.tsx` | Call to action + signup link |
+| `ShareLink` | Component | `src/components/share-link.tsx` | Form: generates personalized share URL |
+| `ThankYou` | Component | `src/components/thank-you.tsx` | "Sent by X" attribution (conditional) |
+| `PrivacyPolicy` | Component | `src/components/privacy-policy.tsx` | `/privacy-policy` route |
+| `Footer` | Component | `src/components/footer.tsx` | Links + copyright |
 
-### Modern JavaScript/TypeScript
+## CONVENTIONS
 
-- Use arrow functions for callbacks and short functions
-- Prefer `for...of` loops over `.forEach()` and indexed `for` loops
-- Use optional chaining (`?.`) and nullish coalescing (`??`) for safer property access
-- Prefer template literals over string concatenation
-- Use destructuring for object and array assignments
-- Use `const` by default, `let` only when reassignment is needed, never `var`
+- **Vite root is `src/`** — `index.html` lives inside `src/`, not project root. All paths resolve from `src/`.
+- **All components use named exports** (`export const Name: React.FC = () => ...`). No default exports on components. Only `App` uses `export default` for the entry point.
+- **React.FC type** is used on all components despite being an older pattern.
+- **All imports are relative** — `@/` path alias is configured but unused in current code.
+- **Tailwind CSS v4** — CSS entry is single line `@import "tailwindcss"`. Custom fonts (Anton, JetBrains Mono, Space Grotesk) and animations are in `index.html` inline `<style>`, not Tailwind config.
+- **Package manager is Bun** — scripts use `bun x`, lockfile is `bun.lock`. `package-lock.json` is gitignored.
+- **Biome/Ultracite** — all linting/formatting via `biome.jsonc` extending `ultracite/core`, `ultracite/react`, `ultracite/biome/core`, `ultracite/biome/react`. No ESLint.
+- **Claude Code auto-fix** — `.claude/settings.json` runs `bun x ultracite fix` after every Write/Edit.
+- **No tests** — zero test infrastructure, test framework, or test files.
+- **No active git hooks** — `lefthook.yml` has only commented examples. No pre-commit hooks enforce linting.
+- **Validate and sanitize user input** — URL params (e.g., `?to=`, `?from=`) processed via `usePersonalization`'s `normalizeName` (trims + capitalizes). React auto-escapes JSX output, but avoid rendering raw user input via `dangerouslySetInnerHTML`.
 
-### Async & Promises
+## ANTI-PATTERNS (THIS PROJECT)
 
-- Always `await` promises in async functions - don't forget to use the return value
-- Use `async/await` syntax instead of promise chains for better readability
-- Handle errors appropriately in async code with try-catch blocks
-- Don't use async functions as Promise executors
+- **No barrel files** — don't create `index.ts` re-exports in components or hooks
+- **No `console.log` in production** — existing easter-egg logs in `app.tsx` are a known violation
+- **No default exports on components** — always `export const Name: React.FC`
+- **No `.forEach()`** — use `for...of` instead
+- **No `any` type** — use `unknown`
+- **No `dangerouslySetInnerHTML`** or `eval()`
+- **No spreads in loop accumulators** — no `arr.reduce((acc, x) => [...acc, x])`
+- **No `var`** — use `const` by default, `let` only for reassignment
 
-### React & JSX
+## UNIQUE STYLES
 
-- Use function components over class components
-- Call hooks at the top level only, never conditionally
-- Specify all dependencies in hook dependency arrays correctly
-- Use the `key` prop for elements in iterables (prefer unique IDs over array indices)
-- Nest children between opening and closing tags instead of passing as props
-- Don't define components inside other components
-- Use semantic HTML and ARIA attributes for accessibility:
-  - Provide meaningful alt text for images
-  - Use proper heading hierarchy
-  - Add labels for form inputs
-  - Include keyboard event handlers alongside mouse events
-  - Use semantic elements (`<button>`, `<nav>`, etc.) instead of divs with roles
+- **Dark theme** — `#0a0a0a` background, `#fafafa` text, `#F6821F` orange accent throughout
+- **Noise overlay** — SVG `feTurbulence` filter on `body::before` (can impact low-end device performance)
+- **Google Fonts** — Anton (headings), JetBrains Mono (monospace), Space Grotesk (body) loaded via external `<link>` with no `font-display: swap`
+- **Metadata file** — `metadata.json` at project root is consumed by `@cloudflare/vite-plugin` for Worker manifest
+- **Dual build output** — Cloudflare plugin outputs both `dist/client/` (static assets) and `dist/justfuckingusecloudflare/` (Worker bundle)
 
-### Error Handling & Debugging
+## COMMANDS
 
-- Remove `console.log`, `debugger`, and `alert` statements from production code
-- Throw `Error` objects with descriptive messages, not strings or other values
-- Use `try-catch` blocks meaningfully - don't catch errors just to rethrow them
-- Prefer early returns over nested conditionals for error cases
+```bash
+bun run dev          # Dev server on port 3000
+bun run build        # Production build → dist/
+bun run preview      # Preview production build
+bun run deploy       # Branch-aware deployment (prod vs preview)
+bun run fix          # Auto-fix linting/formatting (ultracite)
+bun run check        # Lint/format check only
+bun run typecheck    # TypeScript type checking (tsc --noEmit)
+bun run ultracheck   # Fix then verify (fix + check)
+```
 
-### Code Organization
+## NOTES
 
-- Keep functions focused and under reasonable cognitive complexity limits
-- Extract complex conditions into well-named boolean variables
-- Use early returns to reduce nesting
-- Prefer simple conditionals over nested ternary operators
-- Group related code together and separate concerns
-
-### Security
-
-- Add `rel="noopener"` when using `target="_blank"` on links
-- Avoid `dangerouslySetInnerHTML` unless absolutely necessary
-- Don't use `eval()` or assign directly to `document.cookie`
-- Validate and sanitize user input
-
-### Performance
-
-- Avoid spread syntax in accumulators within loops
-- Use top-level regex literals instead of creating them in loops
-- Prefer specific imports over namespace imports
-- Avoid barrel files (index files that re-export everything)
-- Use proper image components (e.g., Next.js `<Image>`) over `<img>` tags
-
-### Framework-Specific Guidance
-
-**Next.js:**
-- Use Next.js `<Image>` component for images
-- Use `next/head` or App Router metadata API for head elements
-- Use Server Components for async data fetching instead of async Client Components
-
-**React 19+:**
-- Use ref as a prop instead of `React.forwardRef`
-
-**Solid/Svelte/Vue/Qwik:**
-- Use `class` and `for` attributes (not `className` or `htmlFor`)
-
----
-
-## Testing
-
-- Write assertions inside `it()` or `test()` blocks
-- Avoid done callbacks in async tests - use async/await instead
-- Don't use `.only` or `.skip` in committed code
-- Keep test suites reasonably flat - avoid excessive `describe` nesting
-
-## When Biome Can't Help
-
-Biome's linter will catch most issues automatically. Focus your attention on:
-
-1. **Business logic correctness** - Biome can't validate your algorithms
-2. **Meaningful naming** - Use descriptive names for functions, variables, and types
-3. **Architecture decisions** - Component structure, data flow, and API design
-4. **Edge cases** - Handle boundary conditions and error states
-5. **User experience** - Accessibility, performance, and usability considerations
-6. **Documentation** - Add comments for complex logic, but prefer self-documenting code
-
----
-
-Most formatting and common issues are automatically fixed by Biome. Run `bun x ultracite fix` before committing to ensure compliance.
+- **`_headers` file** in `public/` uses Cloudflare Pages syntax but project deploys as a Worker. Headers may not be applied correctly.
+- **README inaccuracies** — References Husky (uses Lefthook) and `src/pages/` directory (doesn't exist).
+- **Personalization params** — `?to=` and `?from=` rendered in JSX via `usePersonalization`. React auto-escapes; `normalizeName` trims and capitalizes. Avoid rendering raw URL input via `dangerouslySetInnerHTML`.
+- **Deploy script** expects `dist/justfuckingusecloudflare` directory to exist before deploying.
+- **Worker is redundant** — `worker/index.ts` just serves `index.html`, duplicating `not_found_handling: "single-page-application"` in `wrangler.jsonc`.
