@@ -10,7 +10,7 @@ Satirical landing page advocating Cloudflare over multi-vendor cloud infra. Reac
 
 ## STRUCTURE
 
-```
+```text
 justfuckingusecloudflare/
 ├── src/                  # Vite root (NOT project root)
 │   ├── index.html        # HTML entry (inside src/ — non-standard)
@@ -71,6 +71,7 @@ justfuckingusecloudflare/
 - **Claude Code auto-fix** — `.claude/settings.json` runs `bun x ultracite fix` after every Write/Edit.
 - **No tests** — zero test infrastructure, test framework, or test files.
 - **No active git hooks** — `lefthook.yml` has only commented examples. No pre-commit hooks enforce linting.
+- **Validate and sanitize user input** — URL params (e.g., `?to=`, `?from=`) processed via `usePersonalization`'s `normalizeName` (trims + capitalizes). React auto-escapes JSX output, but avoid rendering raw user input via `dangerouslySetInnerHTML`.
 - **Worker is redundant** — `worker/index.ts` just serves `index.html`, duplicating `not_found_handling: "single-page-application"` in `wrangler.jsonc`.
 
 ## ANTI-PATTERNS (THIS PROJECT)
@@ -109,5 +110,5 @@ bun run ultracheck   # Fix then verify (fix + check)
 
 - **`_headers` file** in `public/` uses Cloudflare Pages syntax but project deploys as a Worker. Headers may not be applied correctly.
 - **README inaccuracies** — References Husky (uses Lefthook) and `src/pages/` directory (doesn't exist).
-- **Personalization params** — `?to=` and `?from=` are rendered directly in JSX via `usePersonalization`. React auto-escapes but AGENTS.md convention says "validate and sanitize user input."
+- **Personalization params** — `?to=` and `?from=` rendered in JSX via `usePersonalization`. React auto-escapes; `normalizeName` trims and capitalizes. Avoid rendering raw URL input via `dangerouslySetInnerHTML`.
 - **Deploy script** expects `dist/justfuckingusecloudflare` directory to exist before deploying.
