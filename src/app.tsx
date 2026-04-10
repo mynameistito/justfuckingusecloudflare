@@ -16,7 +16,6 @@ const HomePage: React.FC = () => {
   const { from } = usePersonalization();
 
   useEffect(() => {
-    // Console easter egg from original content
     console.log(
       "%c🖕 LISTEN UP, DEVELOPER",
       "font-size: 32px; font-weight: bold; color: #F6821F;"
@@ -34,7 +33,7 @@ const HomePage: React.FC = () => {
   return (
     <>
       <a
-        className="sr-only focus:not-sr-only focus:absolute focus:top-6 focus:left-6 focus:z-50 focus:rounded-full focus:bg-orange-500 focus:px-6 focus:py-3 focus:font-bold focus:font-mono focus:text-black focus:uppercase focus:tracking-tight focus:outline-none"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-6 focus:left-6 focus:z-50 focus:rounded-full focus:bg-jfuc-brand focus:px-6 focus:py-3 focus:font-bold focus:font-mono focus:text-kumo-canvas focus:uppercase focus:tracking-tight focus:outline-none"
         href="#main-content"
       >
         Skip to main content
@@ -57,7 +56,6 @@ const ScrollToTop: React.FC = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    // Scroll to top when pathname changes
     if (pathname) {
       window.scrollTo(0, 0);
     }
@@ -69,7 +67,7 @@ const ScrollToTop: React.FC = () => {
 const App: React.FC = () => (
   <BrowserRouter>
     <ScrollToTop />
-    <div className="min-h-screen selection:bg-orange-500 selection:text-black">
+    <div className="min-h-screen selection:bg-jfuc-brand selection:text-kumo-canvas">
       <Routes>
         <Route element={<HomePage />} path="/" />
         <Route element={<PrivacyPolicy />} path="/privacy-policy" />

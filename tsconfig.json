@@ -18,5 +18,6 @@
     "allowImportingTsExtensions": true,
     "noEmit": true,
     "strictNullChecks": true
-  }
+  },
+  "exclude": ["opensrc"]
 }

@@ -28,3 +28,6 @@ src/.wrangler
 
 # Cursor
 .cursor
+
+# opensrc - source code for packages
+opensrc/

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-mode="dark">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -62,97 +62,6 @@
       href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;700&display=swap"
       rel="stylesheet"
     >
-    <style>
-    body {
-      font-family: "Space Grotesk", sans-serif;
-      color: #fafafa;
-      background-color: #0a0a0a;
-    }
-    .font-anton {
-      font-family: "Anton", sans-serif;
-    }
-    .font-mono {
-      font-family: "JetBrains Mono", monospace;
-    }
-
-    /* Subtle noise overlay */
-    .noise::before {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 50;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      content: "";
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-      opacity: 0.03;
-    }
-
-    ::selection {
-      color: #0a0a0a;
-      background: #f6821f;
-    }
-
-    @keyframes float {
-      0% {
-        transform: translateY(0px);
-      }
-      50% {
-        transform: translateY(-20px);
-      }
-      100% {
-        transform: translateY(0px);
-      }
-    }
-    .animate-float {
-      animation: float 6s ease-in-out infinite;
-    }
-
-    /* Smooth scroll */
-    html {
-      scroll-behavior: smooth;
-    }
-
-    /* Better focus states for accessibility */
-    *:focus-visible {
-      outline: 2px solid #f6821f;
-      outline-offset: 2px;
-    }
-
-    /* Smooth transitions */
-    * {
-      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-      transition-duration: 150ms;
-      transition-property:
-        color, background-color, border-color, text-decoration-color, fill,
-        stroke, opacity, box-shadow, transform;
-    }
-
-    /* Screen reader only */
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      white-space: nowrap;
-      border-width: 0;
-      clip: rect(0, 0, 0, 0);
-    }
-
-    .focus\:not-sr-only:focus {
-      position: static;
-      width: auto;
-      height: auto;
-      padding: inherit;
-      margin: inherit;
-      overflow: visible;
-      white-space: normal;
-      clip: auto;
-    }
-    </style>
   </head>
   <body class="noise">
     <div id="root"></div>

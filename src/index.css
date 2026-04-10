@@ -1,1 +1,126 @@
 @import "tailwindcss";
+@import "@cloudflare/kumo/styles";
+
+@theme {
+  --color-jfuc-brand: #f6821f;
+  --color-jfuc-brand-hover: #e67320;
+  --color-jfuc-brand-glow: rgba(246, 130, 31, 0.4);
+  --color-jfuc-brand-glow-subtle: rgba(246, 130, 31, 0.1);
+  --font-anton: "Anton", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --font-sans: "Space Grotesk", sans-serif;
+}
+
+@layer base {
+  [data-mode="dark"] {
+    --color-kumo-brand: var(--color-jfuc-brand);
+    --color-kumo-brand-hover: var(--color-jfuc-brand-hover);
+  }
+
+  [data-mode="light"] {
+    --color-kumo-brand: var(--color-jfuc-brand);
+    --color-kumo-brand-hover: var(--color-jfuc-brand-hover);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-kumo-default);
+    background-color: var(--color-kumo-canvas);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  ::selection {
+    color: var(--color-kumo-canvas);
+    background: var(--color-jfuc-brand);
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--color-jfuc-brand);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .font-anton {
+    font-family: var(--font-anton);
+  }
+
+  .font-mono {
+    font-family: var(--font-mono);
+  }
+
+  .noise::before {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 50;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    content: "";
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    white-space: nowrap;
+    border-width: 0;
+    clip: rect(0, 0, 0, 0);
+  }
+
+  .focus\:not-sr-only:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: inherit;
+    margin: inherit;
+    overflow: visible;
+    white-space: normal;
+    clip: auto;
+  }
+
+  * {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    transition-property:
+      color, background-color, border-color, text-decoration-color, fill,
+      stroke, opacity, box-shadow, transform;
+  }
+}
+
+@utility brand-glow {
+  box-shadow: 0 0 40px var(--color-jfuc-brand-glow);
+}
+
+@utility brand-glow-subtle {
+  box-shadow: 0 0 30px var(--color-jfuc-brand-glow-subtle);
+}
+
+@utility brand-glow-focus {
+  box-shadow: 0 0 20px rgba(246, 130, 31, 0.2);
+}
