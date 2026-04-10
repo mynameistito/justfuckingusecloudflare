@@ -72,7 +72,6 @@ justfuckingusecloudflare/
 - **No tests** — zero test infrastructure, test framework, or test files.
 - **No active git hooks** — `lefthook.yml` has only commented examples. No pre-commit hooks enforce linting.
 - **Validate and sanitize user input** — URL params (e.g., `?to=`, `?from=`) processed via `usePersonalization`'s `normalizeName` (trims + capitalizes). React auto-escapes JSX output, but avoid rendering raw user input via `dangerouslySetInnerHTML`.
-- **Worker is redundant** — `worker/index.ts` just serves `index.html`, duplicating `not_found_handling: "single-page-application"` in `wrangler.jsonc`.
 
 ## ANTI-PATTERNS (THIS PROJECT)
 
@@ -112,3 +111,4 @@ bun run ultracheck   # Fix then verify (fix + check)
 - **README inaccuracies** — References Husky (uses Lefthook) and `src/pages/` directory (doesn't exist).
 - **Personalization params** — `?to=` and `?from=` rendered in JSX via `usePersonalization`. React auto-escapes; `normalizeName` trims and capitalizes. Avoid rendering raw URL input via `dangerouslySetInnerHTML`.
 - **Deploy script** expects `dist/justfuckingusecloudflare` directory to exist before deploying.
+- **Worker is redundant** — `worker/index.ts` just serves `index.html`, duplicating `not_found_handling: "single-page-application"` in `wrangler.jsonc`.
