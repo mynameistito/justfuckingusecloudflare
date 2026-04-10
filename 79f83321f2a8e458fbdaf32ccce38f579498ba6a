@@ -1,0 +1,36 @@
+README.md
+  5bb40136910ac638 7,9,11-15,17,19-24,26,28,30-39,41-42,45-47,50,52,54,56-83,86,88,90,92-94,96,98,100,103,106,108,110-112,115,117-125,127,129-134,136,138,140,142,144,146,148,150,154
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8",
+  "base_commit_sha": "79f83321f2a8e458fbdaf32ccce38f579498ba6a",
+  "prompts": {
+    "5bb40136910ac638": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_28978645dffe7scUsrbiBuCvFI",
+        "model": "unknown"
+      },
+      "human_author": "Tito",
+      "messages": [],
+      "total_additions": 103,
+      "total_deletions": 166,
+      "accepted_lines": 103,
+      "overriden_lines": 0
+    },
+    "8875cbdcc650fe6f": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_289a0e5a7ffeJ7lWq0Itt4hfI3",
+        "model": "unknown"
+      },
+      "human_author": "Tito",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 115,
+      "overriden_lines": 0
+    }
+  }
+}
