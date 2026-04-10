@@ -4,214 +4,151 @@
 
 # Just Fucking Use Cloudflare
 
-> A satirical, high-performance landing page dedicated to saving developers from AWS egress hell and infrastructure complexity by advocating for the Cloudflare ecosystem.
+A satirical, high-performance landing page making the case for Cloudflare over multi-vendor cloud spaghetti. Add `?to=Name&from=YourName` to the URL for personalized sharing.
 
-[![React](https://img.shields.io/badge/React-19.2.3-61DAFB?logo=react)](https://react.dev/)
-[![Vite](https://img.shields.io/badge/Vite-7.3.0-646CFF?logo=vite)](https://vitejs.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178C6?logo=typescript)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1.18-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
+> Satire and educational demo only — not official guidance from any cloud provider.
 
-## 🎯 About
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite)](https://vitejs.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-6-3178C6?logo=typescript)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
+[![Bun](https://img.shields.io/badge/Bun-1-000?logo=bun)](https://bun.sh/)
 
-This project is a modern, opinionated landing page that makes a compelling (and slightly profane) case for using Cloudflare's platform instead of juggling multiple AWS services. Built with React and Vite, optimized for Cloudflare Pages deployment, and designed to be fast, accessible, and maintainable.
-
-> This project is satire and for educational/demo purposes only; it is not official guidance from any cloud provider.
-
-### Cloudflare Key Features
-
-- ⚡ **Zero cold starts** - Edge computing that actually works
-- 🌍 **300+ edge locations** worldwide
-- 💰 **Free tier that's actually usable**
-- 📦 **No egress fees** on R2 storage
-- 🗄️ **SQLite at the edge** with D1
-- 📊 **Unlimited bandwidth** on Pages
-- 🤖 **Workers AI** at the edge
-- 🔄 **Real preview deployments**
-- 🔗 **Git integration** that just works
-- 🔒 **Free SSL certificates** and DDoS protection included
-
-## 🚀 Quick Start
-
-### Prerequisites
-
-- **Node.js** 18+ (or **Bun**)
-- npm, yarn, pnpm, or bun package manager
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/mynameistito/justfuckingusecloudflare.git
-   cd justfuckingusecloudflare
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   # or
-   bun install
-   ```
-
-3. Run the development server:
-   ```bash
-   npm run dev
-   # or
-   bun run dev
-   ```
-
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
-
-The development server will automatically reload when you make changes.
-
-## 📦 Build for Production
-
-Build the project for production:
+## Quick Start
 
 ```bash
-npm run build
-# or
-bun run build
+git clone https://github.com/mynameistito/justfuckingusecloudflare.git
+cd justfuckingusecloudflare
+bun install
+bun run dev
 ```
 
-The optimized build output will be in the `dist` directory, ready for deployment.
+Open [http://localhost:3000](http://localhost:3000).
 
-### Preview Production Build
+## Scripts
 
-To preview the production build locally:
+| Command | What it does |
+|---|---|
+| `bun run dev` | Start dev server (port 3000) |
+| `bun run build` | Production build → `dist/` |
+| `bun run preview` | Preview production build locally |
+| `bun run deploy` | Branch-aware deploy (prod vs preview) |
+| `bun run fix` | Auto-fix linting and formatting (Ultracite/Biome) |
+| `bun run check` | Lint/format check only |
+| `bun run typecheck` | TypeScript type checking (`tsc --noEmit`) |
+| `bun run ultracheck` | Fix then verify (fix + check) |
+
+<details>
+<summary><strong>npm / yarn / pnpm also work</strong></summary>
 
 ```bash
-npm run preview
-# or
-bun run preview
+npm install && npm run dev
+yarn install && yarn dev
+pnpm install && pnpm dev
 ```
 
-## ☁️ Deploy to Cloudflare Pages
+The project uses Bun internally (lockfile is `bun.lock`), but any package manager will do.
 
-This project is optimized for Cloudflare Pages deployment. The build configuration is already set up for seamless deployment.
+</details>
 
-### Quick Deploy
-
-1. Push your code to GitHub, GitLab, or Bitbucket
-2. In the Cloudflare Dashboard, go to **Workers & Pages** > **Create application** > **Pages**
-3. Connect your repository
-4. Configure build settings:
-   - **Build command:** `npm run build`
-   - **Build output directory:** `dist`
-   - **Root directory:** `/` (leave empty)
-5. Click **Save and Deploy**
-
-Your site will be live in seconds! 🎉
-
-### Manual Deployment
-
-You can also deploy manually using Wrangler:
-
-```bash
-npm install -g wrangler
-wrangler pages deploy dist
-```
-
-## 🛠️ Tech Stack
-
-- **[React 19](https://react.dev/)** - UI library
-- **[Vite 7](https://vitejs.dev/)** - Build tool and dev server
-- **[TypeScript](https://www.typescriptlang.org/)** - Type safety
-- **[Tailwind CSS 4](https://tailwindcss.com/)** - Utility-first CSS framework
-- **[React Router](https://reactrouter.com/)** - Client-side routing
-- **[Lucide React](https://lucide.dev/)** - Icon library
-- **[Biome](https://biomejs.dev/)** - Fast formatter and linter
-- **[Husky](https://typicode.github.io/husky/)** - Git hooks
-
-## 📁 Project Structure
+## Project Structure
 
 ```
 justfuckingusecloudflare/
-├── src/
-│   ├── components/          # React components
-│   │   ├── comparison.tsx    # AWS vs Cloudflare comparison
-│   │   ├── cta.tsx          # Call-to-action section
-│   │   ├── features.tsx     # Features showcase
-│   │   ├── footer.tsx       # Footer component
-│   │   ├── hero.tsx         # Hero section
-│   │   └── rant.tsx         # The main rant section
-│   ├── pages/               # Page components (if needed)
-│   ├── app.tsx              # Main app component
-│   ├── index.tsx            # React entry point
-│   ├── index.html           # HTML entry point
-│   └── index.css            # Global styles
-├── public/                  # Static assets
-│   ├── favicon-16x16.png    # Favicon (16x16)
-│   ├── favicon-32x32.png    # Favicon (32x32)
-│   ├── android-chrome-192x192.png # PWA icon (192x192)
-│   ├── android-chrome-512x512.png # PWA icon (512x512)
-│   ├── apple-touch-icon.png # iOS home screen icon
-│   ├── site.webmanifest     # PWA manifest
-│   └── opengraph.png        # Open Graph image
-├── dist/                    # Build output (generated)
-├── vite.config.ts           # Vite configuration
-├── tsconfig.json            # TypeScript configuration
-├── biome.jsonc              # Biome linter/formatter config
-├── package.json             # Dependencies and scripts
-└── wrangler.jsonc           # Cloudflare Workers/Pages config
+├── src/                    # Vite root (index.html lives here)
+│   ├── index.html           # HTML entry
+│   ├── index.tsx            # React mount point
+│   ├── index.css            # @import "tailwindcss"
+│   ├── app.tsx              # Router + HomePage composition
+│   ├── components/          # All UI components
+│   │   ├── hero.tsx         # Personalized hero banner
+│   │   ├── rant.tsx         # Satirical rant section
+│   │   ├── comparison.tsx   # AWS vs Cloudflare feature cards
+│   │   ├── features.tsx     # Cloudflare feature checklist
+│   │   ├── cta.tsx          # Call to action + signup link
+│   │   ├── share-link.tsx   # Personalized share URL generator
+│   │   ├── thank-you.tsx    # "Sent by X" attribution
+│   │   ├── privacy-policy.tsx
+│   │   └── footer.tsx
+│   └── hooks/
+│       └── use-personalization.ts  # ?to= & ?from= URL param hook
+├── worker/
+│   └── index.ts             # SPA fallback handler
+├── scripts/
+│   └── deploy.js            # Branch-aware deploy script
+├── public/                  # Static assets (favicons, OG image, _headers, webmanifest)
+├── vite.config.ts           # Vite config (root=src, Cloudflare plugin)
+├── wrangler.jsonc            # Worker name, assets dir, routes
+├── biome.jsonc              # Ultracite/Biome linting & formatting
+└── tsconfig.json
 ```
 
-## 🧪 Available Scripts
+> **Note:** The Vite root is `src/` — `index.html` lives inside `src/`, not the project root.
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build locally
-- `npm run fix` - Auto-fix linting and formatting issues
-- `npm run check` - Check for linting and formatting issues
-- `npm run ultracheck` - Fix and check all issues
-- `npm run tsc` - Type check without emitting files
+## Personalization
 
-## 🎨 Development
+Append `?to=Name&from=YourName` to any URL to personalize the page:
 
-### Code Quality
+```
+https://justfuckingusecloudflare.com/?to=Alex&from=Sam
+```
 
-This project uses:
-- **Biome** for fast linting and formatting
-- **TypeScript** for type safety
-- **Husky** for pre-commit hooks
+Names are trimmed and capitalized automatically via `usePersonalization`.
 
-Run `npm run fix` before committing to ensure code quality.
+## Deploy
 
-### Styling
+Push to `main` and the deploy script handles the rest:
 
-The project uses Tailwind CSS 4 with a custom design system:
-- Dark theme with orange accent colors (`#F6821F`)
-- Custom fonts: Anton (headings), JetBrains Mono (monospace), Space Grotesk (body)
-- Responsive design with mobile-first approach
+```bash
+bun run deploy
+```
 
-## 🤝 Contributing
+The script detects the branch — `main` deploys to production, other branches deploy as preview versions.
 
-Contributions are welcome! Feel free to:
-- Open an issue for bugs or feature requests
-- Submit a pull request with improvements
-- Share feedback or suggestions
+### Manual Deploy
 
-## 📄 License
+```bash
+bun run build
+npx wrangler deploy
+```
 
-This project is licensed under the terms specified in the [LICENSE](./LICENSE) file.
+## Tech Stack
 
-## ⚖️ Legal
+- **React 19** — UI
+- **Vite 8** — Build tool
+- **TypeScript 6** — Type safety
+- **Tailwind CSS 4** — Styling
+- **React Router 7** — Client-side routing
+- **Lucide React** — Icons
+- **Ultracite / Biome** — Linting and formatting
+- **Lefthook** — Git hooks
+- **Cloudflare Workers** — Deployment target
 
-This is a community-built, satirical, open-source project. It is not endorsed by, sponsored by, or affiliated with any of the companies mentioned.
+## Code Conventions
 
-"Cloudflare", "Cloudflare Workers", "Cloudflare Pages", "Cloudflare R2", and "Cloudflare D1" are trademarks or registered trademarks of Cloudflare, Inc.  
-"Amazon Web Services", "AWS", and related service names are trademarks of Amazon.com, Inc. or its affiliates.  
-"Google Cloud", "Google", and related service names are trademarks of Google LLC.  
-All other product names, logos, and brands are property of their respective owners and are used for identification and comparative purposes only.
+- Named exports on all components (`export const Name: React.FC = () => ...`)
+- No barrel files, no default exports on components
+- `const` by default, `let` only for reassignment
+- `for...of` over `.forEach()`
+- `unknown` over `any`
+- No `dangerouslySetInnerHTML` or `eval()`
 
-Software is provided "as is", without warranty of any kind. You are responsible for complying with each provider’s Terms of Service and Acceptable Use Policy.
+## Contributing
 
-## 🔗 Links
+Open an issue, submit a PR, or just share feedback — contributions are welcome.
 
-- [Cloudflare Pages](https://pages.cloudflare.com/)
-- [Cloudflare Workers](https://workers.cloudflare.com/)
-- [Cloudflare R2](https://www.cloudflare.com/products/r2/)
-- [Cloudflare D1](https://developers.cloudflare.com/d1/)
+## License
+
+See [LICENSE](./LICENSE).
+
+## Legal
+
+This is a community-built, satirical, open-source project. Not endorsed by, sponsored by, or affiliated with any of the companies mentioned.
+
+"Cloudflare" and related names are trademarks of Cloudflare, Inc. "Amazon Web Services" and "AWS" are trademarks of Amazon.com, Inc. All other product names are property of their respective owners and are used for identification and comparative purposes only.
+
+Software is provided "as is", without warranty of any kind.
 
 ---
 
-**Made with ❤️ (and a healthy dose of frustration with AWS billing)**
+**Made with frustration and Cloudflare**
