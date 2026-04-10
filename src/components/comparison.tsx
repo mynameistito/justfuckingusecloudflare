@@ -1,133 +1,151 @@
-import { Badge, cn, Surface } from "@cloudflare/kumo";
+import { Badge, LayerCard, Table, Text } from "@cloudflare/kumo";
 import {
-  Brain,
-  CloudLightning,
-  Database,
-  Gauge,
-  GitBranch,
-  Globe,
-  Lightning,
-  Link,
-  Package,
+  BrainIcon,
+  CloudIcon,
+  DatabaseIcon,
+  GlobeIcon,
+  HardDrivesIcon,
+  LightningIcon,
+  LinkIcon,
+  ListBulletsIcon,
+  TreeStructureIcon,
 } from "@phosphor-icons/react";
 import type React from "react";
 
-const cards = [
+const rows = [
   {
-    icon: <Globe className="h-6 w-6" weight="bold" />,
-    title: "CDN",
-    vs: "CloudFront, Akamai, Fastly",
-    desc: "Global anycast CDN with built-in DDoS protection and smart caching. No extra boxes, no multi-vendor dance.",
-    free: "Global CDN included on every plan",
+    icon: <GlobeIcon className="h-5 w-5" weight="bold" />,
+    product: "CDN",
+    replaces: "CloudFront, Akamai, Fastly",
+    desc: "Global anycast CDN with DDoS protection and smart caching.",
+    free: "Included on every plan",
+    variant: "green" as const,
   },
   {
-    icon: <Database className="h-6 w-6" weight="bold" />,
-    title: "D1 Database",
-    vs: "PlanetScale, Supabase, Neon",
-    desc: "Serverless SQLite with read replication. Query at the edge. No connection pooling headaches.",
+    icon: <DatabaseIcon className="h-5 w-5" weight="bold" />,
+    product: "D1 Database",
+    replaces: "PlanetScale, Supabase, Neon",
+    desc: "Serverless SQLite with read replication at the edge.",
     free: "5M reads/day FREE",
+    variant: "orange" as const,
   },
   {
-    icon: <Link className="h-6 w-6" weight="bold" />,
-    title: "Registrar",
-    vs: "GoDaddy scams",
-    desc: "Domains at actual wholesale cost. No renewal traps. Free privacy.",
+    icon: <LinkIcon className="h-5 w-5" weight="bold" />,
+    product: "Registrar",
+    replaces: "GoDaddy, Namecheap",
+    desc: "Domains at wholesale cost. No renewal traps. Free privacy.",
     free: "No bullshit pricing",
+    variant: "blue" as const,
   },
   {
-    icon: <Package className="h-6 w-6" weight="bold" />,
-    title: "R2 Storage",
-    vs: "S3, GCS, Azure Blob",
-    desc: "S3-compatible object storage with zero egress fees. Stop letting AWS rob you blind.",
-    free: "10GB storage FREE · $0 egress FOREVER",
+    icon: <HardDrivesIcon className="h-5 w-5" weight="bold" />,
+    product: "R2 Storage",
+    replaces: "S3, GCS, Azure Blob",
+    desc: "S3-compatible object storage with zero egress fees.",
+    free: "10GB FREE · $0 egress FOREVER",
+    variant: "green" as const,
   },
   {
-    icon: <CloudLightning className="h-6 w-6" weight="bold" />,
-    title: "Queues",
-    vs: "SQS, SNS, RabbitMQ",
-    desc: "Guaranteed message delivery with zero egress fees. Offload work, batch data, and connect Workers seamlessly.",
-    free: "Zero egress fees · At-least-once delivery",
+    icon: <ListBulletsIcon className="h-5 w-5" weight="bold" />,
+    product: "Queues",
+    replaces: "SQS, SNS, RabbitMQ",
+    desc: "Guaranteed delivery with zero egress. Connect Workers seamlessly.",
+    free: "Zero egress fees",
+    variant: "orange" as const,
   },
   {
-    icon: <Gauge className="h-6 w-6" weight="bold" />,
-    title: "Pages",
-    vs: "Vercel, Netlify",
-    desc: "Unlimited bandwidth. Real previews. Git integration. Just works.",
+    icon: <CloudIcon className="h-5 w-5" weight="bold" />,
+    product: "Pages",
+    replaces: "Vercel, Netlify",
+    desc: "Unlimited bandwidth. Real previews. Git integration.",
     free: "Unlimited sites FREE",
+    variant: "blue" as const,
   },
   {
-    icon: <Brain className="h-6 w-6" weight="bold" />,
-    title: "Workers AI",
-    vs: "OpenAI, Replicate",
+    icon: <BrainIcon className="h-5 w-5" weight="bold" />,
+    product: "Workers AI",
+    replaces: "OpenAI, Replicate",
     desc: "Run LLMs at the edge. No infra. No GPUs to manage.",
     free: "10k neurons/day FREE",
+    variant: "orange" as const,
   },
   {
-    icon: <Lightning className="h-6 w-6" weight="bold" />,
-    title: "Workers",
-    vs: "Lambda, Vercel Functions",
-    desc: "V8 isolates with 0ms cold starts. No containers, no VMs, just instant execution at 300+ edge locations.",
+    icon: <LightningIcon className="h-5 w-5" weight="bold" />,
+    product: "Workers",
+    replaces: "Lambda, Vercel Functions",
+    desc: "V8 isolates, 0ms cold starts, 300+ edge locations.",
     free: "100k requests/day FREE",
+    variant: "green" as const,
   },
   {
-    icon: <GitBranch className="h-6 w-6" weight="bold" />,
-    title: "Workflows",
-    vs: "Step Functions, Temporal",
-    desc: "Durable execution for reliable long-running tasks. Auto-resumes on failure. No infrastructure to manage.",
+    icon: <TreeStructureIcon className="h-5 w-5" weight="bold" />,
+    product: "Workflows",
+    replaces: "Step Functions, Temporal",
+    desc: "Durable execution. Auto-resumes on failure.",
     free: "Built into Workers platform",
+    variant: "blue" as const,
   },
 ];
 
 export const Comparison: React.FC = () => (
-  <section className="border-kumo-line border-b bg-kumo-canvas px-6 py-24 md:py-32">
+  <section
+    className="border-kumo-line border-b bg-kumo-canvas px-6 py-24 md:py-32"
+    id="comparison"
+  >
     <div className="mx-auto max-w-7xl">
-      <h2 className="mb-12 text-center font-anton text-3xl text-kumo-default uppercase tracking-tight md:mb-20 md:text-5xl lg:text-6xl">
+      <h2 className="mb-4 text-center font-anton text-3xl text-kumo-default uppercase tracking-tight md:mb-6 md:text-5xl lg:text-6xl">
         STOP PAYING FOR THIS{" "}
         <span className="text-kumo-brand underline decoration-8 decoration-kumo-brand/20 underline-offset-8">
           BULLSHIT
         </span>
       </h2>
+      <p className="mb-12 text-center font-mono text-kumo-inactive text-sm uppercase tracking-widest md:mb-16">
+        One platform. Zero excuses.
+      </p>
 
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-        {cards.map((card) => {
-          const isCdnCard = card.title === "CDN";
-
-          return (
-            <Surface
-              className={cn(
-                "group rounded-2xl p-6 transition-all duration-300 hover:shadow-[0_0_30px_rgba(246,130,31,0.1)] hover:ring-kumo-brand/50 md:p-8"
-              )}
-              key={card.title}
-            >
-              <div className="mb-6 flex items-start gap-4">
-                <div className="rounded-xl bg-kumo-brand/10 p-3 text-kumo-brand transition-colors group-hover:bg-kumo-brand group-hover:text-kumo-canvas">
-                  {card.icon}
-                </div>
-                <div>
-                  <h3 className="font-anton text-2xl text-kumo-default uppercase tracking-wide transition-colors group-hover:text-kumo-brand">
-                    {card.title}
-                  </h3>
-                  <p className="mt-1 font-mono text-kumo-subtle text-xs uppercase">
-                    vs. {card.vs}
-                  </p>
-                </div>
-              </div>
-              <p
-                className={
-                  isCdnCard
-                    ? "mb-6 min-h-[60px] text-kumo-subtle text-xs leading-snug md:h-16 md:text-sm"
-                    : "mb-6 min-h-[80px] text-kumo-subtle text-sm leading-relaxed md:h-20 md:text-base"
-                }
-              >
-                {card.desc}
-              </p>
-              <div className="border-kumo-line border-t pt-6">
-                <Badge variant="orange">{card.free}</Badge>
-              </div>
-            </Surface>
-          );
-        })}
-      </div>
+      <LayerCard>
+        <LayerCard.Primary className="overflow-x-auto p-0">
+          <Table>
+            <Table.Header>
+              <Table.Row>
+                <Table.Head>Cloudflare Product</Table.Head>
+                <Table.Head>Replaces</Table.Head>
+                <Table.Head className="hidden md:table-cell">
+                  What it does
+                </Table.Head>
+                <Table.Head>Free Tier</Table.Head>
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
+              {rows.map((row) => (
+                <Table.Row key={row.product}>
+                  <Table.Cell>
+                    <div className="flex items-center gap-3">
+                      <span className="text-kumo-brand">{row.icon}</span>
+                      <Text bold size="sm">
+                        {row.product}
+                      </Text>
+                    </div>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Text color="subtle" size="sm">
+                      {row.replaces}
+                    </Text>
+                  </Table.Cell>
+                  <Table.Cell className="hidden md:table-cell">
+                    <Text color="subtle" size="sm">
+                      {row.desc}
+                    </Text>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Badge variant={row.variant}>{row.free}</Badge>
+                  </Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table>
+        </LayerCard.Primary>
+      </LayerCard>
     </div>
   </section>
 );

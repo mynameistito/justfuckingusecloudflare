@@ -1,3 +1,5 @@
+import { Banner, Surface, Text } from "@cloudflare/kumo";
+import { WarningIcon } from "@phosphor-icons/react";
 import type React from "react";
 import { usePersonalization } from "../hooks/use-personalization";
 
@@ -21,68 +23,34 @@ export const Rant: React.FC = () => {
             </>
           )}
         </h2>
-        <div className="space-y-6 font-mono text-base text-kumo-default leading-relaxed md:text-lg">
-          <p>
-            {to ? `${to}, y` : "Y"}ou've got Vercel for frontend, Railway for
-            backend, AWS S3 for storage, PlanetScale for DB, Redis Labs for
-            cache, Cloudinary for images, and you're paying{" "}
-            <strong className="text-kumo-default">
-              FIVE DIFFERENT CORPORATE OVERLORDS
-            </strong>{" "}
-            to keep your half-baked blog alive.
-          </p>
-          <p>
-            Meanwhile Cloudflare is literally{" "}
-            <span className="bg-gradient-to-r from-kumo-brand to-orange-400 bg-clip-text font-bold text-transparent">
-              BEGGING
-            </span>{" "}
-            you to use their{" "}
-            <span className="bg-gradient-to-r from-kumo-brand to-orange-400 bg-clip-text font-bold text-transparent">
-              Workers
-            </span>
-            ,{" "}
-            <span className="bg-gradient-to-r from-kumo-brand to-orange-400 bg-clip-text font-bold text-transparent">
-              Pages
-            </span>
-            ,{" "}
-            <span className="bg-gradient-to-r from-kumo-brand to-orange-400 bg-clip-text font-bold text-transparent">
-              R2
-            </span>
-            ,{" "}
-            <span className="bg-gradient-to-r from-kumo-brand to-orange-400 bg-clip-text font-bold text-transparent">
-              D1
-            </span>
-            ,{" "}
-            <span className="bg-gradient-to-r from-kumo-brand to-orange-400 bg-clip-text font-bold text-transparent">
-              KV
-            </span>
-            ,{" "}
-            <span className="bg-gradient-to-r from-kumo-brand to-orange-400 bg-clip-text font-bold text-transparent">
-              Durable Objects
-            </span>
-            ,{" "}
-            <span className="bg-gradient-to-r from-kumo-brand to-orange-400 bg-clip-text font-bold text-transparent">
-              Queues
-            </span>
-            ,{" "}
-            <span className="bg-gradient-to-r from-kumo-brand to-orange-400 bg-clip-text font-bold text-transparent">
-              Workflows
-            </span>
-            ,{" "}
-            <span className="bg-gradient-to-r from-kumo-brand to-orange-400 bg-clip-text font-bold text-transparent">
-              AI
-            </span>
-            ,{" "}
-            <span className="bg-gradient-to-r from-kumo-brand to-orange-400 bg-clip-text font-bold text-transparent">
-              Vectorize
-            </span>{" "}
-            — ALL ON ONE PLATFORM, ONE BILL, AND{" "}
-            <strong className="text-kumo-default">
-              ACTUALLY GENEROUS FREE TIERS
-            </strong>
-            .
-          </p>
+
+        <div className="mb-8">
+          <Banner
+            description={`${to ? `${to}, you've` : "You've"} got Vercel for frontend, Railway for backend, AWS S3 for storage, PlanetScale for DB, Redis Labs for cache, Cloudinary for images — and you're paying FIVE DIFFERENT CORPORATE OVERLORDS to keep your half-baked blog alive.`}
+            icon={<WarningIcon weight="fill" />}
+            title="You're burning money"
+            variant="alert"
+          />
         </div>
+
+        <Surface className="rounded-xl p-6 md:p-8">
+          <Text size="base">
+            Meanwhile Cloudflare is literally{" "}
+            <span className="font-bold text-kumo-brand">BEGGING</span> you to
+            use their <span className="font-bold text-kumo-brand">Workers</span>
+            , <span className="font-bold text-kumo-brand">Pages</span>,{" "}
+            <span className="font-bold text-kumo-brand">R2</span>,{" "}
+            <span className="font-bold text-kumo-brand">D1</span>,{" "}
+            <span className="font-bold text-kumo-brand">KV</span>,{" "}
+            <span className="font-bold text-kumo-brand">Durable Objects</span>,{" "}
+            <span className="font-bold text-kumo-brand">Queues</span>,{" "}
+            <span className="font-bold text-kumo-brand">Workflows</span>,{" "}
+            <span className="font-bold text-kumo-brand">AI</span>,{" "}
+            <span className="font-bold text-kumo-brand">Vectorize</span> — ALL
+            ON ONE PLATFORM, ONE BILL, AND{" "}
+            <strong>ACTUALLY GENEROUS FREE TIERS</strong>.
+          </Text>
+        </Surface>
       </div>
     </section>
   );
