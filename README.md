@@ -150,5 +150,3 @@ This is a community-built, satirical, open-source project. Not endorsed by, spon
 Software is provided "as is", without warranty of any kind.
 
 ---
-
-**Made with frustration and Cloudflare**
