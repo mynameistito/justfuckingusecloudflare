@@ -1,0 +1,21 @@
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8",
+  "base_commit_sha": "ceafa8af0cd6ec40d5b261f87e2970588da1487c",
+  "prompts": {
+    "6c0a32e4c26bc33c": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_289701683ffePT6IBbzuYoogBY",
+        "model": "unknown"
+      },
+      "human_author": "Tito",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 166,
+      "overriden_lines": 0
+    }
+  }
+}
