@@ -50,6 +50,15 @@ export const Footer: React.FC = () => (
           >
             Community
           </a>
+          <a
+            aria-label="Cloudflare Domains"
+            className="rounded-full border border-neutral-700 bg-transparent px-4 py-2 font-mono text-neutral-400 text-sm transition-all hover:border-orange-500 hover:text-orange-500 focus-visible:outline-2 focus-visible:outline-orange-500 focus-visible:outline-offset-2"
+            href="https://www.cloudflare.com/products/registrar/"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Domains
+          </a>
         </div>
       </div>
       <div className="mt-8 border-neutral-800 border-t pt-8 text-center">
@@ -112,44 +121,7 @@ export const Footer: React.FC = () => (
             target="_blank"
           >
             mynameistito
-          </a>{" "}
-          (
-          <a
-            className="text-orange-500 transition-colors hover:text-orange-400"
-            href="https://buymeacoffee.com/mynameistito"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Buy Me a Coffee
           </a>
-          ,{" "}
-          <a
-            className="text-orange-500 transition-colors hover:text-orange-400"
-            href="https://discord.com/users/611746802122620937"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Discord
-          </a>
-          ,{" "}
-          <a
-            className="text-orange-500 transition-colors hover:text-orange-400"
-            href="https://github.com/mynameistito/justfuckingusecloudflare"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            GitHub
-          </a>
-          ,{" "}
-          <a
-            className="text-orange-500 transition-colors hover:text-orange-400"
-            href="https://x.com/mynameistito"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            X
-          </a>
-          )
         </p>
       </div>
     </div>

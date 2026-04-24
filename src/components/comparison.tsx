@@ -16,6 +16,7 @@ const cards = [
     vs: "CloudFront, Akamai, Fastly",
     desc: "Global anycast CDN with built-in DDoS protection and smart caching. No extra boxes, no multi-vendor dance.",
     free: "Global CDN included on every plan",
+    url: "https://www.cloudflare.com/application-services/products/cdn/",
   },
   {
     icon: <Database className="h-6 w-6" />,
@@ -23,6 +24,7 @@ const cards = [
     vs: "PlanetScale, Supabase, Neon",
     desc: "Serverless SQLite with read replication. Query at the edge. No connection pooling headaches.",
     free: "5M reads/day FREE",
+    url: "https://www.cloudflare.com/developer-platform/products/d1/",
   },
   {
     icon: <Link className="h-6 w-6" />,
@@ -30,6 +32,7 @@ const cards = [
     vs: "GoDaddy scams",
     desc: "Domains at actual wholesale cost. No renewal traps. Free privacy.",
     free: "No bullshit pricing",
+    url: "https://domains.cloudflare.com",
   },
   {
     icon: <Package className="h-6 w-6" />,
@@ -37,6 +40,7 @@ const cards = [
     vs: "S3, GCS, Azure Blob",
     desc: "S3-compatible object storage with zero egress fees. Stop letting AWS rob you blind.",
     free: "10GB storage FREE • $0 egress FOREVER",
+    url: "https://www.cloudflare.com/developer-platform/products/r2/",
   },
   {
     icon: <Zap className="h-6 w-6" />,
@@ -44,6 +48,7 @@ const cards = [
     vs: "SQS, SNS, RabbitMQ",
     desc: "Guaranteed message delivery with zero egress fees. Offload work, batch data, and connect Workers seamlessly.",
     free: "Zero egress fees • At-least-once delivery",
+    url: "https://www.cloudflare.com/developer-platform/products/cloudflare-queues/",
   },
   {
     icon: <Globe className="h-6 w-6" />,
@@ -51,6 +56,7 @@ const cards = [
     vs: "Vercel, Netlify",
     desc: "Unlimited bandwidth. Real previews. Git integration. Just works.",
     free: "Unlimited sites FREE",
+    url: "https://www.cloudflare.com/developer-platform/products/pages/",
   },
   {
     icon: <Brain className="h-6 w-6" />,
@@ -58,6 +64,7 @@ const cards = [
     vs: "OpenAI, Replicate",
     desc: "Run LLMs at the edge. No infra. No GPUs to manage.",
     free: "10k neurons/day FREE",
+    url: "https://www.cloudflare.com/developer-platform/products/workers-ai/",
   },
   {
     icon: <Zap className="h-6 w-6" />,
@@ -65,6 +72,7 @@ const cards = [
     vs: "Lambda, Vercel Functions",
     desc: "V8 isolates with 0ms cold starts. No containers, no VMs, just instant execution at 300+ edge locations.",
     free: "100k requests/day FREE",
+    url: "https://www.cloudflare.com/developer-platform/products/workers/",
   },
   {
     icon: <GitBranch className="h-6 w-6" />,
@@ -72,6 +80,7 @@ const cards = [
     vs: "Step Functions, Temporal",
     desc: "Durable execution for reliable long-running tasks. Auto-resumes on failure. No infrastructure to manage.",
     free: "Built into Workers platform",
+    url: "https://www.cloudflare.com/developer-platform/products/workflows/",
   },
 ];
 
@@ -90,38 +99,42 @@ export const Comparison: React.FC = () => (
           const isCdnCard = card.title === "CDN";
 
           return (
-            <article
-              className="group rounded-2xl border border-neutral-800 bg-neutral-900 p-6 transition-all duration-300 hover:border-orange-500/50 hover:shadow-[0_0_30px_rgba(246,130,31,0.1)] md:p-8"
+            <a
+              href={card.url}
               key={card.title}
+              rel="noopener noreferrer"
+              target="_blank"
             >
-              <div className="mb-6 flex items-start gap-4">
-                <div className="rounded-xl bg-orange-500/10 p-3 text-orange-500 transition-colors group-hover:bg-orange-500 group-hover:text-black">
-                  {card.icon}
+              <article className="group rounded-2xl border border-neutral-800 bg-neutral-900 p-6 transition-all duration-300 hover:border-orange-500/50 hover:shadow-[0_0_30px_rgba(246,130,31,0.1)] md:p-8">
+                <div className="mb-6 flex items-start gap-4">
+                  <div className="rounded-xl bg-orange-500/10 p-3 text-orange-500 transition-colors group-hover:bg-orange-500 group-hover:text-black">
+                    {card.icon}
+                  </div>
+                  <div>
+                    <h3 className="font-anton text-2xl uppercase tracking-wide transition-colors group-hover:text-orange-400">
+                      {card.title}
+                    </h3>
+                    <p className="mt-1 font-mono text-neutral-500 text-xs uppercase">
+                      vs. {card.vs}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-anton text-2xl uppercase tracking-wide transition-colors group-hover:text-orange-400">
-                    {card.title}
-                  </h3>
-                  <p className="mt-1 font-mono text-neutral-500 text-xs uppercase">
-                    vs. {card.vs}
-                  </p>
+                <p
+                  className={
+                    isCdnCard
+                      ? "mb-6 min-h-[60px] text-neutral-400 text-xs leading-snug md:h-16 md:text-sm"
+                      : "mb-6 min-h-[80px] text-neutral-400 text-sm leading-relaxed md:h-20 md:text-base"
+                  }
+                >
+                  {card.desc}
+                </p>
+                <div className="border-neutral-800 border-t pt-6">
+                  <span className="rounded-full border border-orange-500/20 bg-orange-500/5 px-3 py-1 font-bold font-mono text-orange-500 text-xs uppercase tracking-tighter">
+                    {card.free}
+                  </span>
                 </div>
-              </div>
-              <p
-                className={
-                  isCdnCard
-                    ? "mb-6 min-h-[60px] text-neutral-400 text-xs leading-snug md:h-16 md:text-sm"
-                    : "mb-6 min-h-[80px] text-neutral-400 text-sm leading-relaxed md:h-20 md:text-base"
-                }
-              >
-                {card.desc}
-              </p>
-              <div className="border-neutral-800 border-t pt-6">
-                <span className="rounded-full border border-orange-500/20 bg-orange-500/5 px-3 py-1 font-bold font-mono text-orange-500 text-xs uppercase tracking-tighter">
-                  {card.free}
-                </span>
-              </div>
-            </article>
+              </article>
+            </a>
           );
         })}
       </div>

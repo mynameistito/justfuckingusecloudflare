@@ -1,10 +1,10 @@
 {
-  "name": "jfuc---just-fucking-use-cloudflare",
+  "name": "just-fucking-use-cloudflare",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "portless justfuckingusecloudflare vite",
     "build": "vite build",
     "preview": "vite preview",
     "deploy": "node scripts/deploy.js",
