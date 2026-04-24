@@ -8,7 +8,7 @@ export const PrivacyPolicy: React.FC = () => (
         The Fucking Privacy Policy
       </h1>
       <p className="mt-4 font-mono text-neutral-400 text-sm">
-        Last updated: December 24, 2025
+        Last updated: April 25, 2026
       </p>
 
       <div className="mt-12 space-y-8 font-sans text-neutral-300">
@@ -26,9 +26,8 @@ export const PrivacyPolicy: React.FC = () => (
             What We Collect (Spoiler: Not Your Soul)
           </h2>
           <p className="mt-4 leading-relaxed">
-            We use Umami Cloud — the privacy-respecting analytics that doesn't
-            track you like a stalker ex. It grabs only anonymized, aggregated
-            garbage like:
+            We use Cloudflare Web Analytics — privacy-respecting, no cookies, no
+            fingerprinting. It grabs only anonymized, aggregated garbage like:
           </p>
           <ul className="mt-4 ml-6 list-disc space-y-2 font-mono text-neutral-400">
             <li>Page views and how you stumble around the site</li>
@@ -68,10 +67,10 @@ export const PrivacyPolicy: React.FC = () => (
             No Cookies. No Bullshit Banners.
           </h2>
           <p className="mt-4 leading-relaxed">
-            Umami doesn't use cookies or local storage. So no "ACCEPT ALL
-            COOKIES OR WE CRY" popup. You're not being fingerprinted or tracked
-            across the internet like some normie on Google Analytics. Freedom,
-            baby.
+            Cloudflare Web Analytics doesn't use cookies or local storage. So no
+            "ACCEPT ALL COOKIES OR WE CRY" popup. You're not being fingerprinted
+            or tracked across the internet like some normie on Google Analytics.
+            Freedom, baby.
           </p>
         </section>
 
@@ -81,14 +80,13 @@ export const PrivacyPolicy: React.FC = () => (
           </h2>
           <ul className="mt-4 ml-6 list-disc space-y-2 font-mono text-neutral-400">
             <li>
-              <strong className="text-white">Umami Cloud</strong> → analytics
-              (privacy-first, no cookies, anonymized before it even hits their
-              servers)
+              <strong className="text-white">Cloudflare Web Analytics</strong> →
+              analytics (privacy-first, no cookies, data stays on Cloudflare)
             </li>
             <li>
-              <strong className="text-white">Google Fonts</strong> → pretty
-              letters (they see your IP when fetching fonts because capitalism —
-              check their policy if you care, we're not your mom)
+              <strong className="text-white">Cloudflare Fonts</strong> → pretty
+              letters (Google Fonts, but served by Cloudflare — no Google
+              tracking your eyeballs)
             </li>
           </ul>
           <p className="mt-4 leading-relaxed">
@@ -101,8 +99,9 @@ export const PrivacyPolicy: React.FC = () => (
             Data Goes Where?
           </h2>
           <p className="mt-4 leading-relaxed">
-            Umami processes it, anonymizes it, aggregates it, and doesn't sell
-            it or profile you. We don't touch it. It's their problem, not ours.
+            Cloudflare processes it, anonymizes it, aggregates it, and doesn't
+            sell it or profile you. Data stays on Cloudflare's infrastructure —
+            nowhere else.
           </p>
         </section>
 
@@ -118,14 +117,14 @@ export const PrivacyPolicy: React.FC = () => (
           <ul className="mt-4 ml-6 list-disc space-y-2 font-mono text-neutral-400">
             <li>Block analytics requests with uBlock/uMatrix/whatever</li>
             <li>
-              Cry to Umami at{" "}
+              Cry to Cloudflare at{" "}
               <a
                 className="text-orange-500 transition-colors hover:text-orange-400"
-                href="https://umami.is"
+                href="https://www.cloudflare.com/privacypolicy/"
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                umami.is
+                cloudflare.com/privacypolicy
               </a>{" "}
               if you hate their vibe
             </li>
