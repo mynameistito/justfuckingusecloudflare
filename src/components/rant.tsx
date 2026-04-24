@@ -37,45 +37,95 @@ export const Rant: React.FC = () => {
               BEGGING
             </span>{" "}
             you to use their{" "}
-            <span className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
+            <a
+              className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent decoration-orange-500 hover:underline"
+              href="https://www.cloudflare.com/developer-platform/products/workers/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
               Workers
-            </span>
+            </a>
             ,{" "}
-            <span className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
+            <a
+              className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent decoration-orange-500 hover:underline"
+              href="https://www.cloudflare.com/developer-platform/products/pages/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
               Pages
-            </span>
+            </a>
             ,{" "}
-            <span className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
+            <a
+              className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent decoration-orange-500 hover:underline"
+              href="https://www.cloudflare.com/developer-platform/products/r2/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
               R2
-            </span>
+            </a>
             ,{" "}
-            <span className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
+            <a
+              className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent decoration-orange-500 hover:underline"
+              href="https://www.cloudflare.com/developer-platform/products/d1/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
               D1
-            </span>
+            </a>
             ,{" "}
-            <span className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
+            <a
+              className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent decoration-orange-500 hover:underline"
+              href="https://www.cloudflare.com/developer-platform/products/workers-kv/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
               KV
-            </span>
+            </a>
             ,{" "}
-            <span className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
+            <a
+              className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent decoration-orange-500 hover:underline"
+              href="https://www.cloudflare.com/developer-platform/products/durable-objects/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
               Durable Objects
-            </span>
+            </a>
             ,{" "}
-            <span className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
+            <a
+              className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent decoration-orange-500 hover:underline"
+              href="https://www.cloudflare.com/developer-platform/products/cloudflare-queues/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
               Queues
-            </span>
+            </a>
             ,{" "}
-            <span className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
+            <a
+              className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent decoration-orange-500 hover:underline"
+              href="https://www.cloudflare.com/developer-platform/products/workflows/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
               Workflows
-            </span>
+            </a>
             ,{" "}
-            <span className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
+            <a
+              className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent decoration-orange-500 hover:underline"
+              href="https://www.cloudflare.com/developer-platform/products/workers-ai/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
               AI
-            </span>
+            </a>
             ,{" "}
-            <span className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
+            <a
+              className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent decoration-orange-500 hover:underline"
+              href="https://www.cloudflare.com/developer-platform/products/vectorize/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
               Vectorize
-            </span>{" "}
+            </a>{" "}
             — ALL ON ONE PLATFORM, ONE BILL, AND{" "}
             <strong className="text-white">ACTUALLY GENEROUS FREE TIERS</strong>
             .
