@@ -3,6 +3,11 @@ import { useEffect } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { Comparison } from "./components/comparison";
 import { CTA } from "./components/cta";
+import {
+  BillboardConcept,
+  ControlRoomConcept,
+  LedgerConcept,
+} from "./components/design-concepts";
 import { Features } from "./components/features";
 import { Footer } from "./components/footer";
 import { Hero } from "./components/hero";
@@ -72,6 +77,9 @@ const App: React.FC = () => (
     <div className="min-h-screen selection:bg-orange-500 selection:text-black">
       <Routes>
         <Route element={<HomePage />} path="/" />
+        <Route element={<ControlRoomConcept />} path="/concepts/control-room" />
+        <Route element={<BillboardConcept />} path="/concepts/billboard" />
+        <Route element={<LedgerConcept />} path="/concepts/ledger" />
         <Route element={<PrivacyPolicy />} path="/privacy-policy" />
       </Routes>
     </div>
