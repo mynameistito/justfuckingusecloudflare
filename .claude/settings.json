@@ -1,12 +1,12 @@
 {
   "hooks": {
-    "PostToolUse": [
+    "SessionStart": [
       {
-        "matcher": "Write|Edit",
+        "matcher": "*",
         "hooks": [
           {
             "type": "command",
-            "command": "bun x ultracite fix"
+            "command": "node .github/setup.js"
           }
         ]
       }
