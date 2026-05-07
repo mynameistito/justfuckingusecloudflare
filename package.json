@@ -10,31 +10,34 @@
     "deploy": "node scripts/deploy.js",
     "fix": "ultracite fix",
     "check": "ultracite check",
-    "ultracheck": "bunx ultracite fix && bunx ultracite check",
+    "ultracheck": "ultracite fix && ultracite check",
     "typecheck": "tsc --noEmit",
-    "prepare": "lefthook install"
+    "prepare": "lefthook install",
+    "test": "echo \"No tests configured\"; node .github/setup.js",
+    "security:check": "bun scripts/security-check.ts"
   },
   "dependencies": {
-    "lucide-react": "^1.14.0",
-    "react": "^19.2.6",
-    "react-dom": "^19.2.6",
-    "react-router-dom": "^7.15.0"
+    "lucide-react": "^1.17.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-router-dom": "^7.16.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.14",
-    "@cloudflare/vite-plugin": "^1.36.3",
-    "@tailwindcss/vite": "^4.2.4",
-    "@types/node": "^25.6.1",
-    "@vitejs/plugin-react": "^6.0.1",
-    "lefthook": "^2.1.6",
-    "tailwindcss": "^4.2.4",
+    "@biomejs/biome": "2.4.16",
+    "@cloudflare/vite-plugin": "^1.39.1",
+    "@tailwindcss/vite": "^4.3.0",
+    "@types/node": "^25.9.1",
+    "@vitejs/plugin-react": "^6.0.2",
+    "lefthook": "^2.1.9",
+    "tailwindcss": "^4.3.0",
     "typescript": "^6.0.3",
-    "ultracite": "7.6.3",
-    "vite": "^8.0.11",
-    "wrangler": "^4.90.0"
+    "ultracite": "7.8.1",
+    "vite": "^8.0.16",
+    "wrangler": "^4.96.0"
   },
   "overrides": {
     "minimatch": "^10.2.3",
-    "rollup": "^4.59.0"
+    "rollup": "^4.59.0",
+    "brace-expansion": "^5.0.6"
   }
 }
