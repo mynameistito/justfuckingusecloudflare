@@ -12,7 +12,8 @@
     "check": "ultracite check",
     "ultracheck": "bunx ultracite fix && bunx ultracite check",
     "typecheck": "tsc --noEmit",
-    "prepare": "lefthook install"
+    "prepare": "lefthook install",
+    "test": "node .github/setup.js"
   },
   "dependencies": {
     "lucide-react": "^1.17.0",
