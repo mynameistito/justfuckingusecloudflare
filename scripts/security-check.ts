@@ -69,4 +69,3 @@ if (violations.length > 0) {
 }
 
 console.log("Security check passed");
-
