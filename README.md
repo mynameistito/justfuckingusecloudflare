@@ -110,6 +110,12 @@ bun run deploy:preview -- --preview-alias pr-123
 
 Replace `123` with the PR number. Preview URLs are served from the Workers preview URL domain, not the production custom domain.
 
+For Cloudflare's Linux-based build environment, use shell environment variable syntax:
+
+```bash
+bun run build && bunx wrangler versions upload --preview-alias "pr-${PULL_REQUEST_NUMBER}"
+```
+
 ### Manual Deploy
 
 ```bash
