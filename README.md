@@ -27,16 +27,17 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Scripts
 
-| Command              | What it does                                      |
-| -------------------- | ------------------------------------------------- |
-| `bun run dev`        | Start dev server (port 3000)                      |
-| `bun run build`      | Production build → `dist/`                        |
-| `bun run preview`    | Preview production build locally                  |
-| `bun run deploy`     | Branch-aware deploy (prod vs preview)             |
-| `bun run fix`        | Auto-fix linting and formatting (Ultracite/Biome) |
-| `bun run check`      | Lint/format check only                            |
-| `bun run typecheck`  | TypeScript type checking (`tsc --noEmit`)         |
-| `bun run ultracheck` | Fix then verify (fix + check)                     |
+| Command                                            | What it does                                      |
+| -------------------------------------------------- | ------------------------------------------------- |
+| `bun run dev`                                      | Start dev server (port 3000)                      |
+| `bun run build`                                    | Production build → `dist/`                        |
+| `bun run preview`                                  | Preview production build locally                  |
+| `bun run deploy`                                   | Build and deploy to production with Wrangler      |
+| `bun run deploy:preview -- --preview-alias pr-123` | Build and upload a PR preview version             |
+| `bun run fix`                                      | Auto-fix linting and formatting (Ultracite/Biome) |
+| `bun run check`                                    | Lint/format check only                            |
+| `bun run typecheck`                                | TypeScript type checking (`tsc --noEmit`)         |
+| `bun run ultracheck`                               | Fix then verify (fix + check)                     |
 
 <details>
 <summary><strong>npm / yarn / pnpm also work</strong></summary>
@@ -74,8 +75,6 @@ justfuckingusecloudflare/
 │       └── use-personalization.ts  # ?to= & ?from= URL param hook
 ├── worker/
 │   └── index.ts             # SPA fallback handler
-├── scripts/
-│   └── deploy.js            # Branch-aware deploy script
 ├── public/                  # Static assets (favicons, OG image, _headers, webmanifest)
 ├── vite.config.ts           # Vite config (root=src, Cloudflare plugin)
 ├── wrangler.jsonc            # Worker name, assets dir, routes
@@ -97,19 +96,25 @@ Names are trimmed and capitalized automatically via `usePersonalization`.
 
 ## Deploy
 
-Push to `main` and the deploy script handles the rest:
+Deploy production with Wrangler:
 
 ```bash
 bun run deploy
 ```
 
-The script detects the branch — `main` deploys to production, other branches deploy as preview versions.
+Create or update a PR preview with a stable alias:
+
+```bash
+bun run deploy:preview -- --preview-alias pr-123
+```
+
+Replace `123` with the PR number. Preview URLs are served from the Workers preview URL domain, not the production custom domain.
 
 ### Manual Deploy
 
 ```bash
 bun run build
-npx wrangler deploy
+bunx wrangler deploy
 ```
 
 ## Tech Stack
