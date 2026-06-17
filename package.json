@@ -10,7 +10,7 @@
     "deploy": "node scripts/deploy.js",
     "fix": "ultracite fix",
     "check": "ultracite check",
-    "ultracheck": "bunx ultracite fix && bunx ultracite check",
+    "ultracheck": "bun x ultracite fix && bun x ultracite check",
     "typecheck": "tsc --noEmit",
     "prepare": "lefthook install"
   },
@@ -44,5 +44,8 @@
     "minimatch": "^10.2.3",
     "rollup": "^4.59.0",
     "ws": "^8.21.0"
+  },
+  "engines": {
+    "node": ">=20.11.0"
   }
 }
