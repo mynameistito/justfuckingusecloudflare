@@ -110,10 +110,10 @@ bun run deploy:preview -- --preview-alias pr-123
 
 Replace `123` with the PR number. Preview URLs are served from the Workers preview URL domain, not the production custom domain.
 
-Cloudflare Workers Builds exposes `WORKERS_CI_BRANCH`, but not a PR number variable. Use a literal PR alias in the deploy command:
+Cloudflare Workers Builds exposes `WORKERS_CI_BRANCH`, but not a PR number variable. Sanitize the branch name before using it as the preview alias:
 
 ```bash
-bunx wrangler versions upload --preview-alias pr-123
+ALIAS="$(printf '%s' "$WORKERS_CI_BRANCH" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9_-]+/-/g; s/-+/-/g; s/^-+//; s/-+$//' | cut -c1-63)" && bunx wrangler versions upload --preview-alias "${ALIAS:-preview}"
 ```
 
 ### Manual Deploy
