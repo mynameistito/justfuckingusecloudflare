@@ -1,18 +1,23 @@
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+
 import { cloudflare } from "@cloudflare/vite-plugin";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const __dirname = import.meta.dirname;
 
 export default defineConfig({
-  root: "src",
-  publicDir: path.resolve(__dirname, "public"),
-  server: {
-    port: 3000,
-    host: "0.0.0.0",
+  build: {
+    assetsDir: "assets",
+    emptyOutDir: true,
+    outDir: "../dist",
+    rollupOptions: {
+      output: {
+        format: "es",
+      },
+    },
+    sourcemap: false,
   },
   plugins: [
     cloudflare({
@@ -20,25 +25,20 @@ export default defineConfig({
     }),
     tailwindcss(),
     react({
-      jsxRuntime: "automatic",
       include: "**/*.{jsx,tsx}",
+      jsxRuntime: "automatic",
     }),
   ],
+  publicDir: path.resolve(__dirname, "public"),
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
     },
     extensions: [".mjs", ".js", ".mts", ".ts", ".jsx", ".tsx", ".json"],
   },
-  build: {
-    outDir: "../dist",
-    emptyOutDir: true,
-    assetsDir: "assets",
-    sourcemap: false,
-    rollupOptions: {
-      output: {
-        format: "es",
-      },
-    },
+  root: "src",
+  server: {
+    host: "0.0.0.0",
+    port: 3000,
   },
 });

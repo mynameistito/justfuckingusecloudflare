@@ -10,7 +10,7 @@
 
 import { execSync } from "node:child_process";
 import { existsSync } from "node:fs";
-import { join } from "node:path";
+import path from "node:path";
 
 const WORKER_OUTPUT_DIR = "dist/justfuckingusecloudflare";
 
@@ -23,21 +23,21 @@ const isProduction =
   branch === "main" || branch === "master" || branch === "production";
 
 // Create preview alias (sanitized for Cloudflare)
-function createPreviewAlias() {
+const createPreviewAlias = () => {
   if (prNumber) {
     return `pr-${prNumber}`;
   }
   return (
     branch
       .toLowerCase()
-      .replace(/[^a-z0-9-_]/g, "-")
-      .replace(/-+/g, "-")
-      .replace(/^-|-$/g, "")
+      .replaceAll(/[^a-z0-9-_]/gu, "-")
+      .replaceAll(/-+/gu, "-")
+      .replaceAll(/^-|-$/gu, "")
       .slice(0, 63) || "preview"
   );
-}
+};
 
-const workerDir = join(process.cwd(), WORKER_OUTPUT_DIR);
+const workerDir = path.join(process.cwd(), WORKER_OUTPUT_DIR);
 
 // Verify build output exists
 if (!existsSync(workerDir)) {
@@ -50,7 +50,7 @@ try {
   if (isProduction) {
     console.log("🚀 Deploying to production...");
     console.log(`📌 Branch: ${branch}\n`);
-    execSync("npx wrangler deploy", { stdio: "inherit", cwd: workerDir });
+    execSync("npx wrangler deploy", { cwd: workerDir, stdio: "inherit" });
   } else {
     const previewAlias = createPreviewAlias();
     console.log("🔍 Creating preview deployment");
@@ -60,8 +60,8 @@ try {
     }
     console.log(`🏷️  Preview alias: ${previewAlias}\n`);
     execSync(`npx wrangler versions upload --preview-alias ${previewAlias}`, {
-      stdio: "inherit",
       cwd: workerDir,
+      stdio: "inherit",
     });
   }
 } catch (error) {

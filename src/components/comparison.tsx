@@ -11,76 +11,76 @@ import type React from "react";
 
 const cards = [
   {
-    icon: <Globe className="h-6 w-6" />,
-    title: "CDN",
-    vs: "CloudFront, Akamai, Fastly",
     desc: "Global anycast CDN with built-in DDoS protection and smart caching. No extra boxes, no multi-vendor dance.",
     free: "Global CDN included on every plan",
+    icon: <Globe className="h-6 w-6" />,
+    title: "CDN",
     url: "https://www.cloudflare.com/application-services/products/cdn/",
+    vs: "CloudFront, Akamai, Fastly",
   },
   {
-    icon: <Database className="h-6 w-6" />,
-    title: "D1 Database",
-    vs: "PlanetScale, Supabase, Neon",
     desc: "Serverless SQLite with read replication. Query at the edge. No connection pooling headaches.",
     free: "5M reads/day FREE",
+    icon: <Database className="h-6 w-6" />,
+    title: "D1 Database",
     url: "https://www.cloudflare.com/developer-platform/products/d1/",
+    vs: "PlanetScale, Supabase, Neon",
   },
   {
-    icon: <Link className="h-6 w-6" />,
-    title: "Registrar",
-    vs: "GoDaddy scams",
     desc: "Domains at actual wholesale cost. No renewal traps. Free privacy.",
     free: "No bullshit pricing",
+    icon: <Link className="h-6 w-6" />,
+    title: "Registrar",
     url: "https://domains.cloudflare.com",
+    vs: "GoDaddy scams",
   },
   {
-    icon: <Package className="h-6 w-6" />,
-    title: "R2 Storage",
-    vs: "S3, GCS, Azure Blob",
     desc: "S3-compatible object storage with zero egress fees. Stop letting AWS rob you blind.",
     free: "10GB storage FREE • $0 egress FOREVER",
+    icon: <Package className="h-6 w-6" />,
+    title: "R2 Storage",
     url: "https://www.cloudflare.com/developer-platform/products/r2/",
+    vs: "S3, GCS, Azure Blob",
   },
   {
-    icon: <Zap className="h-6 w-6" />,
-    title: "Queues",
-    vs: "SQS, SNS, RabbitMQ",
     desc: "Guaranteed message delivery with zero egress fees. Offload work, batch data, and connect Workers seamlessly.",
     free: "Zero egress fees • At-least-once delivery",
+    icon: <Zap className="h-6 w-6" />,
+    title: "Queues",
     url: "https://www.cloudflare.com/developer-platform/products/cloudflare-queues/",
+    vs: "SQS, SNS, RabbitMQ",
   },
   {
-    icon: <Globe className="h-6 w-6" />,
-    title: "Pages",
-    vs: "Vercel, Netlify",
     desc: "Unlimited bandwidth. Real previews. Git integration. Just works.",
     free: "Unlimited sites FREE",
+    icon: <Globe className="h-6 w-6" />,
+    title: "Pages",
     url: "https://www.cloudflare.com/developer-platform/products/pages/",
+    vs: "Vercel, Netlify",
   },
   {
-    icon: <Brain className="h-6 w-6" />,
-    title: "Workers AI",
-    vs: "OpenAI, Replicate",
     desc: "Run LLMs at the edge. No infra. No GPUs to manage.",
     free: "10k neurons/day FREE",
+    icon: <Brain className="h-6 w-6" />,
+    title: "Workers AI",
     url: "https://www.cloudflare.com/developer-platform/products/workers-ai/",
+    vs: "OpenAI, Replicate",
   },
   {
-    icon: <Zap className="h-6 w-6" />,
-    title: "Workers",
-    vs: "Lambda, Vercel Functions",
     desc: "V8 isolates with 0ms cold starts. No containers, no VMs, just instant execution at 300+ edge locations.",
     free: "100k requests/day FREE",
+    icon: <Zap className="h-6 w-6" />,
+    title: "Workers",
     url: "https://www.cloudflare.com/developer-platform/products/workers/",
+    vs: "Lambda, Vercel Functions",
   },
   {
-    icon: <GitBranch className="h-6 w-6" />,
-    title: "Workflows",
-    vs: "Step Functions, Temporal",
     desc: "Durable execution for reliable long-running tasks. Auto-resumes on failure. No infrastructure to manage.",
     free: "Built into Workers platform",
+    icon: <GitBranch className="h-6 w-6" />,
+    title: "Workflows",
     url: "https://www.cloudflare.com/developer-platform/products/workflows/",
+    vs: "Step Functions, Temporal",
   },
 ];
 
@@ -100,6 +100,7 @@ export const Comparison: React.FC = () => (
 
           return (
             <a
+              aria-label={`Open Cloudflare ${card.title} product page`}
               href={card.url}
               key={card.title}
               rel="noopener noreferrer"

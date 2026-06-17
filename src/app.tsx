@@ -1,6 +1,7 @@
 import type React from "react";
 import { useEffect } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+
 import { Comparison } from "./components/comparison";
 import { CTA } from "./components/cta";
 import { Features } from "./components/features";

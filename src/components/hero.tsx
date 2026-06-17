@@ -1,4 +1,5 @@
 import type React from "react";
+
 import { usePersonalization } from "../hooks/use-personalization";
 
 export const Hero: React.FC = () => {

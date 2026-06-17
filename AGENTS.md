@@ -28,36 +28,36 @@ justfuckingusecloudflare/
 
 ## WHERE TO LOOK
 
-| Task | Location | Notes |
-|------|----------|-------|
-| Add a page/route | `src/app.tsx` | Routes defined in `<Routes>` block |
-| Add a UI section | `src/components/` | Create new `.tsx` file, import in `app.tsx` |
-| Personalization logic | `src/hooks/use-personalization.ts` | Reads `?to=` and `?from=` params |
-| Worker logic | `worker/index.ts` | Currently just SPA fallback |
-| Deployment config | `wrangler.jsonc` | Worker name, assets dir, routes |
-| Build config | `vite.config.ts` | Root=src, plugins order matters |
-| Styling | `src/index.html` (inline `<style>`) + Tailwind | Custom fonts/anim in HTML, utils in Tailwind |
-| Static assets | `public/` | `_headers`, favicons, OG image, webmanifest |
-| Deploy script | `scripts/deploy.js` | Detects prod vs preview branch |
+| Task                  | Location                                       | Notes                                        |
+| --------------------- | ---------------------------------------------- | -------------------------------------------- |
+| Add a page/route      | `src/app.tsx`                                  | Routes defined in `<Routes>` block           |
+| Add a UI section      | `src/components/`                              | Create new `.tsx` file, import in `app.tsx`  |
+| Personalization logic | `src/hooks/use-personalization.ts`             | Reads `?to=` and `?from=` params             |
+| Worker logic          | `worker/index.ts`                              | Currently just SPA fallback                  |
+| Deployment config     | `wrangler.jsonc`                               | Worker name, assets dir, routes              |
+| Build config          | `vite.config.ts`                               | Root=src, plugins order matters              |
+| Styling               | `src/index.html` (inline `<style>`) + Tailwind | Custom fonts/anim in HTML, utils in Tailwind |
+| Static assets         | `public/`                                      | `_headers`, favicons, OG image, webmanifest  |
+| Deploy script         | `scripts/deploy.js`                            | Detects prod vs preview branch               |
 
 ## CODE MAP
 
-| Symbol | Type | Location | Role |
-|--------|------|----------|------|
-| `App` | Component | `src/app.tsx:69` | Root: BrowserRouter + routes |
-| `HomePage` | Component | `src/app.tsx:15` | Composes all sections, uses personalization |
-| `ScrollToTop` | Component | `src/app.tsx:56` | Scrolls to top on route change |
-| `usePersonalization` | Hook | `src/hooks/use-personalization.ts:18` | Reads/normalizes `?to=` `?from=` URL params |
-| `normalizeName` | Function | `src/hooks/use-personalization.ts:6` | Capitalizes first letter, trims whitespace |
-| `Hero` | Component | `src/components/hero.tsx` | Personalized hero banner |
-| `Rant` | Component | `src/components/rant.tsx` | Satirical comparison section |
-| `Comparison` | Component | `src/components/comparison.tsx` | AWS vs CF feature cards |
-| `Features` | Component | `src/components/features.tsx` | Cloudflare feature checklist |
-| `CTA` | Component | `src/components/cta.tsx` | Call to action + signup link |
-| `ShareLink` | Component | `src/components/share-link.tsx` | Form: generates personalized share URL |
-| `ThankYou` | Component | `src/components/thank-you.tsx` | "Sent by X" attribution (conditional) |
-| `PrivacyPolicy` | Component | `src/components/privacy-policy.tsx` | `/privacy-policy` route |
-| `Footer` | Component | `src/components/footer.tsx` | Links + copyright |
+| Symbol               | Type      | Location                              | Role                                        |
+| -------------------- | --------- | ------------------------------------- | ------------------------------------------- |
+| `App`                | Component | `src/app.tsx:69`                      | Root: BrowserRouter + routes                |
+| `HomePage`           | Component | `src/app.tsx:15`                      | Composes all sections, uses personalization |
+| `ScrollToTop`        | Component | `src/app.tsx:56`                      | Scrolls to top on route change              |
+| `usePersonalization` | Hook      | `src/hooks/use-personalization.ts:18` | Reads/normalizes `?to=` `?from=` URL params |
+| `normalizeName`      | Function  | `src/hooks/use-personalization.ts:6`  | Capitalizes first letter, trims whitespace  |
+| `Hero`               | Component | `src/components/hero.tsx`             | Personalized hero banner                    |
+| `Rant`               | Component | `src/components/rant.tsx`             | Satirical comparison section                |
+| `Comparison`         | Component | `src/components/comparison.tsx`       | AWS vs CF feature cards                     |
+| `Features`           | Component | `src/components/features.tsx`         | Cloudflare feature checklist                |
+| `CTA`                | Component | `src/components/cta.tsx`              | Call to action + signup link                |
+| `ShareLink`          | Component | `src/components/share-link.tsx`       | Form: generates personalized share URL      |
+| `ThankYou`           | Component | `src/components/thank-you.tsx`        | "Sent by X" attribution (conditional)       |
+| `PrivacyPolicy`      | Component | `src/components/privacy-policy.tsx`   | `/privacy-policy` route                     |
+| `Footer`             | Component | `src/components/footer.tsx`           | Links + copyright                           |
 
 ## CONVENTIONS
 
