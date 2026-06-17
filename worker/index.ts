@@ -12,8 +12,8 @@ export default {
     // Serve index.html for any request that doesn't match a static asset
     // This ensures SPA routing works for all requests
     const indexRequest = new Request(new URL("/index.html", request.url), {
-      method: request.method,
       headers: request.headers,
+      method: request.method,
     });
 
     return env.ASSETS.fetch(indexRequest);

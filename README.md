@@ -27,16 +27,16 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Scripts
 
-| Command | What it does |
-|---|---|
-| `bun run dev` | Start dev server (port 3000) |
-| `bun run build` | Production build → `dist/` |
-| `bun run preview` | Preview production build locally |
-| `bun run deploy` | Branch-aware deploy (prod vs preview) |
-| `bun run fix` | Auto-fix linting and formatting (Ultracite/Biome) |
-| `bun run check` | Lint/format check only |
-| `bun run typecheck` | TypeScript type checking (`tsc --noEmit`) |
-| `bun run ultracheck` | Fix then verify (fix + check) |
+| Command              | What it does                                      |
+| -------------------- | ------------------------------------------------- |
+| `bun run dev`        | Start dev server (port 3000)                      |
+| `bun run build`      | Production build → `dist/`                        |
+| `bun run preview`    | Preview production build locally                  |
+| `bun run deploy`     | Branch-aware deploy (prod vs preview)             |
+| `bun run fix`        | Auto-fix linting and formatting (Ultracite/Biome) |
+| `bun run check`      | Lint/format check only                            |
+| `bun run typecheck`  | TypeScript type checking (`tsc --noEmit`)         |
+| `bun run ultracheck` | Fix then verify (fix + check)                     |
 
 <details>
 <summary><strong>npm / yarn / pnpm also work</strong></summary>

@@ -1,6 +1,7 @@
 import type React from "react";
 import { useEffect } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+
 import { Comparison } from "./components/comparison";
 import { CTA } from "./components/cta";
 import { Features } from "./components/features";
@@ -8,6 +9,7 @@ import { Footer } from "./components/footer";
 import { Hero } from "./components/hero";
 import { PrivacyPolicy } from "./components/privacy-policy";
 import { Rant } from "./components/rant";
+import { RedesignPage } from "./components/redesigns";
 import { ShareLink } from "./components/share-link";
 import { ThankYou } from "./components/thank-you";
 import { usePersonalization } from "./hooks/use-personalization";
@@ -72,6 +74,9 @@ const App: React.FC = () => (
     <div className="min-h-screen selection:bg-orange-500 selection:text-black">
       <Routes>
         <Route element={<HomePage />} path="/" />
+        <Route element={<RedesignPage variant="1" />} path="/1" />
+        <Route element={<RedesignPage variant="2" />} path="/2" />
+        <Route element={<RedesignPage variant="3" />} path="/3" />
         <Route element={<PrivacyPolicy />} path="/privacy-policy" />
       </Routes>
     </div>

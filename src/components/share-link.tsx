@@ -1,5 +1,6 @@
 import type React from "react";
 import { useEffect, useState } from "react";
+
 import {
   normalizeName,
   usePersonalization,
@@ -34,8 +35,8 @@ export const ShareLink: React.FC = () => {
     try {
       await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
-    } catch (err) {
-      console.error("Failed to copy link:", err);
+    } catch (error) {
+      console.error("Failed to copy link:", error);
     }
   };
 
