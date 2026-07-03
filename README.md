@@ -8,11 +8,7 @@ A satirical, high-performance landing page making the case for Cloudflare over m
 
 > Satire and educational demo only — not official guidance from any cloud provider.
 
-[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://react.dev/)
-[![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite)](https://vitejs.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-6-3178C6?logo=typescript)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
-[![Bun](https://img.shields.io/badge/Bun-1-000?logo=bun)](https://bun.sh/)
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://react.dev/) [![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite)](https://vitejs.dev/) [![TypeScript](https://img.shields.io/badge/TypeScript-6-3178C6?logo=typescript)](https://www.typescriptlang.org/) [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38B2AC?logo=tailwind-css)](https://tailwindcss.com/) [![Bun](https://img.shields.io/badge/Bun-1-000?logo=bun)](https://bun.sh/)
 
 ## Quick Start
 
@@ -27,17 +23,17 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Scripts
 
-| Command                                            | What it does                                      |
-| -------------------------------------------------- | ------------------------------------------------- |
-| `bun run dev`                                      | Start dev server (port 3000)                      |
-| `bun run build`                                    | Production build → `dist/`                        |
-| `bun run preview`                                  | Preview production build locally                  |
-| `bun run deploy`                                   | Build and deploy to production with Wrangler      |
-| `bun run deploy:preview -- --preview-alias pr-123` | Build and upload a PR preview version             |
-| `bun run fix`                                      | Auto-fix linting and formatting (Ultracite/Biome) |
-| `bun run check`                                    | Lint/format check only                            |
-| `bun run typecheck`                                | TypeScript type checking (`tsc --noEmit`)         |
-| `bun run ultracheck`                               | Fix then verify (fix + check)                     |
+| Command | What it does |
+| --- | --- |
+| `bun run dev` | Start dev server (port 3000) |
+| `bun run build` | Production build → `dist/` |
+| `bun run preview` | Preview production build locally |
+| `bun run deploy` | Build and deploy to production with Wrangler |
+| `bun run deploy:preview -- --preview-alias pr-123` | Build and upload a PR preview version |
+| `bun run fix` | Auto-fix linting and formatting (Ultracite/Biome) |
+| `bun run check` | Lint/format check only |
+| `bun run typecheck` | TypeScript type checking (`tsc --noEmit`) |
+| `bun run ultracheck` | Fix then verify (fix + check) |
 
 <details>
 <summary><strong>npm / yarn / pnpm also work</strong></summary>
