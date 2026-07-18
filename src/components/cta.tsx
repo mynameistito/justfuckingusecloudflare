@@ -1,7 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import type React from "react";
 
-export const CTA: React.FC = () => (
+export const Cta: React.FC = () => (
   <section className="border-neutral-800 border-b bg-gradient-to-b from-neutral-900 to-neutral-950 px-6 py-24 md:py-32">
     <div className="mx-auto max-w-4xl text-center">
       <h2 className="mb-8 font-anton text-4xl text-white uppercase tracking-tight md:text-6xl lg:text-7xl">

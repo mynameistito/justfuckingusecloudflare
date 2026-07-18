@@ -52,8 +52,8 @@ export const ShareLink: React.FC = () => {
           KNOW SOMEONE WHO NEEDS <span className="text-orange-500">HELP</span>?
         </h2>
         <p className="mb-8 font-mono text-base text-neutral-400 md:text-lg">
-          Share this link with them. They'll see a personalized version just for
-          them.
+          Share this link with them. They&apos;ll see a personalized version
+          just for them.
         </p>
 
         <div className="space-y-6">
@@ -98,10 +98,10 @@ export const ShareLink: React.FC = () => {
           {previewTheirName && previewYourName && (
             <div className="rounded-lg border border-neutral-700 bg-neutral-900 p-4">
               <p className="font-mono text-neutral-400 text-sm">
-                They'll see:{" "}
+                They&apos;ll see:{" "}
                 <span className="text-orange-500">
-                  "Hey {previewTheirName}, if {previewYourName} sent you this
-                  link, you need to..."
+                  &quot;Hey {previewTheirName}, if {previewYourName} sent you
+                  this link, you need to...&quot;
                 </span>
               </p>
             </div>
