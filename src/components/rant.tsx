@@ -12,21 +12,21 @@ export const Rant: React.FC = () => {
           {to ? (
             <>
               <span className="text-orange-500">{to.toUpperCase()}</span>,
-              YOU'RE <span className="text-orange-500">FUCKING</span> KILLING ME
-              HERE
+              YOU&apos;RE <span className="text-orange-500">FUCKING</span>{" "}
+              KILLING ME HERE
             </>
           ) : (
             <>
-              YOU'RE <span className="text-orange-500">FUCKING</span> KILLING ME
-              HERE
+              YOU&apos;RE <span className="text-orange-500">FUCKING</span>{" "}
+              KILLING ME HERE
             </>
           )}
         </h2>
         <div className="space-y-6 font-mono text-base text-neutral-300 leading-relaxed md:text-lg">
           <p>
-            {to ? `${to}, y` : "Y"}ou've got Vercel for frontend, Railway for
-            backend, AWS S3 for storage, PlanetScale for DB, Redis Labs for
-            cache, Cloudinary for images, and you're paying{" "}
+            {to ? `${to}, y` : "Y"}ou&apos;ve got Vercel for frontend, Railway
+            for backend, AWS S3 for storage, PlanetScale for DB, Redis Labs for
+            cache, Cloudinary for images, and you&apos;re paying{" "}
             <strong className="text-white">
               FIVE DIFFERENT CORPORATE OVERLORDS
             </strong>{" "}

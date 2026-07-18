@@ -31,8 +31,8 @@ export const Hero: React.FC = () => {
         <p className="mx-auto mb-8 max-w-2xl font-mono text-base text-neutral-400 md:text-lg lg:text-xl">
           Stop paying{" "}
           <strong className="text-orange-500">SEVENTEEN DIFFERENT BILLS</strong>{" "}
-          for your shitty todo app. Stop pretending you're an infra genius when
-          you're just{" "}
+          for your shitty todo app. Stop pretending you&apos;re an infra genius
+          when you&apos;re just{" "}
           <strong className="text-orange-500">bleeding money</strong>.
         </p>
       </div>

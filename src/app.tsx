@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 
 import { Comparison } from "./components/comparison";
-import { CTA } from "./components/cta";
+import { Cta } from "./components/cta";
 import { Features } from "./components/features";
 import { Footer } from "./components/footer";
 import { Hero } from "./components/hero";
@@ -45,7 +45,7 @@ const HomePage: React.FC = () => {
         <Rant />
         <Comparison />
         <Features />
-        <CTA />
+        <Cta />
         <ShareLink />
         {from && <ThankYou from={from} />}
       </main>

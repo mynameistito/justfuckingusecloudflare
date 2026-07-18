@@ -14,10 +14,10 @@ export const PrivacyPolicy: React.FC = () => (
       <div className="mt-12 space-y-8 font-sans text-neutral-300">
         <section>
           <p className="mt-4 leading-relaxed">
-            Yeah we know, another goddamn wall of lawyer text. But here's the
-            deal, degenerate: This site collects basically jack shit about you.
-            We're not those creepy corporate overlords you're already running
-            from.
+            Yeah we know, another goddamn wall of lawyer text. But here&apos;s
+            the deal, degenerate: This site collects basically jack shit about
+            you. We&apos;re not those creepy corporate overlords you&apos;re
+            already running from.
           </p>
         </section>
 
@@ -44,8 +44,8 @@ export const PrivacyPolicy: React.FC = () => (
               NO names. NO emails. NO IP addresses. NO creepy account IDs. NO
               PII. PERIOD.
             </strong>{" "}
-            We're not harvesting your data to sell to the highest bidder. We
-            just want to know if anyone actually reads this manifesto or just
+            We&apos;re not harvesting your data to sell to the highest bidder.
+            We just want to know if anyone actually reads this manifesto or just
             rage-clicks away.
           </p>
         </section>
@@ -56,9 +56,10 @@ export const PrivacyPolicy: React.FC = () => (
           </h2>
           <p className="mt-4 leading-relaxed">
             Sometimes we might screenshot or tweet some high-level stats like
-            "10k degenerates visited today and didn't immediately close the
-            tab". That's it. Pure aggregated numbers. Impossible to backtrack to
-            you. No individuals harmed in the making of these shit posts.
+            &quot;10k degenerates visited today and didn&apos;t immediately
+            close the tab&quot;. That&apos;s it. Pure aggregated numbers.
+            Impossible to backtrack to you. No individuals harmed in the making
+            of these shit posts.
           </p>
         </section>
 
@@ -67,16 +68,16 @@ export const PrivacyPolicy: React.FC = () => (
             No Cookies. No Bullshit Banners.
           </h2>
           <p className="mt-4 leading-relaxed">
-            Cloudflare Web Analytics doesn't use cookies or local storage. So no
-            "ACCEPT ALL COOKIES OR WE CRY" popup. You're not being fingerprinted
-            or tracked across the internet like some normie on Google Analytics.
-            Freedom, baby.
+            Cloudflare Web Analytics doesn&apos;t use cookies or local storage.
+            So no &quot;ACCEPT ALL COOKIES OR WE CRY&quot; popup. You&apos;re
+            not being fingerprinted or tracked across the internet like some
+            normie on Google Analytics. Freedom, baby.
           </p>
         </section>
 
         <section>
           <h2 className="font-anton text-3xl text-white uppercase tracking-tight">
-            Third-Party Services (The Only Ones We Couldn't Avoid)
+            Third-Party Services (The Only Ones We Couldn&apos;t Avoid)
           </h2>
           <ul className="mt-4 ml-6 list-disc space-y-2 font-mono text-neutral-400">
             <li>
@@ -90,7 +91,8 @@ export const PrivacyPolicy: React.FC = () => (
             </li>
           </ul>
           <p className="mt-4 leading-relaxed">
-            That's literally it. No ad networks. No trackers. No pixel hell.
+            That&apos;s literally it. No ad networks. No trackers. No pixel
+            hell.
           </p>
         </section>
 
@@ -99,9 +101,9 @@ export const PrivacyPolicy: React.FC = () => (
             Data Goes Where?
           </h2>
           <p className="mt-4 leading-relaxed">
-            Cloudflare processes it, anonymizes it, aggregates it, and doesn't
-            sell it or profile you. Data stays on Cloudflare's infrastructure —
-            nowhere else.
+            Cloudflare processes it, anonymizes it, aggregates it, and
+            doesn&apos;t sell it or profile you. Data stays on Cloudflare&apos;s
+            infrastructure — nowhere else.
           </p>
         </section>
 
@@ -110,8 +112,9 @@ export const PrivacyPolicy: React.FC = () => (
             Your Rights (GDPR & Friends)
           </h2>
           <p className="mt-4 leading-relaxed">
-            Since we collect zero personal data, there's nothing for you to
-            "access, rectify, delete or rage-quit over". You win by default.
+            Since we collect zero personal data, there&apos;s nothing for you to
+            &quot;access, rectify, delete or rage-quit over&quot;. You win by
+            default.
           </p>
           <p className="mt-4 leading-relaxed">Still wanna fight the power?</p>
           <ul className="mt-4 ml-6 list-disc space-y-2 font-mono text-neutral-400">
@@ -130,8 +133,9 @@ export const PrivacyPolicy: React.FC = () => (
             </li>
           </ul>
           <p className="mt-4 leading-relaxed">
-            We're trying to stay GDPR-compliant without being annoying about it.
-            If you're in the EU, congrats — you're already safe here.
+            We&apos;re trying to stay GDPR-compliant without being annoying
+            about it. If you&apos;re in the EU, congrats — you&apos;re already
+            safe here.
           </p>
         </section>
 
@@ -173,10 +177,10 @@ export const PrivacyPolicy: React.FC = () => (
             Stop Fucking Worrying About Privacy Here.
           </p>
           <p className="mt-4 font-anton text-2xl text-white uppercase leading-relaxed tracking-tight">
-            We're Not The Villains.
+            We&apos;re Not The Villains.
           </p>
           <p className="mt-4 font-anton text-2xl text-white uppercase leading-relaxed tracking-tight">
-            We're The Ones Telling You To Stop Paying several Bills.
+            We&apos;re The Ones Telling You To Stop Paying several Bills.
           </p>
           <p className="mt-4 font-anton text-2xl text-orange-500 uppercase leading-relaxed tracking-tight">
             Just FuckingUse Cloudflare.
