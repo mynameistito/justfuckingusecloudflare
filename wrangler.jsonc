@@ -1,7 +1,9 @@
 {
+  "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "justfuckingusecloudflare",
   "compatibility_date": "2025-12-24",
   "preview_urls": true,
+  "account_id": "402722ab1f598e783cd6dcdedc37e1d0",
   "main": "./worker/index.ts",
   "assets": {
     "directory": "dist/client",
