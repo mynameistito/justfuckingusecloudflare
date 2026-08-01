@@ -1,0 +1,390 @@
+import { createContext, useContext, useEffect, useRef, useState } from "react";
+import type { Dispatch, ReactNode, SetStateAction } from "react";
+
+import type { TurnstileAction } from "../domain/turnstile";
+
+const TURNSTILE_SCRIPT_ID = "cloudflare-turnstile-script";
+const TURNSTILE_SCRIPT_URL =
+  "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+const TURNSTILE_POLL_LIMIT = 100;
+
+interface TurnstileOptions {
+  readonly sitekey: string;
+  readonly action: TurnstileAction;
+  readonly theme: "auto";
+  readonly execution: "execute";
+  readonly appearance: "interaction-only";
+  readonly callback: (token: string) => void;
+  readonly "error-callback": () => void;
+  readonly "expired-callback": () => void;
+  readonly "timeout-callback": () => void;
+}
+
+interface TurnstileApi {
+  readonly render: (
+    container: HTMLElement,
+    options: TurnstileOptions
+  ) => string;
+  readonly execute: (widgetId: string) => void;
+  readonly reset: (widgetId: string) => void;
+  readonly remove: (widgetId: string) => void;
+}
+
+declare global {
+  interface Window {
+    turnstile?: TurnstileApi;
+  }
+}
+
+type GateState =
+  | { readonly _tag: "loading" }
+  | { readonly _tag: "ready" }
+  | { readonly _tag: "challenging" }
+  | { readonly _tag: "submitting" }
+  | { readonly _tag: "error"; readonly message: string };
+
+interface TurnstileProviderProps {
+  readonly children: ReactNode;
+}
+
+interface TurnstileActionButtonProps {
+  readonly action: TurnstileAction;
+  readonly children: ReactNode;
+  readonly busyLabel: string;
+  readonly className?: string;
+  readonly disabled?: boolean;
+  readonly onVerified: (token: string) => Promise<void>;
+}
+
+type TurnstileStatus = "idle" | "loading" | "ready" | "error";
+
+const TURNSTILE_ERROR_MESSAGE =
+  "The human check could not load. Check content blockers and retry.";
+const TurnstileStatusContext = createContext<TurnstileStatus>("loading");
+const TurnstileSitekeyContext = createContext<string | null>(null);
+const missingTurnstileProvider = (): never => {
+  throw new Error("Turnstile actions must be wrapped in a TurnstileProvider.");
+};
+const TurnstileActivationContext = createContext<
+  Dispatch<SetStateAction<boolean>>
+>(() => missingTurnstileProvider());
+const TurnstileRetryContext = createContext<Dispatch<SetStateAction<number>>>(
+  () => missingTurnstileProvider()
+);
+
+const parseSitekey = (value: unknown): string | null => {
+  if (
+    typeof value !== "object" ||
+    value === null ||
+    !("sitekey" in value) ||
+    typeof value.sitekey !== "string" ||
+    value.sitekey.length === 0
+  ) {
+    return null;
+  }
+
+  return value.sitekey;
+};
+
+/** Load the public Turnstile configuration and script once for all Live Lab actions. */
+export const TurnstileProvider = ({ children }: TurnstileProviderProps) => {
+  const [activated, setActivated] = useState(false);
+  const [reloadKey, setReloadKey] = useState(0);
+  const [scriptState, setScriptState] = useState<"loading" | "ready" | "error">(
+    () =>
+      typeof window !== "undefined" && window.turnstile !== undefined
+        ? "ready"
+        : "loading"
+  );
+  const [sitekeyState, setSitekeyState] = useState<
+    | { readonly _tag: "loading" }
+    | { readonly _tag: "ready"; readonly sitekey: string }
+    | { readonly _tag: "error" }
+  >({ _tag: "loading" });
+
+  useEffect(() => {
+    if (!activated) {
+      return;
+    }
+    if (window.turnstile !== undefined) {
+      return;
+    }
+
+    const existing = document.querySelector(`#${TURNSTILE_SCRIPT_ID}`);
+    if (reloadKey > 0) {
+      existing?.remove();
+    }
+    const useExistingScript =
+      reloadKey === 0 && existing instanceof HTMLScriptElement;
+    const script = useExistingScript
+      ? existing
+      : document.createElement("script");
+    const handleLoad = (): void => setScriptState("ready");
+    const handleError = (): void => setScriptState("error");
+    const pollForApi = (): number | undefined => {
+      if (!useExistingScript) {
+        return undefined;
+      }
+
+      let attempts = 0;
+      const pollId = window.setInterval(() => {
+        if (window.turnstile !== undefined) {
+          window.clearInterval(pollId);
+          setScriptState("ready");
+        } else if ((attempts += 1) >= TURNSTILE_POLL_LIMIT) {
+          window.clearInterval(pollId);
+          setScriptState("error");
+        }
+      }, 100);
+      return pollId;
+    };
+
+    script.addEventListener("load", handleLoad);
+    script.addEventListener("error", handleError);
+    if (!useExistingScript) {
+      script.id = TURNSTILE_SCRIPT_ID;
+      script.src = TURNSTILE_SCRIPT_URL;
+      script.async = true;
+      script.defer = true;
+      document.head.insertBefore(script, null);
+    }
+    const pollId = pollForApi();
+
+    return () => {
+      script.removeEventListener("load", handleLoad);
+      script.removeEventListener("error", handleError);
+      if (pollId !== undefined) {
+        window.clearInterval(pollId);
+      }
+    };
+  }, [activated, reloadKey]);
+
+  useEffect(() => {
+    if (!activated) {
+      return;
+    }
+    const controller = new AbortController();
+    const loadConfiguration = async (): Promise<void> => {
+      try {
+        const response = await fetch("/api/demos/turnstile/config", {
+          headers: { Accept: "application/json" },
+          signal: controller.signal,
+        });
+        if (!response.ok) {
+          setSitekeyState({ _tag: "error" });
+          return;
+        }
+
+        const sitekey = parseSitekey(await response.json());
+        setSitekeyState(
+          sitekey === null ? { _tag: "error" } : { _tag: "ready", sitekey }
+        );
+      } catch (error: unknown) {
+        if (!(error instanceof DOMException && error.name === "AbortError")) {
+          setSitekeyState({ _tag: "error" });
+        }
+      }
+    };
+
+    void loadConfiguration();
+    return () => controller.abort();
+  }, [activated, reloadKey]);
+
+  let status: TurnstileStatus = "idle";
+  if (!activated) {
+    status = "idle";
+  } else if (scriptState === "error" || sitekeyState._tag === "error") {
+    status = "error";
+  } else if (scriptState === "ready" && sitekeyState._tag === "ready") {
+    status = "ready";
+  } else {
+    status = "loading";
+  }
+  const sitekey = sitekeyState._tag === "ready" ? sitekeyState.sitekey : null;
+
+  return (
+    <TurnstileStatusContext.Provider value={status}>
+      <TurnstileSitekeyContext.Provider value={sitekey}>
+        <TurnstileActivationContext.Provider value={setActivated}>
+          <TurnstileRetryContext.Provider value={setReloadKey}>
+            {children}
+          </TurnstileRetryContext.Provider>
+        </TurnstileActivationContext.Provider>
+      </TurnstileSitekeyContext.Provider>
+    </TurnstileStatusContext.Provider>
+  );
+};
+
+/** Execute and reset an isolated Turnstile widget for one protected action. */
+export const TurnstileActionButton = ({
+  action,
+  busyLabel,
+  children,
+  className = "demo-run",
+  disabled = false,
+  onVerified,
+}: TurnstileActionButtonProps) => {
+  const status = useContext(TurnstileStatusContext);
+  const sitekey = useContext(TurnstileSitekeyContext);
+  const setActivated = useContext(TurnstileActivationContext);
+  const retryTurnstile = useContext(TurnstileRetryContext);
+  const [state, setState] = useState<GateState>({ _tag: "loading" });
+  const containerRef = useRef<HTMLDivElement>(null);
+  const widgetIdRef = useRef<string | null>(null);
+  const executeOnReadyRef = useRef(false);
+  const onVerifiedRef = useRef(onVerified);
+
+  useEffect(() => {
+    onVerifiedRef.current = onVerified;
+  }, [onVerified]);
+
+  useEffect(() => {
+    let mounted = true;
+    const scheduleState = (next: GateState): void => {
+      queueMicrotask(() => {
+        if (mounted) {
+          setState(next);
+        }
+      });
+    };
+
+    if (status === "error") {
+      scheduleState({ _tag: "error", message: TURNSTILE_ERROR_MESSAGE });
+      return () => {
+        mounted = false;
+      };
+    }
+    if (status === "idle") {
+      scheduleState({ _tag: "ready" });
+      return () => {
+        mounted = false;
+      };
+    }
+    if (status !== "ready" || sitekey === null) {
+      scheduleState({ _tag: "loading" });
+      return () => {
+        mounted = false;
+      };
+    }
+
+    const api = window.turnstile;
+    const container = containerRef.current;
+    if (api === undefined || container === null) {
+      scheduleState({
+        _tag: "error",
+        message: "The human check is unavailable.",
+      });
+      return () => {
+        mounted = false;
+      };
+    }
+
+    const reset = (): void => {
+      const widgetId = widgetIdRef.current;
+      if (widgetId !== null) {
+        api.reset(widgetId);
+      }
+    };
+    const fail = (message: string): void => {
+      reset();
+      if (mounted) {
+        setState({ _tag: "error", message });
+      }
+    };
+
+    const widgetId = api.render(container, {
+      action,
+      appearance: "interaction-only",
+      callback: (token) => {
+        if (!mounted) {
+          return;
+        }
+        setState({ _tag: "submitting" });
+        const submit = async (): Promise<void> => {
+          try {
+            await onVerifiedRef.current(token);
+            reset();
+            if (mounted) {
+              setState({ _tag: "ready" });
+            }
+          } catch {
+            reset();
+            if (mounted) {
+              setState({
+                _tag: "error",
+                message: "The protected action could not be completed.",
+              });
+            }
+          }
+        };
+        void submit();
+      },
+      "error-callback": () =>
+        fail("Cloudflare could not complete the human check."),
+      execution: "execute",
+      "expired-callback": () => fail("The human check expired. Try again."),
+      sitekey,
+      theme: "auto",
+      "timeout-callback": () => fail("The human check timed out. Try again."),
+    });
+    widgetIdRef.current = widgetId;
+    if (executeOnReadyRef.current) {
+      executeOnReadyRef.current = false;
+      scheduleState({ _tag: "challenging" });
+      api.execute(widgetId);
+    } else {
+      scheduleState({ _tag: "ready" });
+    }
+
+    return () => {
+      mounted = false;
+      api.remove(widgetId);
+      widgetIdRef.current = null;
+    };
+  }, [action, sitekey, status]);
+
+  const run = (): void => {
+    if (status === "idle") {
+      executeOnReadyRef.current = true;
+      setActivated(true);
+      setState({ _tag: "challenging" });
+      return;
+    }
+    if (status === "error") {
+      executeOnReadyRef.current = true;
+      setActivated(true);
+      retryTurnstile((current) => current + 1);
+      setState({ _tag: "challenging" });
+      return;
+    }
+    const api = window.turnstile;
+    const widgetId = widgetIdRef.current;
+    if (api === undefined || widgetId === null) {
+      setState({ _tag: "error", message: "The human check is not ready yet." });
+      return;
+    }
+
+    setState({ _tag: "challenging" });
+    api.execute(widgetId);
+  };
+
+  const isBusy = state._tag === "challenging" || state._tag === "submitting";
+  return (
+    <div className="turnstile-action">
+      <div className="turnstile-widget" ref={containerRef} />
+      {state._tag === "error" ? (
+        <p className="turnstile-error" role="alert">
+          {state.message}
+        </p>
+      ) : null}
+      <button
+        className={className}
+        type="button"
+        disabled={disabled || state._tag === "loading" || isBusy}
+        onClick={run}
+      >
+        {isBusy ? busyLabel : children}
+      </button>
+    </div>
+  );
+};
