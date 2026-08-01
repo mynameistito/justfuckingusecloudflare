@@ -5,9 +5,8 @@
 		"jsx": "react-jsx",
 		"module": "es2022",
 		"moduleResolution": "Bundler",
-		"baseUrl": ".",
 		"paths": {
-			"@/*": ["src/*"]
+			"@/*": ["./src/*"]
 		},
 		"resolveJsonModule": true,
 		"noEmit": true,
