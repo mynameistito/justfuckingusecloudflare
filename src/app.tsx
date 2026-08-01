@@ -18,7 +18,7 @@ export function App() {
 		<LazyMotion features={domAnimation}>
 			<div className="page-shell">
 				<SiteHeader />
-				<main id="main-content">
+				<main>
 					<Hero />
 					<StackBuilder />
 					<PlatformExplorer />

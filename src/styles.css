@@ -135,23 +135,6 @@ img {
 	outline-offset: 4px;
 }
 
-.skip-link {
-	position: fixed;
-	top: 8px;
-	left: 8px;
-	z-index: 200;
-	padding: 12px 16px;
-	background: var(--accent);
-	color: var(--accent-ink);
-	font-weight: 700;
-	transform: translateY(-160%);
-	transition: transform 180ms ease;
-}
-
-.skip-link:focus {
-	transform: translateY(0);
-}
-
 .page-shell {
 	overflow: clip;
 }
