@@ -1,59 +1,154 @@
-import type React from "react";
+import { ArrowDown, ArrowRight } from "@phosphor-icons/react";
+import { m, useReducedMotion } from "motion/react";
+import { useEdgeContext } from "@/hooks/use-edge-context";
 
-import { usePersonalization } from "../hooks/use-personalization";
+function EdgeProof() {
+	const state = useEdgeContext();
 
-export const Hero: React.FC = () => {
-  const { to, from } = usePersonalization();
+	if (state._tag === "loading") {
+		return (
+			<div className="edge-proof" aria-live="polite">
+				<div className="edge-proof-status">
+					<span className="status-dot" aria-hidden="true" />
+					Contacting the edge
+				</div>
+				<div className="edge-proof-loading">
+					<span />
+					<span />
+					<span />
+				</div>
+			</div>
+		);
+	}
 
-  return (
-    <section className="relative min-h-screen overflow-hidden border-neutral-800 border-b bg-linear-to-b from-neutral-950 to-neutral-900 px-6 py-24 md:py-32">
-      <div className="mx-auto max-w-7xl text-center">
-        {from && (
-          <p className="mb-6 font-mono text-lg text-neutral-300 md:text-xl">
-            Hey there, if{" "}
-            <span className="font-bold text-orange-500">{from}</span> sent you
-            this link, you need to:{" "}
-          </p>
-        )}
-        <p className="mb-4 font-mono text-2xl text-orange-500 uppercase tracking-[0.4em] md:text-3xl lg:text-4xl">
-          JUST
-        </p>
-        <h1 className="mb-6 font-anton text-5xl text-white uppercase tracking-tight md:text-7xl lg:text-8xl xl:text-9xl">
-          <span className="block">FUCKING</span>
-          <span className="block text-orange-500 underline decoration-8 decoration-orange-500/20 underline-offset-8">
-            USE
-          </span>
-          <span className="block">CLOUDFLARE</span>
-          <span className="block">
-            {to ? `${to.toUpperCase()}` : "YOU DEGENERATE"}
-          </span>
-        </h1>
-        <p className="mx-auto mb-8 max-w-2xl font-mono text-base text-neutral-400 md:text-lg lg:text-xl">
-          Stop paying{" "}
-          <strong className="text-orange-500">SEVENTEEN DIFFERENT BILLS</strong>{" "}
-          for your shitty todo app. Stop pretending you&apos;re an infra genius
-          when you&apos;re just{" "}
-          <strong className="text-orange-500">bleeding money</strong>.
-        </p>
-      </div>
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <svg
-          aria-label="Scroll down"
-          className="h-8 w-8 text-orange-500 md:h-10 md:w-10"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <title>Scroll down</title>
-          <path
-            d="M19 14l-7 7m0 0l-7-7m7 7V3"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-          />
-        </svg>
-      </div>
-    </section>
-  );
-};
+	if (state._tag === "error") {
+		return (
+			<div className="edge-proof" role="status">
+				<div className="edge-proof-status">Worker proof unavailable</div>
+				<p>{state.message}</p>
+			</div>
+		);
+	}
+
+	const location =
+		state.context.city ??
+		state.context.region ??
+		state.context.country ??
+		"Cloudflare edge";
+
+	return (
+		<div className="edge-proof" aria-live="polite">
+			<div className="edge-proof-status">
+				<span className="status-dot" aria-hidden="true" />
+				Live Worker response
+			</div>
+			<dl className="edge-proof-grid">
+				<div>
+					<dt>Location</dt>
+					<dd>{location}</dd>
+				</div>
+				<div>
+					<dt>Colo</dt>
+					<dd>{state.context.colo}</dd>
+				</div>
+				<div>
+					<dt>Round trip</dt>
+					<dd>{state.roundTripMs} ms</dd>
+				</div>
+				<div>
+					<dt>Protocol</dt>
+					<dd>{state.context.httpProtocol ?? "Local HTTP"}</dd>
+				</div>
+			</dl>
+		</div>
+	);
+}
+
+/**
+ * Manifesto hero with generated network imagery and live Worker context.
+ *
+ * @returns The first viewport of the landing page.
+ */
+export function Hero() {
+	const reduceMotion = useReducedMotion();
+
+	return (
+		<section className="hero" id="top" aria-labelledby="hero-title">
+			<div className="hero-copy">
+				<m.p
+					className="eyebrow"
+					initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: reduceMotion ? 0 : 0.45 }}
+				>
+					One platform. Use the parts you need.
+				</m.p>
+				<m.h1
+					id="hero-title"
+					initial={reduceMotion ? false : { opacity: 0, y: 30 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{
+						duration: reduceMotion ? 0 : 0.75,
+						delay: reduceMotion ? 0 : 0.08,
+						ease: [0.16, 1, 0.3, 1],
+					}}
+				>
+					<span>JUST FUCKING</span>
+					<span>
+						USE <em>CLOUDFLARE.</em>
+					</span>
+				</m.h1>
+				<m.p
+					className="hero-body"
+					initial={reduceMotion ? false : { opacity: 0, y: 22 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{
+						duration: reduceMotion ? 0 : 0.65,
+						delay: reduceMotion ? 0 : 0.18,
+					}}
+				>
+					Compute, storage, security, media, and AI. Pick what you need and
+					ship the damn thing.
+				</m.p>
+				<m.div
+					className="hero-actions"
+					initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{
+						duration: reduceMotion ? 0 : 0.6,
+						delay: reduceMotion ? 0 : 0.26,
+					}}
+				>
+					<a className="button button-primary" href="#stack-builder">
+						Build your stack
+						<ArrowDown aria-hidden="true" weight="bold" />
+					</a>
+					<a className="button button-secondary" href="#platform">
+						Explore the platform
+						<ArrowRight aria-hidden="true" weight="bold" />
+					</a>
+				</m.div>
+			</div>
+
+			<m.div
+				className="hero-visual"
+				initial={reduceMotion ? false : { opacity: 0, scale: 0.97 }}
+				animate={{ opacity: 1, scale: 1 }}
+				transition={{
+					duration: reduceMotion ? 0 : 1,
+					delay: reduceMotion ? 0 : 0.12,
+					ease: [0.16, 1, 0.3, 1],
+				}}
+			>
+				<img
+					src="/art/edge-network.webp"
+					alt="A physical network of orange fiber paths converging at global routing nodes"
+					width="1600"
+					height="853"
+					fetchPriority="high"
+				/>
+				<EdgeProof />
+			</m.div>
+		</section>
+	);
+}

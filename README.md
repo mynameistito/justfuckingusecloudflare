@@ -1,159 +1,87 @@
-<div align="center">
-<img width="1200" alt="Just Fucking Use Cloudflare" src="./public/opengraph.png" />
-</div>
-
 # Just Fucking Use Cloudflare
 
-A satirical, high-performance landing page making the case for Cloudflare over multi-vendor cloud spaghetti. Add `?to=Name&from=YourName` to the URL for personalized sharing.
+An independent, developer-focused guide to choosing useful Cloudflare
+primitives. The site is a React single-page application delivered with
+Cloudflare Workers Static Assets, with a small Worker API that proves the page
+is running at the edge.
 
-> Satire and educational demo only — not official guidance from any cloud provider.
+## What is included
 
-[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://react.dev/) [![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite)](https://vitejs.dev/) [![TypeScript](https://img.shields.io/badge/TypeScript-6-3178C6?logo=typescript)](https://www.typescriptlang.org/) [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38B2AC?logo=tailwind-css)](https://tailwindcss.com/) [![Bun](https://img.shields.io/badge/Bun-1-000?logo=bun)](https://bun.sh/)
+- Interactive, deterministic Cloudflare Stack Builder
+- Versioned, shareable stack URLs
+- Job-oriented product explorer with official documentation links
+- Live, coarse `request.cf` metadata from `/api/context`
+- Click-to-run demos backed by D1, KV, private R2, Cache, and Images
+- Per-product daily usage gates coordinated by a Durable Object
+- Responsive dark and light themes
+- Original generated artwork stored in `public/art`
 
-## Quick Start
+## Local development
 
-```bash
-git clone https://github.com/mynameistito/justfuckingusecloudflare.git
-cd justfuckingusecloudflare
+```sh
 bun install
 bun run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+`bun run dev` applies the D1 migration to local storage, then the Cloudflare
+Vite plugin runs the frontend and Worker together. Wrangler simulates the
+storage bindings locally, so development does not use account resources.
 
-## Scripts
+## Free-tier guardrails
 
-| Command | What it does |
-| --- | --- |
-| `bun run dev` | Start dev server (port 3000) |
-| `bun run build` | Production build → `dist/` |
-| `bun run preview` | Preview production build locally |
-| `bun run deploy` | Build and deploy to production with Wrangler |
-| `bun run deploy:preview -- --preview-alias pr-123` | Build and upload a PR preview version |
-| `bun run fix` | Auto-fix linting and formatting (Ultracite/Biome) |
-| `bun run check` | Lint/format check only |
-| `bun run typecheck` | TypeScript type checking (`tsc --noEmit`) |
-| `bun run ultracheck` | Fix then verify (fix + check) |
+The Live Lab does no work until a visitor clicks a demo. Inputs are fixed or
+allow-listed and a strongly consistent Durable Object enforces a fresh limit
+for each demo every UTC day.
 
-<details>
-<summary><strong>npm / yarn / pnpm also work</strong></summary>
+| Demo | Hard daily limit | Public mutation surface |
+| --- | ---: | --- |
+| D1 query | 1,000 | None |
+| KV read / fixed daily seed | 100 | None |
+| R2 fixed object | 500 | None |
+| Cache API | 5,000 | None |
+| Images transform | 100 | Three allow-listed widths |
 
-```bash
-npm install && npm run dev
-yarn install && yarn dev
-pnpm install && pnpm dev
+R2 remains private and exposes only one small, fixed object through the Worker.
+The Images demo transforms a bundled static asset. Static page views continue
+to bypass the Worker, so browsing the site does not consume Worker requests.
+
+## Verification
+
+```sh
+bun run test
+bun run check
+bun run deploy:dry
 ```
 
-The project uses Bun internally (lockfile is `bun.lock`), but any package manager will do.
+Use `bun run test`, not `bun test`. The latter invokes Bun's native test runner,
+which cannot provide the `cloudflare:workers` and `cloudflare:test` modules used
+by the Worker integration tests.
 
-</details>
+`check` regenerates Worker types, type-checks the entire project, runs the test
+suite, and creates the production build.
 
-## Project Structure
+## Deployment
 
-```
-justfuckingusecloudflare/
-├── src/                    # Vite root (index.html lives here)
-│   ├── index.html           # HTML entry
-│   ├── index.tsx            # React mount point
-│   ├── index.css            # @import "tailwindcss"
-│   ├── app.tsx              # Router + HomePage composition
-│   ├── components/          # All UI components
-│   │   ├── hero.tsx         # Personalized hero banner
-│   │   ├── rant.tsx         # Satirical rant section
-│   │   ├── comparison.tsx   # AWS vs Cloudflare feature cards
-│   │   ├── features.tsx     # Cloudflare feature checklist
-│   │   ├── cta.tsx          # Call to action + signup link
-│   │   ├── share-link.tsx   # Personalized share URL generator
-│   │   ├── thank-you.tsx    # "Sent by X" attribution
-│   │   ├── privacy-policy.tsx
-│   │   └── footer.tsx
-│   └── hooks/
-│       └── use-personalization.ts  # ?to= & ?from= URL param hook
-├── worker/
-│   └── index.ts             # SPA fallback handler
-├── public/                  # Static assets (favicons, OG image, _headers, webmanifest)
-├── vite.config.ts           # Vite config (root=src, Cloudflare plugin)
-├── wrangler.jsonc            # Worker name, assets dir, routes
-├── biome.jsonc              # Ultracite/Biome linting & formatting
-└── tsconfig.json
-```
-
-> **Note:** The Vite root is `src/` — `index.html` lives inside `src/`, not the project root.
-
-## Personalization
-
-Append `?to=Name&from=YourName` to any URL to personalize the page:
-
-```
-https://justfuckingusecloudflare.com/?to=Alex&from=Sam
-```
-
-Names are trimmed and capitalized automatically via `usePersonalization`.
-
-## Deploy
-
-Deploy production with Wrangler:
-
-```bash
+```sh
 bun run deploy
 ```
 
-Create or update a PR preview with a stable alias:
+Wrangler auto-provisions the declared D1, KV, and R2 resources on first deploy.
+The deploy script then applies the remote D1 migration. Review the resource IDs
+written to `wrangler.jsonc` before treating the environment as production.
 
-```bash
-bun run deploy:preview -- --preview-alias pr-123
+The current Wrangler configuration deliberately does not claim the production
+domain. For the final cutover, add the custom domain after confirming that its
+existing apex DNS record can be replaced:
+
+```jsonc
+"routes": [
+  {
+    "pattern": "justfuckingusecloudflare.com",
+    "custom_domain": true
+  }
+]
 ```
 
-Replace `123` with the PR number. Preview URLs are served from the Workers preview URL domain, not the production custom domain.
-
-Cloudflare Workers Builds exposes `WORKERS_CI_BRANCH`, but not a PR number variable. Sanitize the branch name before using it as the preview alias:
-
-```bash
-ALIAS="$(printf '%s' "$WORKERS_CI_BRANCH" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9_-]+/-/g; s/-+/-/g; s/^-+//; s/-+$//' | cut -c1-63)" && bunx wrangler versions upload --preview-alias "${ALIAS:-preview}"
-```
-
-### Manual Deploy
-
-```bash
-bun run build
-bunx wrangler deploy
-```
-
-## Tech Stack
-
-- **React 19** — UI
-- **Vite 8** — Build tool
-- **TypeScript 6** — Type safety
-- **Tailwind CSS 4** — Styling
-- **React Router 7** — Client-side routing
-- **Lucide React** — Icons
-- **Ultracite / Biome** — Linting and formatting
-- **Lefthook** — Git hooks
-- **Cloudflare Workers** — Deployment target
-
-## Code Conventions
-
-- Named exports on all components (`export const Name: React.FC = () => ...`)
-- No barrel files, no default exports on components
-- `const` by default, `let` only for reassignment
-- `for...of` over `.forEach()`
-- `unknown` over `any`
-- No `dangerouslySetInnerHTML` or `eval()`
-
-## Contributing
-
-Open an issue, submit a PR, or just share feedback — contributions are welcome.
-
-## License
-
-See [LICENSE](./LICENSE).
-
-## Legal
-
-This is a community-built, satirical, open-source project. Not endorsed by, sponsored by, or affiliated with any of the companies mentioned.
-
-"Cloudflare" and related names are trademarks of Cloudflare, Inc. "Amazon Web Services" and "AWS" are trademarks of Amazon.com, Inc. All other product names are property of their respective owners and are used for identification and comparative purposes only.
-
-Software is provided "as is", without warranty of any kind.
-
----
+Then run the full deployment command above. This avoids replacing the existing
+site during development or review.

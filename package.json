@@ -1,52 +1,44 @@
 {
-  "name": "just-fucking-use-cloudflare",
-  "version": "0.0.0",
+  "name": "justfuckingusecloudflare",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "portless justfuckingusecloudflare vite",
     "build": "vite build",
+    "check": "bun run cf-typegen && bun run typecheck && bun run test && bun run build",
+    "db:migrate:local": "wrangler d1 migrations apply DEMO_DB --local",
+    "db:migrate:remote": "wrangler d1 migrations apply DEMO_DB --remote",
+    "deploy": "bun run check && wrangler deploy && bun run db:migrate:remote",
+    "deploy:dry": "bun run check && wrangler deploy --dry-run",
+    "dev": "bun run db:migrate:local && vite",
     "preview": "vite preview",
-    "deploy": "bun run build && wrangler deploy",
-    "deploy:preview": "bun run build && wrangler versions upload",
-    "fix": "ultracite fix",
-    "check": "ultracite check",
-    "ultracheck": "bun x ultracite fix && bun x ultracite check",
+    "start": "vite",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
-    "prepare": "lefthook install"
-  },
-  "dependencies": {
-    "@gsap/react": "^2.1.2",
-    "gsap": "^3.15.0",
-    "lucide-react": "^1.25.0",
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7",
-    "react-router-dom": "^7.18.1"
+    "cf-typegen": "wrangler types"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "^1.45.1",
-    "@tailwindcss/vite": "^4.3.3",
-    "@types/node": "^26.1.1",
-    "@types/react": "^19.2.17",
-    "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^6.0.3",
-    "lefthook": "^2.1.10",
-    "oxfmt": "^0.59.0",
-    "oxlint": "^1.74.0",
-    "tailwindcss": "^4.3.3",
+    "@cloudflare/vite-plugin": "^1.50.0",
+    "@cloudflare/vitest-pool-workers": "^0.20.1",
+    "@cloudflare/workers-types": "^5.20260801.1",
+    "@types/node": "^26.1.2",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@vitejs/plugin-react": "^6.0.5",
+    "sharp": "^0.35.3",
     "typescript": "^7.0.2",
-    "ultracite": "7.9.4",
-    "vite": "^8.1.5",
-    "wrangler": "^4.112.0"
+    "vite": "^8.2.0",
+    "vitest": "^4.1.10",
+    "wrangler": "^4.118.0"
   },
-  "overrides": {
-    "brace-expansion": "^5.0.6",
-    "esbuild": "^0.28.1",
-    "minimatch": "^10.2.3",
-    "rollup": "^4.59.0",
-    "ws": "^8.21.0"
-  },
-  "engines": {
-    "node": ">=20.11.0"
+  "dependencies": {
+    "@fontsource-variable/space-grotesk": "^5.3.0",
+    "@fontsource/barlow-condensed": "^5.3.0",
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "@phosphor-icons/react": "^2.1.10",
+    "motion": "^12.43.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
   }
 }

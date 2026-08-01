@@ -1,19 +1,63 @@
 {
-  "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "justfuckingusecloudflare",
-  "compatibility_date": "2025-12-24",
-  "preview_urls": true,
-  "account_id": "402722ab1f598e783cd6dcdedc37e1d0",
-  "main": "./worker/index.ts",
-  "assets": {
-    "directory": "dist/client",
-    "not_found_handling": "single-page-application",
-    "binding": "ASSETS",
-  },
-  "routes": [
-    {
-      "pattern": "justfuckingusecloudflare.com",
-      "custom_domain": true,
-    },
-  ],
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "justfuckingusecloudflare",
+	"account_id": "402722ab1f598e783cd6dcdedc37e1d0",
+	"main": "./worker/index.ts",
+	"compatibility_date": "2026-07-29",
+	"compatibility_flags": ["nodejs_compat"],
+	"workers_dev": true,
+	"vars": {
+		"TURNSTILE_SITEKEY": "0x4AAAAAAEDHe_7gFRNRsdEc",
+		"TURNSTILE_HOSTNAMES": "justfuckingusecloudflare.com,justfuckingusecloudflare.mynameistito.workers.dev"
+	},
+	"secrets": {
+		"required": ["TURNSTILE_SECRET"]
+	},
+	"assets": {
+		"binding": "ASSETS",
+		"not_found_handling": "single-page-application",
+		"run_worker_first": ["/api", "/api/*"]
+	},
+	"d1_databases": [
+		{
+			"binding": "DEMO_DB",
+			"database_name": "jfu-cloudflare-demos",
+			"migrations_dir": "migrations"
+		}
+	],
+	"kv_namespaces": [
+		{
+			"binding": "DEMO_KV"
+		}
+	],
+	"r2_buckets": [
+		{
+			"binding": "DEMO_R2",
+			"bucket_name": "jfu-cloudflare-demos"
+		}
+	],
+	"durable_objects": {
+		"bindings": [
+			{
+				"name": "DEMO_QUOTA",
+				"class_name": "DemoQuota"
+			}
+		]
+	},
+	"migrations": [
+		{
+			"tag": "v1",
+			"new_sqlite_classes": ["DemoQuota"]
+		}
+	],
+	"images": {
+		"binding": "IMAGES"
+	},
+	"observability": {
+		"enabled": true,
+		"logs": {
+			"head_sampling_rate": 1
+		}
+	},
+	"upload_source_maps": true
 }
