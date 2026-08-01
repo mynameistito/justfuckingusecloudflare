@@ -1,4 +1,11 @@
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useEffectEvent,
+  useRef,
+  useState,
+} from "react";
 import type { ReactNode } from "react";
 
 import type { TurnstileAction } from "../domain/turnstile";
@@ -102,6 +109,17 @@ export const TurnstileProvider = ({ children }: TurnstileProviderProps) => {
         : document.createElement("script");
     const handleLoad = (): void => setScriptState("ready");
     const handleError = (): void => setScriptState("error");
+    const pollForApi = (): number | undefined => {
+      if (!(existing instanceof HTMLScriptElement)) {
+        return undefined;
+      }
+
+      return window.setInterval(() => {
+        if (window.turnstile !== undefined) {
+          setScriptState("ready");
+        }
+      }, 100);
+    };
 
     script.addEventListener("load", handleLoad);
     script.addEventListener("error", handleError);
@@ -112,10 +130,14 @@ export const TurnstileProvider = ({ children }: TurnstileProviderProps) => {
       script.defer = true;
       document.head.insertBefore(script, null);
     }
+    const pollId = pollForApi();
 
     return () => {
       script.removeEventListener("load", handleLoad);
       script.removeEventListener("error", handleError);
+      if (pollId !== undefined) {
+        window.clearInterval(pollId);
+      }
     };
   }, []);
 
@@ -178,11 +200,7 @@ export const TurnstileActionButton = ({
   const [state, setState] = useState<GateState>({ _tag: "loading" });
   const containerRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<string | null>(null);
-  const onVerifiedRef = useRef(onVerified);
-
-  useEffect(() => {
-    onVerifiedRef.current = onVerified;
-  }, [onVerified]);
+  const submitVerified = useEffectEvent(onVerified);
 
   useEffect(() => {
     let mounted = true;
@@ -242,7 +260,7 @@ export const TurnstileActionButton = ({
         setState({ _tag: "submitting" });
         const submit = async (): Promise<void> => {
           try {
-            await onVerifiedRef.current(token);
+            await submitVerified(token);
             reset();
             if (mounted) {
               setState({ _tag: "ready" });
@@ -301,7 +319,12 @@ export const TurnstileActionButton = ({
       <button
         className={className}
         type="button"
-        disabled={disabled || state._tag === "loading" || isBusy}
+        disabled={
+          disabled ||
+          state._tag === "error" ||
+          state._tag === "loading" ||
+          isBusy
+        }
         onClick={run}
       >
         {isBusy ? busyLabel : children}

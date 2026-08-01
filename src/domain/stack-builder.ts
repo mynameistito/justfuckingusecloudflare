@@ -334,8 +334,7 @@ export const parseStackHash = (
     };
   }
 
-  const needValues =
-    needsValue === "" ? [] : needsValue.split(",").filter(Boolean);
+  const needValues = needsValue === "" ? [] : needsValue.split(",");
   if (needValues.length > NEED_OPTIONS.length || !needValues.every(isNeedId)) {
     return {
       _tag: "err",

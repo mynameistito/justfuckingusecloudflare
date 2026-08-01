@@ -142,12 +142,15 @@ const ProtectedDownload = ({
   const [status, setStatus] = useState<
     "idle" | "downloading" | "ready" | "error"
   >("idle");
+  const [error, setError] = useState<string | null>(null);
 
   const download = async (token: string): Promise<void> => {
     setStatus("downloading");
+    setError(null);
     try {
       const response = await fetch(href, turnstileRequest(token));
       if (!response.ok) {
+        setError(await readError(response));
         setStatus("error");
         return;
       }
@@ -156,10 +159,14 @@ const ProtectedDownload = ({
       const anchor = document.createElement("a");
       anchor.href = objectUrl;
       anchor.download = "cloudflare-primitives.json";
+      // oxlint-disable-next-line unicorn/prefer-modern-dom-apis -- Worker type globals shadow HTMLElement.append in the shared TypeScript program.
+      document.body.insertAdjacentElement("beforeend", anchor);
       anchor.click();
-      URL.revokeObjectURL(objectUrl);
+      anchor.remove();
+      setTimeout(() => URL.revokeObjectURL(objectUrl), 0);
       setStatus("ready");
     } catch {
+      setError("The protected download is unreachable right now.");
       setStatus("error");
     }
   };
@@ -178,7 +185,7 @@ const ProtectedDownload = ({
       </TurnstileActionButton>
       {status === "error" ? (
         <p className="artifact-error" role="alert">
-          The protected download failed.
+          {error ?? "The protected download failed."}
         </p>
       ) : null}
     </>
@@ -400,7 +407,7 @@ const HumanProofDemo = () => {
 type ImageState =
   | { readonly _tag: "idle" }
   | { readonly _tag: "loading" }
-  | { readonly _tag: "ready"; readonly src: string }
+  | { readonly _tag: "ready"; readonly src: string; readonly width: number }
   | { readonly _tag: "error"; readonly message: string };
 
 const ImagesDemo = () => {
@@ -431,6 +438,7 @@ const ImagesDemo = () => {
       setState({
         _tag: "ready",
         src: URL.createObjectURL(await response.blob()),
+        width,
       });
     } catch {
       setState({
@@ -514,11 +522,11 @@ const ImagesDemo = () => {
             <>
               <img
                 src={state.src}
-                alt={`Cloudflare platform artwork transformed to ${width} pixels wide`}
+                alt={`Cloudflare platform artwork transformed to ${state.width} pixels wide`}
               />
               <span className="image-ready">
                 <CheckCircle aria-hidden="true" weight="fill" />
-                {width}px WebP ready
+                {state.width}px WebP ready
               </span>
             </>
           ) : null}

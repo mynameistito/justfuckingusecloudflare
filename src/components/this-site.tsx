@@ -80,7 +80,7 @@ export const ThisSite = () => (
     </div>
 
     <MotionReveal className="final-cta">
-      <h2>NOW BUILD THE FUCKING THING.</h2>
+      <p className="final-cta-headline">NOW BUILD THE FUCKING THING.</p>
       <p>Pick the primitives, read the docs, and ship.</p>
       <div className="final-actions">
         <a className="button button-primary" href="#stack-builder">

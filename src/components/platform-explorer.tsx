@@ -1,3 +1,4 @@
+/* oxlint-disable jsx-a11y/prefer-tag-over-role -- Product categories are buttons, not form controls. */
 import {
   ArrowSquareOut,
   Brain,
@@ -9,9 +10,8 @@ import {
 import { useState } from "react";
 
 import { MotionReveal } from "@/components/motion-reveal";
-
-import { PRODUCT_GROUPS, PRODUCTS } from "../content/products";
-import type { ProductGroupId } from "../content/products";
+import { PRODUCT_GROUPS, PRODUCTS } from "@/content/products";
+import type { ProductGroupId } from "@/content/products";
 
 const GroupIcon = ({ groupId }: { readonly groupId: ProductGroupId }) => {
   switch (groupId) {
@@ -66,7 +66,11 @@ export const PlatformExplorer = () => {
       </MotionReveal>
 
       <MotionReveal className="platform-explorer" delay={0.08}>
-        <fieldset className="group-tabs" aria-label="Product categories">
+        <div
+          className="group-tabs"
+          role="group"
+          aria-label="Product categories"
+        >
           {PRODUCT_GROUPS.map((candidate) => (
             <button
               type="button"
@@ -83,7 +87,7 @@ export const PlatformExplorer = () => {
               <span>{candidate.name}</span>
             </button>
           ))}
-        </fieldset>
+        </div>
 
         <div
           className="platform-products"
@@ -120,3 +124,4 @@ export const PlatformExplorer = () => {
     </section>
   );
 };
+/* oxlint-enable jsx-a11y/prefer-tag-over-role */

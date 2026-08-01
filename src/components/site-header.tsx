@@ -1,10 +1,16 @@
 import { ArrowUpRight, List, Moon, Sun, X } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
+import type { MouseEvent } from "react";
 
 type Theme = "light" | "dark";
 
 const getInitialTheme = (): Theme => {
-  const savedTheme = window.localStorage.getItem("jfu-theme");
+  let savedTheme: string | null = null;
+  try {
+    savedTheme = window.localStorage.getItem("jfu-theme");
+  } catch {
+    // Storage can be disabled by browser privacy settings.
+  }
   if (savedTheme === "light" || savedTheme === "dark") {
     return savedTheme;
   }
@@ -25,10 +31,40 @@ export const SiteHeader = () => {
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
-    window.localStorage.setItem("jfu-theme", theme);
+    try {
+      window.localStorage.setItem("jfu-theme", theme);
+    } catch {
+      // Theme selection remains available without persistence.
+    }
   }, [theme]);
 
+  useEffect(() => {
+    const closeForDesktop = (): void => {
+      if (window.innerWidth > 768) {
+        setMenuOpen(false);
+      }
+    };
+    const closeOnEscape = (event: KeyboardEvent): void => {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", closeOnEscape);
+    window.addEventListener("resize", closeForDesktop);
+    return () => {
+      window.removeEventListener("keydown", closeOnEscape);
+      window.removeEventListener("resize", closeForDesktop);
+    };
+  }, []);
+
   const closeMenu = () => setMenuOpen(false);
+  const scrollToSection = (event: MouseEvent<HTMLAnchorElement>): void => {
+    event.preventDefault();
+    const id = event.currentTarget.hash.slice(1);
+    document.querySelector(`#${id}`)?.scrollIntoView();
+    closeMenu();
+  };
 
   return (
     <header className="site-header">
@@ -36,6 +72,7 @@ export const SiteHeader = () => {
         className="brand-mark"
         href="#top"
         aria-label="Just Fucking Use Cloudflare home"
+        onClick={scrollToSection}
       >
         <span>JFU</span>
         <strong>CF</strong>
@@ -46,19 +83,19 @@ export const SiteHeader = () => {
         id="primary-navigation"
         aria-label="Primary"
       >
-        <a href="#stack-builder" onClick={closeMenu}>
+        <a href="#stack-builder" onClick={scrollToSection}>
           Stack Builder
         </a>
-        <a href="#platform" onClick={closeMenu}>
+        <a href="#platform" onClick={scrollToSection}>
           Platform
         </a>
-        <a href="#live-lab" onClick={closeMenu}>
+        <a href="#live-lab" onClick={scrollToSection}>
           Live Lab
         </a>
-        <a href="#architecture" onClick={closeMenu}>
+        <a href="#architecture" onClick={scrollToSection}>
           Architecture
         </a>
-        <a href="#this-site" onClick={closeMenu}>
+        <a href="#this-site" onClick={scrollToSection}>
           This Site
         </a>
         <a

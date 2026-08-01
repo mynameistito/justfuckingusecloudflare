@@ -57,6 +57,11 @@ const parseQuota = (value: unknown): DemoQuotaReceipt | null => {
     !isRecord(value) ||
     typeof value.used !== "number" ||
     typeof value.limit !== "number" ||
+    !Number.isSafeInteger(value.used) ||
+    !Number.isSafeInteger(value.limit) ||
+    value.used < 0 ||
+    value.limit < 1 ||
+    value.used > value.limit ||
     typeof value.resetAt !== "string"
   ) {
     return null;
@@ -100,7 +105,7 @@ const parseReceipt = (value: unknown): DemoReceipt | null => {
 const parseArtifact = (value: unknown): DemoArtifact | null => {
   if (
     !isRecord(value) ||
-    typeof value.href !== "string" ||
+    value.href !== "/api/demos/r2/download" ||
     typeof value.label !== "string"
   ) {
     return null;

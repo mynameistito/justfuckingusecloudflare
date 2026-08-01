@@ -100,11 +100,14 @@ export const StackBuilder = () => {
     initialStack._tag === "ready" ? initialStack.value.depth : "essentials"
   );
   const [copyState, setCopyState] = useState<CopyState>("idle");
-  let sharedNotice: string | null = null;
+  let sharedNotice: {
+    readonly message: string;
+    readonly variant: "ready" | "error";
+  } | null = null;
   if (initialStack._tag === "error") {
-    sharedNotice = initialStack.message;
+    sharedNotice = { message: initialStack.message, variant: "error" };
   } else if (initialStack._tag === "ready") {
-    sharedNotice = "Shared architecture loaded.";
+    sharedNotice = { message: "Shared architecture loaded.", variant: "ready" };
   }
 
   useEffect(() => {
@@ -177,12 +180,12 @@ export const StackBuilder = () => {
 
       {sharedNotice === null ? null : (
         <output className="builder-notice" aria-live="polite">
-          {sharedNotice.startsWith("Shared") ? (
+          {sharedNotice.variant === "ready" ? (
             <CheckCircle aria-hidden="true" weight="fill" />
           ) : (
             <Warning aria-hidden="true" weight="fill" />
           )}
-          {sharedNotice}
+          {sharedNotice.message}
         </output>
       )}
 
@@ -356,10 +359,16 @@ export const StackBuilder = () => {
         </aside>
       </div>
       {buildType === null ? null : (
-        <a className="mobile-result-jump" href="#stack-result">
+        <button
+          className="mobile-result-jump"
+          type="button"
+          onClick={() =>
+            document.querySelector("#stack-result")?.scrollIntoView()
+          }
+        >
           View {recommendations.length} product
           {recommendations.length === 1 ? "" : "s"} in your stack
-        </a>
+        </button>
       )}
     </section>
   );

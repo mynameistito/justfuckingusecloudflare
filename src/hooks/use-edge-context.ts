@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * Privacy-conscious edge context returned by the Worker.
@@ -19,6 +19,7 @@ export interface EdgeContext {
  * Complete state cycle for the live Worker proof panel.
  */
 export type EdgeContextState =
+  | { readonly _tag: "idle" }
   | { readonly _tag: "loading" }
   | {
       readonly _tag: "ready";
@@ -67,19 +68,29 @@ const parseEdgeContext = (value: unknown): EdgeContext | null => {
  *
  * @returns Loading, ready, or error state for the proof panel.
  */
-export const useEdgeContext = (): EdgeContextState => {
-  const [state, setState] = useState<EdgeContextState>({ _tag: "loading" });
+export const useEdgeContext = (): {
+  readonly state: EdgeContextState;
+  readonly load: () => void;
+} => {
+  const [state, setState] = useState<EdgeContextState>({ _tag: "idle" });
+  const controllerRef = useRef<AbortController | null>(null);
 
-  useEffect(() => {
+  useEffect(() => () => controllerRef.current?.abort(), []);
+
+  const load = (): void => {
+    controllerRef.current?.abort();
     const controller = new AbortController();
+    const timeout = AbortSignal.timeout(8000);
+    controllerRef.current = controller;
+    setState({ _tag: "loading" });
 
-    const load = async (): Promise<void> => {
+    const fetchContext = async (): Promise<void> => {
       const startedAt = performance.now();
 
       try {
         const response = await fetch("/api/context", {
           headers: { Accept: "application/json" },
-          signal: controller.signal,
+          signal: AbortSignal.any([controller.signal, timeout]),
         });
         if (!response.ok) {
           setState({
@@ -104,21 +115,22 @@ export const useEdgeContext = (): EdgeContextState => {
           context,
           roundTripMs: Math.max(1, Math.round(performance.now() - startedAt)),
         });
-      } catch (error: unknown) {
-        if (error instanceof DOMException && error.name === "AbortError") {
+      } catch {
+        if (controller.signal.aborted) {
           return;
         }
 
         setState({
           _tag: "error",
-          message: "Live edge details are unavailable right now.",
+          message: timeout.aborted
+            ? "The edge proof timed out. Try again."
+            : "Live edge details are unavailable right now.",
         });
       }
     };
 
-    void load();
-    return () => controller.abort();
-  }, []);
+    void fetchContext();
+  };
 
-  return state;
+  return { load, state };
 };

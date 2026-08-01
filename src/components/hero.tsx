@@ -4,7 +4,18 @@ import { m, useReducedMotion } from "motion/react";
 import { useEdgeContext } from "@/hooks/use-edge-context";
 
 const EdgeProof = () => {
-  const state = useEdgeContext();
+  const { load, state } = useEdgeContext();
+
+  if (state._tag === "idle") {
+    return (
+      <div className="edge-proof">
+        <div className="edge-proof-status">Live edge proof is ready.</div>
+        <button className="text-link" type="button" onClick={load}>
+          Check this request
+        </button>
+      </div>
+    );
+  }
 
   if (state._tag === "loading") {
     return (
@@ -27,6 +38,9 @@ const EdgeProof = () => {
       <div className="edge-proof" aria-live="polite">
         <div className="edge-proof-status">Worker proof unavailable</div>
         <p>{state.message}</p>
+        <button className="text-link" type="button" onClick={load}>
+          Try again
+        </button>
       </div>
     );
   }

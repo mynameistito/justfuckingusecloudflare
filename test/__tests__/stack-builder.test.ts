@@ -69,6 +69,7 @@ describe("share fragments", () => {
 
   it("rejects unknown jobs and oversized input", () => {
     expect(parseStackHash("#stack=v1:api:essentials:unknown")._tag).toBe("err");
+    expect(parseStackHash("#stack=v2:api:essentials:")._tag).toBe("err");
     expect(parseStackHash(`#stack=${"x".repeat(400)}`)._tag).toBe("err");
     expect(parseStackHash("#stack=v1:api:essentials::suffix")._tag).toBe("err");
   });

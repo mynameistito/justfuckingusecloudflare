@@ -8,7 +8,7 @@
     "check": "ultracite check",
     "db:migrate:local": "wrangler d1 migrations apply DEMO_DB --local",
     "db:migrate:remote": "wrangler d1 migrations apply DEMO_DB --remote",
-    "deploy": "bun run check && wrangler deploy && bun run db:migrate:remote",
+    "deploy": "bun run check && bun run build && bun run db:migrate:remote && wrangler deploy",
     "deploy:dry": "bun run check && wrangler deploy --dry-run",
     "dev": "bun run db:migrate:local && vite",
     "preview": "vite preview",

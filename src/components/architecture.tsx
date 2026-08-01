@@ -68,33 +68,31 @@ export const Architecture = () => (
         </p>
       </MotionReveal>
 
-      <div className="request-flow">
+      <ol className="request-flow">
         {FLOW.map((item, index) => {
           const Icon = item.icon;
           return (
-            <MotionReveal
-              className="flow-node"
-              delay={index * 0.05}
-              key={item.name}
-            >
-              <div className="flow-icon">
-                <Icon aria-hidden="true" weight="duotone" />
-              </div>
-              <div>
-                <strong>{item.name}</strong>
-                <p>{item.description}</p>
-              </div>
-              {index < FLOW.length - 1 ? (
-                <ArrowDown
-                  className="flow-arrow"
-                  aria-hidden="true"
-                  weight="bold"
-                />
-              ) : null}
-            </MotionReveal>
+            <li key={item.name}>
+              <MotionReveal className="flow-node" delay={index * 0.05}>
+                <div className="flow-icon">
+                  <Icon aria-hidden="true" weight="duotone" />
+                </div>
+                <div>
+                  <strong>{item.name}</strong>
+                  <p>{item.description}</p>
+                </div>
+                {index < FLOW.length - 1 ? (
+                  <ArrowDown
+                    className="flow-arrow"
+                    aria-hidden="true"
+                    weight="bold"
+                  />
+                ) : null}
+              </MotionReveal>
+            </li>
           );
         })}
-      </div>
+      </ol>
     </div>
   </section>
 );

@@ -17,8 +17,11 @@ import { ThisSite } from "@/components/this-site";
 export const App = () => (
   <LazyMotion features={domAnimation}>
     <div className="page-shell">
+      <a className="skip-link" href="#main-content">
+        Skip to main content
+      </a>
       <SiteHeader />
-      <main>
+      <main id="main-content">
         <Hero />
         <StackBuilder />
         <PlatformExplorer />

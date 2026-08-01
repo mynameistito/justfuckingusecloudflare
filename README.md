@@ -46,7 +46,7 @@ bun run deploy:dry
 
 Use `bun run test`, not `bun test`. The latter invokes Bun's native test runner, which cannot provide the `cloudflare:workers` and `cloudflare:test` modules used by the Worker integration tests.
 
-`check` regenerates Worker types, type-checks the entire project, runs the test suite, and creates the production build.
+`check` verifies formatting and lint rules with Ultracite. Run `bun run typecheck`, `bun run test`, and `bun run build` when those checks are needed.
 
 ## Deployment
 
@@ -54,7 +54,7 @@ Use `bun run test`, not `bun test`. The latter invokes Bun's native test runner,
 bun run deploy
 ```
 
-Wrangler auto-provisions the declared D1, KV, and R2 resources on first deploy. The deploy script then applies the remote D1 migration. Review the resource IDs written to `wrangler.jsonc` before treating the environment as production.
+Wrangler auto-provisions the declared D1, KV, and R2 resources on first deploy. The deploy script builds the site and applies remote D1 migrations before deploying the Worker. Review the resource IDs written to `wrangler.jsonc` before treating the environment as production.
 
 The current Wrangler configuration deliberately does not claim the production domain. For the final cutover, add the custom domain after confirming that its existing apex DNS record can be replaced:
 
