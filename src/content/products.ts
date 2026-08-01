@@ -304,6 +304,3 @@ export const PRODUCTS: readonly Product[] = [
 /**
  * Fast product lookup keyed by stable product ID.
  */
-export const PRODUCTS_BY_ID: ReadonlyMap<ProductId, Product> = new Map(
-  PRODUCTS.map((product) => [product.id, product])
-);

@@ -9,15 +9,25 @@ STOP. Your knowledge of Cloudflare Workers APIs and limits may be outdated. Alwa
 
 For all limits and quotas, retrieve from the product's `/platform/limits/` page. eg. `/workers/platform/limits`
 
-## Commands
+## Project Commands
 
-| Command               | Purpose                   |
-| --------------------- | ------------------------- |
-| `npx wrangler dev`    | Local development         |
-| `npx wrangler deploy` | Deploy to Cloudflare      |
-| `npx wrangler types`  | Generate TypeScript types |
+| Command              | Purpose                                       |
+| -------------------- | --------------------------------------------- |
+| `bun run dev`        | Apply local D1 migrations and serve the app   |
+| `bun run check`      | Check formatting and lint rules               |
+| `bun run typecheck`  | Type-check the project                        |
+| `bun run test`       | Run the Cloudflare Worker integration tests   |
+| `bun run build`      | Create the production Worker and client build |
+| `bun run deploy:dry` | Validate a deploy before publishing           |
+| `bun run deploy`     | Build, migrate remote D1, then deploy         |
 
-Run `wrangler types` after changing bindings in wrangler.jsonc.
+Run `bun run cf-typegen` after changing bindings in `wrangler.jsonc`. Before deployment, run `bun run check`, `bun run test`, and `bun run deploy:dry`. Do not add the production custom domain to `wrangler.jsonc` before the final DNS cutover.
+
+## Boundaries
+
+- Keep live demos bounded to allow-listed inputs and per-demo Durable Object quotas.
+- R2 remains private; do not add public buckets, uploads, or public mutation routes.
+- D1, KV, R2, Images, and the DemoQuota Durable Object are the deployed bindings; update migrations before introducing database reads.
 
 ## Node.js Compatibility
 

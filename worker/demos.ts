@@ -264,6 +264,10 @@ const d1Demo = async (context: DemoContext): Promise<Response> => {
           label: first?.name ?? "First record",
           value: first?.job ?? "No seeded row",
         },
+        {
+          label: "Free allowance",
+          value: first?.free_allowance ?? "No seeded allowance",
+        },
       ]
     );
   } catch (error: unknown) {
