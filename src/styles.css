@@ -68,26 +68,6 @@
   --shadow: 0 28px 90px rgb(56 43 24 / 14%);
 }
 
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --bg: #0c0c0b;
-  --bg-soft: #11110f;
-  --surface: #171714;
-  --surface-raised: #1d1d19;
-  --surface-strong: #141411;
-  --text: #f2efe7;
-  --muted: #aaa69b;
-  --faint: #8c887e;
-  --line: rgb(242 239 231 / 14%);
-  --line-strong: rgb(242 239 231 / 28%);
-  --accent: #f48120;
-  --accent-hover: #ff963d;
-  --accent-ink: #171008;
-  --focus: #ffad66;
-  --header-bg: rgb(12 12 11 / 82%);
-  --shadow: 0 28px 90px rgb(0 0 0 / 34%);
-}
-
 * {
   box-sizing: border-box;
 }
@@ -682,6 +662,7 @@ img {
   background: var(--surface);
 }
 
+.build-type input,
 .need-option input,
 .depth-option input {
   position: absolute;
@@ -691,6 +672,7 @@ img {
   opacity: 0;
 }
 
+.build-type:has(input:focus-visible),
 .need-option:has(input:focus-visible),
 .depth-option:has(input:focus-visible) {
   outline: 3px solid var(--focus);

@@ -600,6 +600,23 @@ export const handleDemoRequest = async (
         reason: verification.reason,
       })
     );
+    if (verification.reason === "siteverify_unavailable") {
+      return context.json(
+        {
+          error:
+            "Human verification is temporarily unavailable. Try again shortly.",
+        },
+        503,
+        { "Retry-After": "60" }
+      );
+    }
+    if (verification.reason === "invalid_configuration") {
+      return context.json(
+        { error: "Human verification is temporarily unavailable." },
+        503,
+        { "Retry-After": "60" }
+      );
+    }
     return context.json(
       {
         error:

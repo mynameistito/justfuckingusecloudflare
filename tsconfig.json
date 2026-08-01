@@ -32,6 +32,8 @@
     "src/**/*.tsx",
     "worker/**/*.ts",
     "test/**/*.ts",
-    "vite.config.ts"
+    "vite.config.ts",
+    "vitest.config.mts",
+    "oxlint.config.ts"
   ]
 }

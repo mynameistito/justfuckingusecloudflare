@@ -1,6 +1,6 @@
 pre-commit:
   jobs:
-    - run: bun x ultracite fix {staged_files}
+    - run: bun run fix {staged_files}
       glob:
         - "**/*.js"
         - "**/*.jsx"

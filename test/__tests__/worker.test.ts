@@ -4,12 +4,13 @@ import {
   waitOnExecutionContext,
 } from "cloudflare:test";
 import { exports } from "cloudflare:workers";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { TURNSTILE_ACTIONS } from "../../src/domain/turnstile";
 import type { TurnstileAction } from "../../src/domain/turnstile";
 import { toEdgeContext } from "../../worker/edge-context";
 import { handleRequest } from "../../worker/index";
+import { verifyTurnstileRequest } from "../../worker/turnstile";
 import type { TurnstileVerifier } from "../../worker/turnstile";
 
 const verifierFor =
@@ -43,6 +44,91 @@ const protectedFetch = async (
   await waitOnExecutionContext(ctx);
   return response;
 };
+
+const verifiedSiteverifyResponse = (action: TurnstileAction): Response =>
+  Response.json({
+    action,
+    hostname: "justfuckingusecloudflare.com",
+    success: true,
+  });
+
+const turnstileRequest = (): Request =>
+  new Request("https://justfuckingusecloudflare.com/api/demos/r2", {
+    body: JSON.stringify({ turnstileToken: "test-token" }),
+    headers: { "Content-Type": "application/json" },
+    method: "POST",
+  });
+
+describe("Turnstile verification", () => {
+  afterEach(() => vi.restoreAllMocks());
+
+  it("accepts a valid JSON body without Content-Length", async () => {
+    const siteverify = vi
+      .spyOn(globalThis, "fetch")
+      .mockResolvedValue(verifiedSiteverifyResponse(TURNSTILE_ACTIONS.r2));
+
+    const result = await verifyTurnstileRequest(
+      turnstileRequest(),
+      env,
+      TURNSTILE_ACTIONS.r2
+    );
+
+    expect(result._tag).toBe("verified");
+    expect(siteverify).toHaveBeenCalledOnce();
+  });
+
+  it("rejects malformed input before calling Siteverify", async () => {
+    const siteverify = vi.spyOn(globalThis, "fetch");
+
+    const result = await verifyTurnstileRequest(
+      new Request("https://justfuckingusecloudflare.com/api/demos/r2", {
+        body: "not-json",
+        headers: { "Content-Type": "application/json" },
+        method: "POST",
+      }),
+      env,
+      TURNSTILE_ACTIONS.r2
+    );
+
+    expect(result).toStrictEqual({
+      _tag: "rejected",
+      reason: "invalid_request",
+    });
+    expect(siteverify).not.toHaveBeenCalled();
+  });
+
+  it("rejects unavailable Siteverify and mismatched action or hostname", async () => {
+    const siteverify = vi.spyOn(globalThis, "fetch");
+    siteverify.mockRejectedValueOnce(new Error("offline"));
+    siteverify.mockResolvedValueOnce(
+      Response.json({
+        action: TURNSTILE_ACTIONS.d1,
+        hostname: "justfuckingusecloudflare.com",
+        success: true,
+      })
+    );
+    siteverify.mockResolvedValueOnce(
+      Response.json({
+        action: TURNSTILE_ACTIONS.r2,
+        hostname: "unexpected.example.com",
+        success: true,
+      })
+    );
+
+    await expect(
+      verifyTurnstileRequest(turnstileRequest(), env, TURNSTILE_ACTIONS.r2)
+    ).resolves.toStrictEqual({
+      _tag: "rejected",
+      reason: "siteverify_unavailable",
+    });
+    await expect(
+      verifyTurnstileRequest(turnstileRequest(), env, TURNSTILE_ACTIONS.r2)
+    ).resolves.toStrictEqual({ _tag: "rejected", reason: "action_mismatch" });
+    await expect(
+      verifyTurnstileRequest(turnstileRequest(), env, TURNSTILE_ACTIONS.r2)
+    ).resolves.toStrictEqual({ _tag: "rejected", reason: "hostname_mismatch" });
+  });
+});
 
 describe("edge context projection", () => {
   it("returns explicit local fallbacks when Cloudflare metadata is unavailable", () => {
@@ -233,7 +319,7 @@ describe("Worker API", () => {
       }),
       env,
       createExecutionContext(),
-      verifierFor(TURNSTILE_ACTIONS.d1)
+      () => Promise.resolve({ _tag: "rejected", reason: "challenge_rejected" })
     );
 
     expect(response.status).toBe(403);

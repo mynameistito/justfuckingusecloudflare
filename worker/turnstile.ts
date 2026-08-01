@@ -45,7 +45,9 @@ const isRecord = (value: unknown): value is Readonly<Record<string, unknown>> =>
   typeof value === "object" && value !== null;
 
 const isLocalHostname = (hostname: string): boolean =>
-  hostname === "localhost" || hostname === "127.0.0.1";
+  hostname === "localhost" ||
+  hostname === "127.0.0.1" ||
+  hostname === "0.0.0.0";
 
 const parseToken = (value: unknown): string | null => {
   if (
@@ -78,15 +80,19 @@ const readToken = async (request: Request): Promise<string | null> => {
   const contentLength = Number(contentLengthHeader);
   if (
     !contentType.toLowerCase().startsWith("application/json") ||
-    contentLengthHeader === null ||
-    !Number.isFinite(contentLength) ||
-    contentLength > MAX_REQUEST_LENGTH
+    (contentLengthHeader !== null &&
+      Number.isSafeInteger(contentLength) &&
+      contentLength > MAX_REQUEST_LENGTH)
   ) {
     return null;
   }
 
   try {
-    const value: unknown = await request.json();
+    const body = await request.text();
+    if (new TextEncoder().encode(body).byteLength > MAX_REQUEST_LENGTH) {
+      return null;
+    }
+    const value: unknown = JSON.parse(body);
     return parseToken(value);
   } catch {
     return null;
@@ -99,7 +105,12 @@ const parseExpectedHostnames = (
 ): ReadonlySet<string> => {
   const requestHostname = new URL(request.url).hostname;
   if (isLocalHostname(requestHostname)) {
-    return new Set(["localhost", "127.0.0.1", "dummy-test-hostname"]);
+    return new Set([
+      "localhost",
+      "127.0.0.1",
+      "0.0.0.0",
+      "dummy-test-hostname",
+    ]);
   }
 
   return new Set(

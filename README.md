@@ -54,7 +54,7 @@ Use `bun run test`, not `bun test`. The latter invokes Bun's native test runner,
 bun run deploy
 ```
 
-Wrangler auto-provisions the declared D1, KV, and R2 resources on first deploy. The deploy script builds the site and applies remote D1 migrations before deploying the Worker. Review the resource IDs written to `wrangler.jsonc` before treating the environment as production.
+The configured KV namespace and R2 bucket must exist before deployment. Wrangler auto-provisions the D1 database on the first deploy, then the deploy script applies its remote migrations. Review the generated D1 ID in `wrangler.jsonc` before treating the environment as production.
 
 The current Wrangler configuration deliberately does not claim the production domain. For the final cutover, add the custom domain after confirming that its existing apex DNS record can be replaced:
 

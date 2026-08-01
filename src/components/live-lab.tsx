@@ -135,9 +135,11 @@ const turnstileRequest = (token: string): RequestInit => ({
 const ProtectedDownload = ({
   href,
   label,
+  onQuotaUsed,
 }: {
   readonly href: string;
   readonly label: string;
+  readonly onQuotaUsed: (used: number) => void;
 }) => {
   const [status, setStatus] = useState<
     "idle" | "downloading" | "ready" | "error"
@@ -153,6 +155,12 @@ const ProtectedDownload = ({
         setError(await readError(response));
         setStatus("error");
         return;
+      }
+
+      const limit = Number(response.headers.get("X-Demo-Quota-Limit"));
+      const remaining = Number(response.headers.get("X-Demo-Quota-Remaining"));
+      if (Number.isSafeInteger(limit) && Number.isSafeInteger(remaining)) {
+        onQuotaUsed(limit - remaining);
       }
 
       const objectUrl = URL.createObjectURL(await response.blob());
@@ -223,6 +231,23 @@ const DemoCard = ({ demo }: { readonly demo: DemoDefinition }) => {
     }
   };
 
+  const updateQuotaUsed = (used: number): void => {
+    setState((current) =>
+      current._tag === "ready"
+        ? {
+            ...current,
+            result: {
+              ...current.result,
+              receipt: {
+                ...current.result.receipt,
+                quota: { ...current.result.receipt.quota, used },
+              },
+            },
+          }
+        : current
+    );
+  };
+
   return (
     <article className="demo-card">
       <div className="demo-card-heading">
@@ -282,6 +307,7 @@ const DemoCard = ({ demo }: { readonly demo: DemoDefinition }) => {
               <ProtectedDownload
                 href={state.result.artifact.href}
                 label={state.result.artifact.label}
+                onQuotaUsed={updateQuotaUsed}
               />
             )}
           </div>
@@ -478,6 +504,7 @@ const ImagesDemo = () => {
                 className={width === candidate ? "is-active" : ""}
                 key={candidate}
                 onClick={() => setWidth(candidate)}
+                disabled={state._tag === "loading"}
               >
                 {candidate}px
               </button>

@@ -84,6 +84,9 @@ export const useEdgeContext = (): {
     controllerRef.current = controller;
     setState({ _tag: "loading" });
 
+    const isCurrentRequest = (): boolean =>
+      controllerRef.current === controller && !controller.signal.aborted;
+
     const fetchContext = async (): Promise<void> => {
       const startedAt = performance.now();
 
@@ -92,7 +95,7 @@ export const useEdgeContext = (): {
           headers: { Accept: "application/json" },
           signal: AbortSignal.any([controller.signal, timeout]),
         });
-        if (!response.ok) {
+        if (!response.ok && isCurrentRequest()) {
           setState({
             _tag: "error",
             message: "The edge proof endpoint did not answer.",
@@ -103,20 +106,24 @@ export const useEdgeContext = (): {
         const payload: unknown = await response.json();
         const context = parseEdgeContext(payload);
         if (context === null) {
-          setState({
-            _tag: "error",
-            message: "The edge returned an unexpected response.",
-          });
+          if (isCurrentRequest()) {
+            setState({
+              _tag: "error",
+              message: "The edge returned an unexpected response.",
+            });
+          }
           return;
         }
 
-        setState({
-          _tag: "ready",
-          context,
-          roundTripMs: Math.max(1, Math.round(performance.now() - startedAt)),
-        });
+        if (isCurrentRequest()) {
+          setState({
+            _tag: "ready",
+            context,
+            roundTripMs: Math.max(1, Math.round(performance.now() - startedAt)),
+          });
+        }
       } catch {
-        if (controller.signal.aborted) {
+        if (!isCurrentRequest()) {
           return;
         }
 

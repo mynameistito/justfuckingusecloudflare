@@ -14,26 +14,12 @@
       content="Pick the primitives your app needs and ship the damn thing."
     />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/art/edge-network.webp" />
+    <meta
+      property="og:image"
+      content="https://justfuckingusecloudflare.com/art/edge-network.webp"
+    />
     <title>Just Fucking Use Cloudflare</title>
-    <script>
-      try {
-        const savedTheme = localStorage.getItem("jfu-theme");
-        const theme =
-          savedTheme === "light" || savedTheme === "dark"
-            ? savedTheme
-            : matchMedia("(prefers-color-scheme: light)").matches
-              ? "light"
-              : "dark";
-        document.documentElement.dataset.theme = theme;
-      } catch {
-        document.documentElement.dataset.theme = matchMedia(
-          "(prefers-color-scheme: light)"
-        ).matches
-          ? "light"
-          : "dark";
-      }
-    </script>
+    <script src="/theme-init.js"></script>
   </head>
   <body>
     <div id="root"></div>

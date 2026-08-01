@@ -1,6 +1,5 @@
 import { ArrowUpRight, List, Moon, Sun, X } from "@phosphor-icons/react";
-import { useEffect, useState } from "react";
-import type { MouseEvent } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Theme = "light" | "dark";
 
@@ -28,9 +27,15 @@ const getInitialTheme = (): Theme => {
 export const SiteHeader = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [theme, setTheme] = useState<Theme>(getInitialTheme);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
+    const themeColor = document.querySelector('meta[name="theme-color"]');
+    themeColor?.setAttribute(
+      "content",
+      theme === "light" ? "#f2efe7" : "#0c0c0b"
+    );
     try {
       window.localStorage.setItem("jfu-theme", theme);
     } catch {
@@ -40,13 +45,14 @@ export const SiteHeader = () => {
 
   useEffect(() => {
     const closeForDesktop = (): void => {
-      if (window.innerWidth > 768) {
+      if (window.innerWidth > 900) {
         setMenuOpen(false);
       }
     };
     const closeOnEscape = (event: KeyboardEvent): void => {
       if (event.key === "Escape") {
         setMenuOpen(false);
+        menuButtonRef.current?.focus();
       }
     };
 
@@ -58,12 +64,11 @@ export const SiteHeader = () => {
     };
   }, []);
 
-  const closeMenu = () => setMenuOpen(false);
-  const scrollToSection = (event: MouseEvent<HTMLAnchorElement>): void => {
-    event.preventDefault();
-    const id = event.currentTarget.hash.slice(1);
-    document.querySelector(`#${id}`)?.scrollIntoView();
-    closeMenu();
+  const closeMenu = (restoreFocus = false): void => {
+    setMenuOpen(false);
+    if (restoreFocus) {
+      menuButtonRef.current?.focus();
+    }
   };
 
   return (
@@ -72,7 +77,7 @@ export const SiteHeader = () => {
         className="brand-mark"
         href="#top"
         aria-label="Just Fucking Use Cloudflare home"
-        onClick={scrollToSection}
+        onClick={() => closeMenu(true)}
       >
         <span>JFU</span>
         <strong>CF</strong>
@@ -83,19 +88,19 @@ export const SiteHeader = () => {
         id="primary-navigation"
         aria-label="Primary"
       >
-        <a href="#stack-builder" onClick={scrollToSection}>
+        <a href="#stack-builder" onClick={() => closeMenu(true)}>
           Stack Builder
         </a>
-        <a href="#platform" onClick={scrollToSection}>
+        <a href="#platform" onClick={() => closeMenu(true)}>
           Platform
         </a>
-        <a href="#live-lab" onClick={scrollToSection}>
+        <a href="#live-lab" onClick={() => closeMenu(true)}>
           Live Lab
         </a>
-        <a href="#architecture" onClick={scrollToSection}>
+        <a href="#architecture" onClick={() => closeMenu(true)}>
           Architecture
         </a>
-        <a href="#this-site" onClick={scrollToSection}>
+        <a href="#this-site" onClick={() => closeMenu(true)}>
           This Site
         </a>
         <a
@@ -103,7 +108,7 @@ export const SiteHeader = () => {
           href="https://dash.cloudflare.com/sign-up"
           target="_blank"
           rel="noreferrer"
-          onClick={closeMenu}
+          onClick={() => closeMenu(true)}
           aria-label="Start building with Cloudflare (opens in a new tab)"
         >
           Start building
@@ -131,6 +136,7 @@ export const SiteHeader = () => {
           aria-expanded={menuOpen}
           aria-controls="primary-navigation"
           aria-label={menuOpen ? "Close navigation" : "Open navigation"}
+          ref={menuButtonRef}
         >
           {menuOpen ? (
             <X aria-hidden="true" weight="bold" />

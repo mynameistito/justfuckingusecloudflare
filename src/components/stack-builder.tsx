@@ -13,6 +13,7 @@ import {
   Warning,
 } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
+import type { Dispatch, SetStateAction } from "react";
 
 import { MotionReveal } from "@/components/motion-reveal";
 import {
@@ -31,6 +32,10 @@ import type {
 } from "@/domain/stack-builder";
 
 type CopyState = "idle" | "copied" | "failed";
+interface SharedNotice {
+  readonly message: string;
+  readonly variant: "ready" | "error";
+}
 
 type InitialStackState =
   | { readonly _tag: "empty" }
@@ -54,6 +59,50 @@ const getInitialStackState = (): InitialStackState => {
 };
 
 const INITIAL_STACK = getInitialStackState();
+
+const noticeForStack = (stack: InitialStackState): SharedNotice | null => {
+  if (stack._tag === "error") {
+    return { message: stack.message, variant: "error" };
+  }
+  if (stack._tag === "ready") {
+    return { message: "Shared architecture loaded.", variant: "ready" };
+  }
+  return null;
+};
+
+const useStackHashSync = ({
+  setBuildType,
+  setCopyState,
+  setDepth,
+  setNeeds,
+  setSharedNotice,
+}: {
+  readonly setBuildType: Dispatch<SetStateAction<BuildType | null>>;
+  readonly setCopyState: Dispatch<SetStateAction<CopyState>>;
+  readonly setDepth: Dispatch<SetStateAction<RecommendationDepth>>;
+  readonly setNeeds: Dispatch<SetStateAction<ReadonlySet<NeedId>>>;
+  readonly setSharedNotice: Dispatch<SetStateAction<SharedNotice | null>>;
+}): void => {
+  useEffect(() => {
+    const syncFromHash = (): void => {
+      const nextStack = getInitialStackState();
+      setSharedNotice(noticeForStack(nextStack));
+      if (nextStack._tag === "ready") {
+        setBuildType(nextStack.value.buildType);
+        setNeeds(new Set(nextStack.value.needs));
+        setDepth(nextStack.value.depth);
+      } else if (nextStack._tag === "error") {
+        setBuildType(null);
+        setNeeds(new Set());
+        setDepth("essentials");
+      }
+      setCopyState("idle");
+    };
+
+    window.addEventListener("hashchange", syncFromHash);
+    return () => window.removeEventListener("hashchange", syncFromHash);
+  }, [setBuildType, setCopyState, setDepth, setNeeds, setSharedNotice]);
+};
 
 const BuildIcon = ({ buildType }: { readonly buildType: BuildType }) => {
   switch (buildType) {
@@ -81,11 +130,6 @@ const BuildIcon = ({ buildType }: { readonly buildType: BuildType }) => {
   }
 };
 
-/**
- * Interactive, deterministic Cloudflare architecture recommender.
- *
- * @returns A single-page configurator with shareable results.
- */
 export const StackBuilder = () => {
   const initialStack = INITIAL_STACK;
   const [buildType, setBuildType] = useState<BuildType | null>(() =>
@@ -100,15 +144,9 @@ export const StackBuilder = () => {
     initialStack._tag === "ready" ? initialStack.value.depth : "essentials"
   );
   const [copyState, setCopyState] = useState<CopyState>("idle");
-  let sharedNotice: {
-    readonly message: string;
-    readonly variant: "ready" | "error";
-  } | null = null;
-  if (initialStack._tag === "error") {
-    sharedNotice = { message: initialStack.message, variant: "error" };
-  } else if (initialStack._tag === "ready") {
-    sharedNotice = { message: "Shared architecture loaded.", variant: "ready" };
-  }
+  const [sharedNotice, setSharedNotice] = useState<SharedNotice | null>(() =>
+    noticeForStack(initialStack)
+  );
 
   useEffect(() => {
     if (initialStack._tag !== "ready") {
@@ -120,6 +158,14 @@ export const StackBuilder = () => {
     });
     return () => window.cancelAnimationFrame(frameId);
   }, [initialStack]);
+
+  useStackHashSync({
+    setBuildType,
+    setCopyState,
+    setDepth,
+    setNeeds,
+    setSharedNotice,
+  });
 
   const recommendations =
     buildType === null
@@ -141,6 +187,7 @@ export const StackBuilder = () => {
       return next;
     });
     setCopyState("idle");
+    setSharedNotice(null);
   };
 
   const copyShareLink = async (): Promise<void> => {
@@ -159,6 +206,7 @@ export const StackBuilder = () => {
     try {
       await window.navigator.clipboard.writeText(url.toString());
       setCopyState("copied");
+      setSharedNotice(null);
     } catch {
       setCopyState("failed");
     }
@@ -197,18 +245,23 @@ export const StackBuilder = () => {
               {BUILD_OPTIONS.map((option) => {
                 const selected = buildType === option.id;
                 return (
-                  <button
+                  <label
                     className={
                       selected ? "build-type is-selected" : "build-type"
                     }
-                    type="button"
                     key={option.id}
-                    onClick={() => {
-                      setBuildType(option.id);
-                      setCopyState("idle");
-                    }}
-                    aria-pressed={selected}
                   >
+                    <input
+                      type="radio"
+                      name="build-type"
+                      value={option.id}
+                      checked={selected}
+                      onChange={() => {
+                        setBuildType(option.id);
+                        setCopyState("idle");
+                        setSharedNotice(null);
+                      }}
+                    />
                     <BuildIcon buildType={option.id} />
                     <span>
                       <strong>{option.label}</strong>
@@ -217,7 +270,7 @@ export const StackBuilder = () => {
                     <span className="selection-mark" aria-hidden="true">
                       {selected ? <Check weight="bold" /> : null}
                     </span>
-                  </button>
+                  </label>
                 );
               })}
             </div>

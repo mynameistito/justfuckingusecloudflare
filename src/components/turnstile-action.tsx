@@ -1,12 +1,5 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useEffectEvent,
-  useRef,
-  useState,
-} from "react";
-import type { ReactNode } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
+import type { Dispatch, ReactNode, SetStateAction } from "react";
 
 import type { TurnstileAction } from "../domain/turnstile";
 
@@ -62,12 +55,18 @@ interface TurnstileActionButtonProps {
   readonly onVerified: (token: string) => Promise<void>;
 }
 
-type TurnstileStatus = "loading" | "ready" | "error";
+type TurnstileStatus = "idle" | "loading" | "ready" | "error";
 
 const TURNSTILE_ERROR_MESSAGE =
   "The human check could not load. Check content blockers and retry.";
 const TurnstileStatusContext = createContext<TurnstileStatus>("loading");
 const TurnstileSitekeyContext = createContext<string | null>(null);
+const missingTurnstileProvider: Dispatch<SetStateAction<boolean>> = () => {
+  throw new Error("Turnstile actions must be wrapped in a TurnstileProvider.");
+};
+const TurnstileActivationContext = createContext<
+  Dispatch<SetStateAction<boolean>>
+>(missingTurnstileProvider);
 
 const parseSitekey = (value: unknown): string | null => {
   if (
@@ -85,6 +84,7 @@ const parseSitekey = (value: unknown): string | null => {
 
 /** Load the public Turnstile configuration and script once for all Live Lab actions. */
 export const TurnstileProvider = ({ children }: TurnstileProviderProps) => {
+  const [activated, setActivated] = useState(false);
   const [scriptState, setScriptState] = useState<"loading" | "ready" | "error">(
     () =>
       typeof window !== "undefined" && window.turnstile !== undefined
@@ -98,6 +98,9 @@ export const TurnstileProvider = ({ children }: TurnstileProviderProps) => {
   >({ _tag: "loading" });
 
   useEffect(() => {
+    if (!activated) {
+      return;
+    }
     if (window.turnstile !== undefined) {
       return;
     }
@@ -114,11 +117,13 @@ export const TurnstileProvider = ({ children }: TurnstileProviderProps) => {
         return undefined;
       }
 
-      return window.setInterval(() => {
+      const pollId = window.setInterval(() => {
         if (window.turnstile !== undefined) {
+          window.clearInterval(pollId);
           setScriptState("ready");
         }
       }, 100);
+      return pollId;
     };
 
     script.addEventListener("load", handleLoad);
@@ -139,9 +144,12 @@ export const TurnstileProvider = ({ children }: TurnstileProviderProps) => {
         window.clearInterval(pollId);
       }
     };
-  }, []);
+  }, [activated]);
 
   useEffect(() => {
+    if (!activated) {
+      return;
+    }
     const controller = new AbortController();
     const loadConfiguration = async (): Promise<void> => {
       try {
@@ -167,10 +175,12 @@ export const TurnstileProvider = ({ children }: TurnstileProviderProps) => {
 
     void loadConfiguration();
     return () => controller.abort();
-  }, []);
+  }, [activated]);
 
-  let status: TurnstileStatus = "loading";
-  if (scriptState === "error" || sitekeyState._tag === "error") {
+  let status: TurnstileStatus = "idle";
+  if (!activated) {
+    status = "idle";
+  } else if (scriptState === "error" || sitekeyState._tag === "error") {
     status = "error";
   } else if (scriptState === "ready" && sitekeyState._tag === "ready") {
     status = "ready";
@@ -180,7 +190,9 @@ export const TurnstileProvider = ({ children }: TurnstileProviderProps) => {
   return (
     <TurnstileStatusContext.Provider value={status}>
       <TurnstileSitekeyContext.Provider value={sitekey}>
-        {children}
+        <TurnstileActivationContext.Provider value={setActivated}>
+          {children}
+        </TurnstileActivationContext.Provider>
       </TurnstileSitekeyContext.Provider>
     </TurnstileStatusContext.Provider>
   );
@@ -197,10 +209,16 @@ export const TurnstileActionButton = ({
 }: TurnstileActionButtonProps) => {
   const status = useContext(TurnstileStatusContext);
   const sitekey = useContext(TurnstileSitekeyContext);
+  const setActivated = useContext(TurnstileActivationContext);
   const [state, setState] = useState<GateState>({ _tag: "loading" });
   const containerRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<string | null>(null);
-  const submitVerified = useEffectEvent(onVerified);
+  const executeOnReadyRef = useRef(false);
+  const onVerifiedRef = useRef(onVerified);
+
+  useEffect(() => {
+    onVerifiedRef.current = onVerified;
+  }, [onVerified]);
 
   useEffect(() => {
     let mounted = true;
@@ -214,6 +232,12 @@ export const TurnstileActionButton = ({
 
     if (status === "error") {
       scheduleState({ _tag: "error", message: TURNSTILE_ERROR_MESSAGE });
+      return () => {
+        mounted = false;
+      };
+    }
+    if (status === "idle") {
+      scheduleState({ _tag: "ready" });
       return () => {
         mounted = false;
       };
@@ -260,7 +284,7 @@ export const TurnstileActionButton = ({
         setState({ _tag: "submitting" });
         const submit = async (): Promise<void> => {
           try {
-            await submitVerified(token);
+            await onVerifiedRef.current(token);
             reset();
             if (mounted) {
               setState({ _tag: "ready" });
@@ -286,7 +310,13 @@ export const TurnstileActionButton = ({
       "timeout-callback": () => fail("The human check timed out. Try again."),
     });
     widgetIdRef.current = widgetId;
-    scheduleState({ _tag: "ready" });
+    if (executeOnReadyRef.current) {
+      executeOnReadyRef.current = false;
+      scheduleState({ _tag: "challenging" });
+      api.execute(widgetId);
+    } else {
+      scheduleState({ _tag: "ready" });
+    }
 
     return () => {
       mounted = false;
@@ -296,6 +326,12 @@ export const TurnstileActionButton = ({
   }, [action, sitekey, status]);
 
   const run = (): void => {
+    if (status === "idle") {
+      executeOnReadyRef.current = true;
+      setActivated(true);
+      setState({ _tag: "challenging" });
+      return;
+    }
     const api = window.turnstile;
     const widgetId = widgetIdRef.current;
     if (api === undefined || widgetId === null) {
@@ -319,12 +355,7 @@ export const TurnstileActionButton = ({
       <button
         className={className}
         type="button"
-        disabled={
-          disabled ||
-          state._tag === "error" ||
-          state._tag === "loading" ||
-          isBusy
-        }
+        disabled={disabled || state._tag === "loading" || isBusy}
         onClick={run}
       >
         {isBusy ? busyLabel : children}

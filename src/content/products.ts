@@ -300,7 +300,3 @@ export const PRODUCTS: readonly Product[] = [
     shortName: "Access",
   },
 ];
-
-/**
- * Fast product lookup keyed by stable product ID.
- */
