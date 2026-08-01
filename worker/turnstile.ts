@@ -74,10 +74,13 @@ const parseSiteverifyResponse = (value: unknown): SiteverifyResponse | null => {
 
 const readToken = async (request: Request): Promise<string | null> => {
   const contentType = request.headers.get("Content-Type") ?? "";
-  const contentLength = Number(request.headers.get("Content-Length") ?? "0");
+  const contentLengthHeader = request.headers.get("Content-Length");
+  const contentLength = Number(contentLengthHeader);
   if (
     !contentType.toLowerCase().startsWith("application/json") ||
-    (Number.isFinite(contentLength) && contentLength > MAX_REQUEST_LENGTH)
+    contentLengthHeader === null ||
+    !Number.isFinite(contentLength) ||
+    contentLength > MAX_REQUEST_LENGTH
   ) {
     return null;
   }

@@ -80,6 +80,25 @@ describe("edge context projection", () => {
       tlsVersion: "TLSv1.3",
     });
   });
+
+  it("uses QUIC RTT when TCP metadata is unavailable", () => {
+    expect(
+      toEdgeContext(
+        // SAFETY: toEdgeContext accepts the sparse runtime metadata projection; this test intentionally supplies only the fields it reads.
+        {
+          city: "Auckland",
+          clientQuicRtt: 12,
+          colo: "AKL",
+          country: "NZ",
+          httpProtocol: "HTTP/3",
+          region: "Auckland",
+          timezone: "Pacific/Auckland",
+          tlsVersion: "TLSv1.3",
+        } as unknown as IncomingRequestCfProperties,
+        "2026-07-31T00:00:00.000Z"
+      ).edgeRttMs
+    ).toBe(12);
+  });
 });
 
 describe("Worker API", () => {
@@ -206,15 +225,36 @@ describe("Worker API", () => {
   });
 
   it("rejects unverified requests before running a demo", async () => {
-    const response = await exports.default.fetch(
+    const response = await handleRequest(
       new Request("https://example.com/api/demos/r2", {
         body: JSON.stringify({ turnstileToken: "not-a-real-token" }),
         headers: { "Content-Type": "application/json" },
         method: "POST",
-      })
+      }),
+      env,
+      createExecutionContext(),
+      verifierFor(TURNSTILE_ACTIONS.d1)
     );
 
     expect(response.status).toBe(403);
+  });
+
+  it("returns quota details when a demo reaches its daily limit", async () => {
+    const date = new Date().toISOString().slice(0, 10);
+    const quota = env.DEMO_QUOTA.getByName(`r2:${date}`);
+    const resetAt = new Date(Date.now() + 86_400_000).toISOString();
+    await Promise.all(
+      Array.from({ length: 500 }, () => quota.take(500, resetAt))
+    );
+
+    const response = await protectedFetch(
+      "/api/demos/r2",
+      TURNSTILE_ACTIONS.r2
+    );
+
+    expect(response.status).toBe(429);
+    expect(response.headers.get("retry-after")).not.toBeNull();
+    expect(response.headers.get("x-demo-quota-limit")).toBe("500");
   });
 
   it("rejects GET requests to protected demo routes", async () => {

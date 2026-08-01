@@ -16,7 +16,7 @@ export class DemoQuota extends DurableObject<Env> {
     );
   }
 
-  public take(limit: number, resetAt: string): QuotaDecision {
+  public async take(limit: number, resetAt: string): Promise<QuotaDecision> {
     if (!Number.isInteger(limit) || limit < 1 || limit > 10_000) {
       throw new Error("Invalid quota limit");
     }
@@ -37,7 +37,12 @@ export class DemoQuota extends DurableObject<Env> {
       "INSERT INTO usage (id, used) VALUES (1, ?) ON CONFLICT(id) DO UPDATE SET used = excluded.used",
       used
     );
+    await this.ctx.storage.setAlarm(Date.parse(resetAt));
 
     return { allowed: true, limit, resetAt, used };
+  }
+
+  public override async alarm(): Promise<void> {
+    await this.ctx.storage.deleteAll();
   }
 }

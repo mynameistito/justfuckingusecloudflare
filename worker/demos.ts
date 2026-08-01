@@ -6,6 +6,7 @@ import type {
 } from "../src/domain/live-demo";
 import { TURNSTILE_ACTIONS } from "../src/domain/turnstile";
 import type { TurnstileAction } from "../src/domain/turnstile";
+import { API_SECURITY_HEADERS } from "./api-security";
 import type { DemoQuota, QuotaDecision } from "./demo-quota";
 import { toEdgeContext } from "./edge-context";
 import { turnstileSitekeyForRequest } from "./turnstile";
@@ -103,6 +104,7 @@ const logDemo = (
 
 const takeQuota = async (
   demo: keyof typeof DEMO_LIMITS,
+  requestId: string,
   context: DemoContext
 ): Promise<QuotaResult> => {
   const date = context.now.toISOString().slice(0, 10);
@@ -121,6 +123,7 @@ const takeQuota = async (
         message: error instanceof Error ? error.message : "Unknown quota error",
       })
     );
+    logDemo(demo, requestId, "error");
     return {
       _tag: "unavailable",
       response: context.json(
@@ -132,6 +135,7 @@ const takeQuota = async (
   }
 
   if (!decision.allowed) {
+    logDemo(demo, requestId, "quota_denied");
     return {
       _tag: "denied",
       response: context.json(
@@ -231,13 +235,8 @@ const serviceError = (
 
 const d1Demo = async (context: DemoContext): Promise<Response> => {
   const requestId = crypto.randomUUID();
-  const quota = await takeQuota("d1", context);
+  const quota = await takeQuota("d1", requestId, context);
   if (quota._tag !== "allowed") {
-    logDemo(
-      "d1",
-      requestId,
-      quota._tag === "denied" ? "quota_denied" : "error"
-    );
     return quota.response;
   }
 
@@ -279,13 +278,8 @@ const selectDailyProduct = (now: Date): KvProduct => {
 
 const kvDemo = async (context: DemoContext): Promise<Response> => {
   const requestId = crypto.randomUUID();
-  const quota = await takeQuota("kv", context);
+  const quota = await takeQuota("kv", requestId, context);
   if (quota._tag !== "allowed") {
-    logDemo(
-      "kv",
-      requestId,
-      quota._tag === "denied" ? "quota_denied" : "error"
-    );
     return quota.response;
   }
 
@@ -340,13 +334,8 @@ const ensureR2Object = async (bucket: R2Bucket): Promise<R2Object> => {
 
 const r2Demo = async (context: DemoContext): Promise<Response> => {
   const requestId = crypto.randomUUID();
-  const quota = await takeQuota("r2", context);
+  const quota = await takeQuota("r2", requestId, context);
   if (quota._tag !== "allowed") {
-    logDemo(
-      "r2",
-      requestId,
-      quota._tag === "denied" ? "quota_denied" : "error"
-    );
     return quota.response;
   }
 
@@ -374,7 +363,7 @@ const r2Demo = async (context: DemoContext): Promise<Response> => {
 
 const r2Download = async (context: DemoContext): Promise<Response> => {
   const requestId = crypto.randomUUID();
-  const quota = await takeQuota("r2", context);
+  const quota = await takeQuota("r2", requestId, context);
   if (quota._tag !== "allowed") {
     return quota.response;
   }
@@ -390,10 +379,15 @@ const r2Download = async (context: DemoContext): Promise<Response> => {
     }
 
     const headers = new Headers({
+      ...API_SECURITY_HEADERS,
       "Cache-Control": "private, max-age=60",
       "Content-Disposition":
         'attachment; filename="cloudflare-primitives.json"',
       "X-Content-Type-Options": "nosniff",
+      "X-Demo-Quota-Limit": String(quota.receipt.limit),
+      "X-Demo-Quota-Remaining": String(
+        Math.max(0, quota.receipt.limit - quota.receipt.used)
+      ),
       "X-Demo-Request-Id": requestId,
     });
     object.writeHttpMetadata(headers);
@@ -415,13 +409,8 @@ const isCacheRecord = (value: unknown): value is CacheRecord =>
 
 const cacheDemo = async (context: DemoContext): Promise<Response> => {
   const requestId = crypto.randomUUID();
-  const quota = await takeQuota("cache", context);
+  const quota = await takeQuota("cache", requestId, context);
   if (quota._tag !== "allowed") {
-    logDemo(
-      "cache",
-      requestId,
-      quota._tag === "denied" ? "quota_denied" : "error"
-    );
     return quota.response;
   }
 
@@ -483,13 +472,8 @@ const imagesDemo = async (context: DemoContext): Promise<Response> => {
     );
   }
 
-  const quota = await takeQuota("images", context);
+  const quota = await takeQuota("images", requestId, context);
   if (quota._tag !== "allowed") {
-    logDemo(
-      "images",
-      requestId,
-      quota._tag === "denied" ? "quota_denied" : "error"
-    );
     return quota.response;
   }
 
@@ -504,8 +488,12 @@ const imagesDemo = async (context: DemoContext): Promise<Response> => {
       .transform({ fit: "scale-down", width })
       .output({ format: "image/webp", quality: 82 });
     const transformed = result.response();
-    const headers = new Headers(transformed.headers);
+    const headers = new Headers(API_SECURITY_HEADERS);
+    for (const [key, value] of transformed.headers.entries()) {
+      headers.set(key, value);
+    }
     headers.set("Cache-Control", "public, max-age=86400");
+    headers.set("X-Content-Type-Options", "nosniff");
     headers.set(
       "X-Demo-Products",
       "Images, Workers, Static Assets, Durable Objects"

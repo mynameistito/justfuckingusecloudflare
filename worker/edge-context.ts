@@ -50,7 +50,9 @@ export const toEdgeContext = (
     city: readString(metadata, "city"),
     colo: readString(metadata, "colo") ?? "LOCAL",
     country: readString(metadata, "country"),
-    edgeRttMs: readNumber(metadata, "clientTcpRtt"),
+    edgeRttMs:
+      readNumber(metadata, "clientTcpRtt") ??
+      readNumber(metadata, "clientQuicRtt"),
     generatedAt,
     httpProtocol: readString(metadata, "httpProtocol"),
     region: readString(metadata, "region"),

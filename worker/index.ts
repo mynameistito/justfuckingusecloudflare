@@ -1,21 +1,10 @@
+import { API_SECURITY_HEADERS } from "./api-security";
 import { handleDemoRequest } from "./demos";
 import { toEdgeContext } from "./edge-context";
 import { verifyTurnstileRequest } from "./turnstile";
 import type { TurnstileVerifier } from "./turnstile";
 
 export { DemoQuota } from "./demo-quota";
-
-const API_SECURITY_HEADERS = {
-  "Cache-Control": "no-store",
-  "Content-Type": "application/json; charset=utf-8",
-  "Cross-Origin-Opener-Policy": "same-origin",
-  "Cross-Origin-Resource-Policy": "same-origin",
-  "Permissions-Policy":
-    "camera=(), microphone=(), geolocation=(), payment=(), usb=()",
-  "Referrer-Policy": "strict-origin-when-cross-origin",
-  "X-Content-Type-Options": "nosniff",
-  "X-Frame-Options": "DENY",
-} as const;
 
 const jsonResponse = (
   body: unknown,
