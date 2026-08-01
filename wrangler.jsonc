@@ -28,6 +28,7 @@
   "kv_namespaces": [
     {
       "binding": "DEMO_KV",
+      "id": "e88c4a67025f4d8899f05720ce538d25",
     },
   ],
   "r2_buckets": [
