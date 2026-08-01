@@ -1,6 +1,6 @@
 pre-commit:
   jobs:
-    - run: bun run fix {staged_files}
+    - run: bun run fix {staged_files} || bun run fix
       glob:
         - "**/*.js"
         - "**/*.jsx"
