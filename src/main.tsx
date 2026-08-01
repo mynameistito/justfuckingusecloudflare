@@ -5,17 +5,19 @@ import "@fontsource-variable/space-grotesk/wght.css";
 import "@fontsource/ibm-plex-mono/latin-400.css";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { App } from "./App";
+
+import { App } from "./app";
+
 import "./styles.css";
 
-const rootElement = document.getElementById("root");
+const rootElement = document.querySelector("#root");
 
 if (rootElement === null) {
-	throw new Error("Application root element is missing.");
+  throw new Error("Application root element is missing.");
 }
 
 createRoot(rootElement).render(
-	<StrictMode>
-		<App />
-	</StrictMode>,
+  <StrictMode>
+    <App />
+  </StrictMode>
 );

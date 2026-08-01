@@ -1,9 +1,6 @@
 # Just Fucking Use Cloudflare
 
-An independent, developer-focused guide to choosing useful Cloudflare
-primitives. The site is a React single-page application delivered with
-Cloudflare Workers Static Assets, with a small Worker API that proves the page
-is running at the edge.
+An independent, developer-focused guide to choosing useful Cloudflare primitives. The site is a React single-page application delivered with Cloudflare Workers Static Assets, with a small Worker API that proves the page is running at the edge.
 
 ## What is included
 
@@ -23,27 +20,21 @@ bun install
 bun run dev
 ```
 
-`bun run dev` applies the D1 migration to local storage, then the Cloudflare
-Vite plugin runs the frontend and Worker together. Wrangler simulates the
-storage bindings locally, so development does not use account resources.
+`bun run dev` applies the D1 migration to local storage, then the Cloudflare Vite plugin runs the frontend and Worker together. Wrangler simulates the storage bindings locally, so development does not use account resources.
 
 ## Free-tier guardrails
 
-The Live Lab does no work until a visitor clicks a demo. Inputs are fixed or
-allow-listed and a strongly consistent Durable Object enforces a fresh limit
-for each demo every UTC day.
+The Live Lab does no work until a visitor clicks a demo. Inputs are fixed or allow-listed and a strongly consistent Durable Object enforces a fresh limit for each demo every UTC day.
 
-| Demo | Hard daily limit | Public mutation surface |
-| --- | ---: | --- |
-| D1 query | 1,000 | None |
-| KV read / fixed daily seed | 100 | None |
-| R2 fixed object | 500 | None |
-| Cache API | 5,000 | None |
-| Images transform | 100 | Three allow-listed widths |
+| Demo                       | Hard daily limit | Public mutation surface   |
+| -------------------------- | ---------------: | ------------------------- |
+| D1 query                   |            1,000 | None                      |
+| KV read / fixed daily seed |              100 | None                      |
+| R2 fixed object            |              500 | None                      |
+| Cache API                  |            5,000 | None                      |
+| Images transform           |              100 | Three allow-listed widths |
 
-R2 remains private and exposes only one small, fixed object through the Worker.
-The Images demo transforms a bundled static asset. Static page views continue
-to bypass the Worker, so browsing the site does not consume Worker requests.
+R2 remains private and exposes only one small, fixed object through the Worker. The Images demo transforms a bundled static asset. Static page views continue to bypass the Worker, so browsing the site does not consume Worker requests.
 
 ## Verification
 
@@ -53,12 +44,9 @@ bun run check
 bun run deploy:dry
 ```
 
-Use `bun run test`, not `bun test`. The latter invokes Bun's native test runner,
-which cannot provide the `cloudflare:workers` and `cloudflare:test` modules used
-by the Worker integration tests.
+Use `bun run test`, not `bun test`. The latter invokes Bun's native test runner, which cannot provide the `cloudflare:workers` and `cloudflare:test` modules used by the Worker integration tests.
 
-`check` regenerates Worker types, type-checks the entire project, runs the test
-suite, and creates the production build.
+`check` regenerates Worker types, type-checks the entire project, runs the test suite, and creates the production build.
 
 ## Deployment
 
@@ -66,13 +54,9 @@ suite, and creates the production build.
 bun run deploy
 ```
 
-Wrangler auto-provisions the declared D1, KV, and R2 resources on first deploy.
-The deploy script then applies the remote D1 migration. Review the resource IDs
-written to `wrangler.jsonc` before treating the environment as production.
+Wrangler auto-provisions the declared D1, KV, and R2 resources on first deploy. The deploy script then applies the remote D1 migration. Review the resource IDs written to `wrangler.jsonc` before treating the environment as production.
 
-The current Wrangler configuration deliberately does not claim the production
-domain. For the final cutover, add the custom domain after confirming that its
-existing apex DNS record can be replaced:
+The current Wrangler configuration deliberately does not claim the production domain. For the final cutover, add the custom domain after confirming that its existing apex DNS record can be replaced:
 
 ```jsonc
 "routes": [
@@ -83,5 +67,4 @@ existing apex DNS record can be replaced:
 ]
 ```
 
-Then run the full deployment command above. This avoids replacing the existing
-site during development or review.
+Then run the full deployment command above. This avoids replacing the existing site during development or review.

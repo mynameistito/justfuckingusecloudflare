@@ -30,4 +30,8 @@ const selectedJsPlugins = {
 export default defineConfig({
   extends: [core, react, vitest, selectedJsPlugins],
   ignorePatterns: core.ignorePatterns,
+  // This Vite SPA has no Next.js image pipeline; native static assets are the correct runtime API.
+  rules: {
+    "react-doctor/nextjs-no-img-element": "off",
+  },
 });

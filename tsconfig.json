@@ -1,37 +1,37 @@
 {
-	"compilerOptions": {
-		"target": "es2024",
-		"lib": ["es2024", "DOM", "DOM.Iterable"],
-		"jsx": "react-jsx",
-		"module": "es2022",
-		"moduleResolution": "Bundler",
-		"paths": {
-			"@/*": ["./src/*"]
-		},
-		"resolveJsonModule": true,
-		"noEmit": true,
-		"isolatedModules": true,
-		"allowSyntheticDefaultImports": true,
-		"forceConsistentCasingInFileNames": true,
-		"strict": true,
-		"noUncheckedIndexedAccess": true,
-		"exactOptionalPropertyTypes": true,
-		"noImplicitOverride": true,
-		"noFallthroughCasesInSwitch": true,
-		"skipLibCheck": true,
-		"types": [
-			"./worker-configuration.d.ts",
-			"@cloudflare/vitest-pool-workers/types",
-			"vite/client",
-			"node"
-		]
-	},
-	"include": [
-		"worker-configuration.d.ts",
-		"src/**/*.ts",
-		"src/**/*.tsx",
-		"worker/**/*.ts",
-		"test/**/*.ts",
-		"vite.config.ts"
-	]
+  "compilerOptions": {
+    "target": "es2024",
+    "lib": ["es2024", "DOM", "DOM.Iterable"],
+    "jsx": "react-jsx",
+    "module": "es2022",
+    "moduleResolution": "Bundler",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "types": [
+      "./worker-configuration.d.ts",
+      "@cloudflare/vitest-pool-workers/types",
+      "vite/client",
+      "node"
+    ]
+  },
+  "include": [
+    "worker-configuration.d.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "worker/**/*.ts",
+    "test/**/*.ts",
+    "vite.config.ts"
+  ]
 }

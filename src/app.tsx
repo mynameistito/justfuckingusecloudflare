@@ -1,4 +1,5 @@
 import { domAnimation, LazyMotion } from "motion/react";
+
 import { Architecture } from "@/components/architecture";
 import { Hero } from "@/components/hero";
 import { LiveLab } from "@/components/live-lab";
@@ -13,21 +14,19 @@ import { ThisSite } from "@/components/this-site";
  *
  * @returns The application root.
  */
-export function App() {
-	return (
-		<LazyMotion features={domAnimation}>
-			<div className="page-shell">
-				<SiteHeader />
-				<main>
-					<Hero />
-					<StackBuilder />
-					<PlatformExplorer />
-					<LiveLab />
-					<Architecture />
-					<ThisSite />
-				</main>
-				<SiteFooter />
-			</div>
-		</LazyMotion>
-	);
-}
+export const App = () => (
+  <LazyMotion features={domAnimation}>
+    <div className="page-shell">
+      <SiteHeader />
+      <main>
+        <Hero />
+        <StackBuilder />
+        <PlatformExplorer />
+        <LiveLab />
+        <Architecture />
+        <ThisSite />
+      </main>
+      <SiteFooter />
+    </div>
+  </LazyMotion>
+);

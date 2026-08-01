@@ -1,38 +1,40 @@
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import path from "node:path";
+
 import {
-	buildPagesASSETSBinding,
-	cloudflareTest,
-	readD1Migrations,
+  buildPagesASSETSBinding,
+  cloudflareTest,
+  readD1Migrations,
 } from "@cloudflare/vitest-pool-workers";
 import { defineConfig } from "vitest/config";
 
-const projectRoot = dirname(fileURLToPath(import.meta.url));
+const projectRoot = import.meta.dirname;
 
 export default defineConfig({
-	plugins: [
-		cloudflareTest(async () => ({
-			miniflare: {
-				bindings: {
-					TURNSTILE_SECRET: "local-test-secret",
-					TEST_MIGRATIONS: await readD1Migrations(
-						join(projectRoot, "migrations"),
-					),
-				},
-				serviceBindings: {
-					ASSETS: await buildPagesASSETSBinding(join(projectRoot, "public")),
-				},
-			},
-			wrangler: { configPath: join(projectRoot, "wrangler.jsonc") },
-		})),
-	],
-	resolve: {
-		alias: {
-			"@": join(projectRoot, "src"),
-		},
-	},
-	test: {
-		include: ["test/**/*.spec.ts"],
-		setupFiles: ["./test/apply-migrations.ts"],
-	},
+  plugins: [
+    cloudflareTest(async () => ({
+      miniflare: {
+        bindings: {
+          TEST_MIGRATIONS: await readD1Migrations(
+            path.join(projectRoot, "migrations")
+          ),
+          TURNSTILE_SECRET: "local-test-secret",
+        },
+        serviceBindings: {
+          ASSETS: await buildPagesASSETSBinding(
+            path.join(projectRoot, "public")
+          ),
+        },
+      },
+      wrangler: { configPath: path.join(projectRoot, "wrangler.jsonc") },
+    })),
+  ],
+  resolve: {
+    alias: {
+      "@": path.join(projectRoot, "src"),
+    },
+  },
+  test: {
+    include: ["test/**/*.test.ts"],
+    setupFiles: ["./test/apply-migrations.ts"],
+  },
 });
