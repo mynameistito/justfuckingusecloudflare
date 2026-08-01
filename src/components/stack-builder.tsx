@@ -91,7 +91,7 @@ const useStackHashSync = ({
         setBuildType(nextStack.value.buildType);
         setNeeds(new Set(nextStack.value.needs));
         setDepth(nextStack.value.depth);
-      } else if (nextStack._tag === "error") {
+      } else {
         setBuildType(null);
         setNeeds(new Set());
         setDepth("essentials");
@@ -328,6 +328,7 @@ export const StackBuilder = () => {
                     onChange={() => {
                       setDepth(option.id);
                       setCopyState("idle");
+                      setSharedNotice(null);
                     }}
                   />
                   <span className="radio-mark" aria-hidden="true" />

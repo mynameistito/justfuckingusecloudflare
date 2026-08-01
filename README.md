@@ -54,7 +54,7 @@ Use `bun run test`, not `bun test`. The latter invokes Bun's native test runner,
 bun run deploy
 ```
 
-The configured KV namespace and R2 bucket must exist before deployment. Wrangler auto-provisions the D1 database on the first deploy, then the deploy script applies its remote migrations. Review the generated D1 ID in `wrangler.jsonc` before treating the environment as production.
+The configured KV namespace, R2 bucket, and D1 database must exist before deployment. For a first D1 setup, run `wrangler d1 create jfu-cloudflare-demos --binding DEMO_DB --update-config`, review the generated ID in `wrangler.jsonc`, then run `bun run deploy`. Deployments apply D1 migrations and seed the fixed private R2 object before making the Worker live.
 
 The current Wrangler configuration deliberately does not claim the production domain. For the final cutover, add the custom domain after confirming that its existing apex DNS record can be replaced:
 

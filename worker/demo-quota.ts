@@ -42,7 +42,13 @@ export class DemoQuota extends DurableObject<Env> {
     return { allowed: true, limit, resetAt, used };
   }
 
+  /** Clear the quota state and scheduled reset. */
+  public async clear(): Promise<void> {
+    this.ctx.storage.sql.exec("DELETE FROM usage");
+    await this.ctx.storage.deleteAlarm();
+  }
+
   public override async alarm(): Promise<void> {
-    await this.ctx.storage.deleteAll();
+    await this.clear();
   }
 }

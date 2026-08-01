@@ -1,19 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 
-/**
- * Privacy-conscious edge context returned by the Worker.
- */
-export interface EdgeContext {
-  readonly colo: string;
-  readonly country: string | null;
-  readonly city: string | null;
-  readonly region: string | null;
-  readonly timezone: string | null;
-  readonly httpProtocol: string | null;
-  readonly tlsVersion: string | null;
-  readonly edgeRttMs: number | null;
-  readonly generatedAt: string;
-}
+import type { EdgeContext } from "../domain/edge-context";
+
+export type { EdgeContext } from "../domain/edge-context";
 
 /**
  * Complete state cycle for the live Worker proof panel.

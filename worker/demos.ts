@@ -1,9 +1,11 @@
 import type {
+  DemoQuotaId,
   DemoFact,
   DemoQuotaReceipt,
   DemoResponse,
   JsonDemoId,
 } from "../src/domain/live-demo";
+import { DEMO_LIMITS } from "../src/domain/live-demo";
 import { TURNSTILE_ACTIONS } from "../src/domain/turnstile";
 import type { TurnstileAction } from "../src/domain/turnstile";
 import { API_SECURITY_HEADERS } from "./api-security";
@@ -14,28 +16,6 @@ import type { TurnstileVerification, TurnstileVerifier } from "./turnstile";
 
 const R2_OBJECT_KEY = "public-demo/cloudflare-primitives.json";
 const ALLOWED_IMAGE_WIDTHS = new Set([320, 640, 960]);
-
-const DEMO_LIMITS = {
-  cache: 5000,
-  d1: 1000,
-  images: 100,
-  kv: 100,
-  r2: 500,
-} as const;
-
-const R2_DOCUMENT = JSON.stringify(
-  {
-    guardrails: [
-      "One fixed key",
-      "A tiny immutable payload",
-      "Daily application quota",
-    ],
-    purpose: "Prove private object storage without accepting public uploads.",
-    title: "A deliberately boring R2 object",
-  },
-  null,
-  2
-);
 
 const KV_PRODUCTS = [
   { job: "Read-heavy configuration at the edge", name: "Workers KV" },
@@ -62,6 +42,11 @@ interface DemoContext {
 interface ProtectedRoute {
   readonly action: TurnstileAction;
   readonly run: (context: DemoContext) => Promise<Response>;
+}
+
+interface TurnstileProofRoute {
+  readonly action: TurnstileAction;
+  readonly proof: true;
 }
 
 type QuotaResult =
@@ -103,7 +88,7 @@ const logDemo = (
 };
 
 const takeQuota = async (
-  demo: keyof typeof DEMO_LIMITS,
+  demo: DemoQuotaId,
   requestId: string,
   context: DemoContext
 ): Promise<QuotaResult> => {
@@ -324,18 +309,6 @@ const kvDemo = async (context: DemoContext): Promise<Response> => {
   }
 };
 
-const ensureR2Object = async (bucket: R2Bucket): Promise<R2Object> => {
-  const existing = await bucket.head(R2_OBJECT_KEY);
-  if (existing !== null) {
-    return existing;
-  }
-
-  return bucket.put(R2_OBJECT_KEY, R2_DOCUMENT, {
-    customMetadata: { demo: "fixed-private-object" },
-    httpMetadata: { contentType: "application/json; charset=utf-8" },
-  });
-};
-
 const r2Demo = async (context: DemoContext): Promise<Response> => {
   const requestId = crypto.randomUUID();
   const quota = await takeQuota("r2", requestId, context);
@@ -344,7 +317,13 @@ const r2Demo = async (context: DemoContext): Promise<Response> => {
   }
 
   try {
-    const object = await ensureR2Object(context.env.DEMO_R2);
+    const object = await context.env.DEMO_R2.head(R2_OBJECT_KEY);
+    if (object === null) {
+      return context.json(
+        { error: "The fixed demo object is unavailable." },
+        503
+      );
+    }
     return successResponse(
       context,
       "r2",
@@ -373,7 +352,6 @@ const r2Download = async (context: DemoContext): Promise<Response> => {
   }
 
   try {
-    await ensureR2Object(context.env.DEMO_R2);
     const object = await context.env.DEMO_R2.get(R2_OBJECT_KEY);
     if (object === null) {
       return context.json(
@@ -436,7 +414,7 @@ const cacheDemo = async (context: DemoContext): Promise<Response> => {
       const cacheValue = Response.json(record, {
         headers: { "Cache-Control": "public, max-age=300" },
       });
-      context.ctx.waitUntil(demoCache.put(cacheKey, cacheValue));
+      await demoCache.put(cacheKey, cacheValue);
     } else {
       const payload: unknown = await cached.json();
       if (!isCacheRecord(payload)) {
@@ -529,8 +507,13 @@ const turnstileProof = (
     verified: true,
   });
 
-const protectedRoute = (pathname: string): ProtectedRoute | null => {
+const protectedRoute = (
+  pathname: string
+): ProtectedRoute | TurnstileProofRoute | null => {
   switch (pathname) {
+    case "/api/demos/turnstile": {
+      return { action: TURNSTILE_ACTIONS.liveLab, proof: true };
+    }
     case "/api/demos/d1": {
       return { action: TURNSTILE_ACTIONS.d1, run: d1Demo };
     }
@@ -572,8 +555,7 @@ export const handleDemoRequest = async (
   }
 
   const route = protectedRoute(pathname);
-  const isTurnstileProof = pathname === "/api/demos/turnstile";
-  if (route === null && !isTurnstileProof) {
+  if (route === null) {
     return null;
   }
   if (context.request.method !== "POST") {
@@ -582,20 +564,15 @@ export const handleDemoRequest = async (
     });
   }
 
-  const action = isTurnstileProof ? TURNSTILE_ACTIONS.liveLab : route?.action;
-  if (action === undefined) {
-    return context.json({ error: "Demo route not found" }, 404);
-  }
-
   const verification = await context.verifyTurnstile(
     context.request,
     context.env,
-    action
+    route.action
   );
   if (verification._tag === "rejected") {
     console.log(
       JSON.stringify({
-        action,
+        action: route.action,
         event: "turnstile_rejected",
         reason: verification.reason,
       })
@@ -626,12 +603,8 @@ export const handleDemoRequest = async (
     );
   }
 
-  if (isTurnstileProof) {
+  if ("proof" in route) {
     return turnstileProof(context, verification);
   }
-  if (route === null) {
-    return context.json({ error: "Demo route not found" }, 404);
-  }
-
   return route.run(context);
 };

@@ -1,3 +1,5 @@
+/// <reference types="node" />
+
 import { defineConfig } from "oxlint";
 import core from "ultracite/oxlint/core";
 import jsPlugins from "ultracite/oxlint/js-plugins";

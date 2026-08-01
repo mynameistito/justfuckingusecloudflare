@@ -22,6 +22,7 @@
     {
       "binding": "DEMO_DB",
       "database_name": "jfu-cloudflare-demos",
+      "database_id": "b7d37bf2-a40a-4599-900c-cdb8a39d1e61",
       "migrations_dir": "migrations",
     },
   ],

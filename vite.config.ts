@@ -1,3 +1,5 @@
+/// <reference types="node" />
+
 import { fileURLToPath, URL } from "node:url";
 
 import { cloudflare } from "@cloudflare/vite-plugin";

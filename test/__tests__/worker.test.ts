@@ -6,6 +6,7 @@ import {
 import { exports } from "cloudflare:workers";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
+import { DEMO_LIMITS } from "../../src/domain/live-demo";
 import { TURNSTILE_ACTIONS } from "../../src/domain/turnstile";
 import type { TurnstileAction } from "../../src/domain/turnstile";
 import { toEdgeContext } from "../../worker/edge-context";
@@ -94,6 +95,29 @@ describe("Turnstile verification", () => {
       _tag: "rejected",
       reason: "invalid_request",
     });
+    expect(siteverify).not.toHaveBeenCalled();
+  });
+
+  it("bounds a chunked request before calling Siteverify", async () => {
+    const siteverify = vi.spyOn(globalThis, "fetch");
+    const body = new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.enqueue(new TextEncoder().encode("x".repeat(4097)));
+        controller.close();
+      },
+    });
+    const request = new Request(
+      "https://justfuckingusecloudflare.com/api/demos/r2",
+      {
+        body,
+        headers: { "Content-Type": "application/json" },
+        method: "POST",
+      }
+    );
+
+    await expect(
+      verifyTurnstileRequest(request, env, TURNSTILE_ACTIONS.r2)
+    ).resolves.toStrictEqual({ _tag: "rejected", reason: "invalid_request" });
     expect(siteverify).not.toHaveBeenCalled();
   });
 
@@ -329,18 +353,27 @@ describe("Worker API", () => {
     const date = new Date().toISOString().slice(0, 10);
     const quota = env.DEMO_QUOTA.getByName(`r2:${date}`);
     const resetAt = new Date(Date.now() + 86_400_000).toISOString();
-    await Promise.all(
-      Array.from({ length: 500 }, () => quota.take(500, resetAt))
-    );
+    await quota.clear();
+    try {
+      await Promise.all(
+        Array.from({ length: DEMO_LIMITS.r2 }, () =>
+          quota.take(DEMO_LIMITS.r2, resetAt)
+        )
+      );
 
-    const response = await protectedFetch(
-      "/api/demos/r2",
-      TURNSTILE_ACTIONS.r2
-    );
+      const response = await protectedFetch(
+        "/api/demos/r2",
+        TURNSTILE_ACTIONS.r2
+      );
 
-    expect(response.status).toBe(429);
-    expect(response.headers.get("retry-after")).not.toBeNull();
-    expect(response.headers.get("x-demo-quota-limit")).toBe("500");
+      expect(response.status).toBe(429);
+      expect(response.headers.get("retry-after")).not.toBeNull();
+      expect(response.headers.get("x-demo-quota-limit")).toBe(
+        String(DEMO_LIMITS.r2)
+      );
+    } finally {
+      await quota.clear();
+    }
   });
 
   it("rejects GET requests to protected demo routes", async () => {

@@ -151,16 +151,25 @@ const ProtectedDownload = ({
     setError(null);
     try {
       const response = await fetch(href, turnstileRequest(token));
+      const limitHeader = response.headers.get("X-Demo-Quota-Limit");
+      const remainingHeader = response.headers.get("X-Demo-Quota-Remaining");
+      if (limitHeader !== null && remainingHeader !== null) {
+        const limit = Number(limitHeader);
+        const remaining = Number(remainingHeader);
+        if (
+          Number.isSafeInteger(limit) &&
+          Number.isSafeInteger(remaining) &&
+          limit > 0 &&
+          remaining >= 0 &&
+          remaining <= limit
+        ) {
+          onQuotaUsed(limit - remaining);
+        }
+      }
       if (!response.ok) {
         setError(await readError(response));
         setStatus("error");
         return;
-      }
-
-      const limit = Number(response.headers.get("X-Demo-Quota-Limit"));
-      const remaining = Number(response.headers.get("X-Demo-Quota-Remaining"));
-      if (Number.isSafeInteger(limit) && Number.isSafeInteger(remaining)) {
-        onQuotaUsed(limit - remaining);
       }
 
       const objectUrl = URL.createObjectURL(await response.blob());
@@ -240,7 +249,10 @@ const DemoCard = ({ demo }: { readonly demo: DemoDefinition }) => {
               ...current.result,
               receipt: {
                 ...current.result.receipt,
-                quota: { ...current.result.receipt.quota, used },
+                quota: {
+                  ...current.result.receipt.quota,
+                  used: Math.max(current.result.receipt.quota.used, used),
+                },
               },
             },
           }

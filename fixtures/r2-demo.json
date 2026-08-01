@@ -1,0 +1,9 @@
+{
+  "guardrails": [
+    "One fixed key",
+    "A tiny immutable payload",
+    "Daily application quota"
+  ],
+  "purpose": "Prove private object storage without accepting public uploads.",
+  "title": "A deliberately boring R2 object"
+}

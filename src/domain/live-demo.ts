@@ -2,6 +2,18 @@ export const JSON_DEMO_IDS = ["d1", "kv", "r2", "cache"] as const;
 
 export type JsonDemoId = (typeof JSON_DEMO_IDS)[number];
 
+/** Hard daily caps that keep each Live Lab demonstration bounded. */
+export const DEMO_LIMITS = {
+  cache: 5000,
+  d1: 1000,
+  images: 100,
+  kv: 100,
+  r2: 500,
+} as const;
+
+/** A Live Lab demo that has a per-day quota. */
+export type DemoQuotaId = keyof typeof DEMO_LIMITS;
+
 export interface DemoFact {
   readonly label: string;
   readonly value: string;

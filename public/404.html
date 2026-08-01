@@ -3,7 +3,39 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0c0c0b" />
     <title>Not found | Just Fucking Use Cloudflare</title>
+    <script src="/theme-init.js"></script>
+    <style>
+      :root {
+        color-scheme: dark;
+        background: #0c0c0b;
+        color: #f2efe7;
+      }
+      :root[data-theme="light"] {
+        color-scheme: light;
+        background: #f2efe7;
+        color: #181815;
+      }
+      body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+      }
+      main {
+        display: grid;
+        min-height: 100vh;
+        place-content: center;
+        padding: 2rem;
+      }
+      h1 {
+        font-size: clamp(2rem, 8vw, 5rem);
+        margin: 0;
+      }
+      a {
+        color: inherit;
+        text-underline-offset: 0.2em;
+      }
+    </style>
   </head>
   <body>
     <main>

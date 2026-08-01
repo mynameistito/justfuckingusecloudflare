@@ -87,15 +87,41 @@ const readToken = async (request: Request): Promise<string | null> => {
     return null;
   }
 
+  if (request.body === null) {
+    return null;
+  }
+
+  const reader = request.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let length = 0;
   try {
-    const body = await request.text();
-    if (new TextEncoder().encode(body).byteLength > MAX_REQUEST_LENGTH) {
-      return null;
+    while (true) {
+      // eslint-disable-next-line no-await-in-loop -- A stream reader must consume each chunk before requesting the next one.
+      const { done, value } = await reader.read();
+      if (done) {
+        break;
+      }
+      length += value.byteLength;
+      if (length > MAX_REQUEST_LENGTH) {
+        // eslint-disable-next-line no-await-in-loop -- Cancel the oversized request immediately rather than leaving its body readable.
+        await reader.cancel();
+        return null;
+      }
+      chunks.push(value);
     }
-    const value: unknown = JSON.parse(body);
+
+    const body = new Uint8Array(length);
+    let offset = 0;
+    for (const chunk of chunks) {
+      body.set(chunk, offset);
+      offset += chunk.byteLength;
+    }
+    const value: unknown = JSON.parse(new TextDecoder().decode(body));
     return parseToken(value);
   } catch {
     return null;
+  } finally {
+    reader.releaseLock();
   }
 };
 

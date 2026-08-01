@@ -50,7 +50,7 @@ export const SiteHeader = () => {
       }
     };
     const closeOnEscape = (event: KeyboardEvent): void => {
-      if (event.key === "Escape") {
+      if (event.key === "Escape" && menuOpen) {
         setMenuOpen(false);
         menuButtonRef.current?.focus();
       }
@@ -62,7 +62,7 @@ export const SiteHeader = () => {
       window.removeEventListener("keydown", closeOnEscape);
       window.removeEventListener("resize", closeForDesktop);
     };
-  }, []);
+  }, [menuOpen]);
 
   const closeMenu = (restoreFocus = false): void => {
     setMenuOpen(false);

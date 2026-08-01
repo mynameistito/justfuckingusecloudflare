@@ -22,8 +22,7 @@
     "types": [
       "./worker-configuration.d.ts",
       "@cloudflare/vitest-pool-workers/types",
-      "vite/client",
-      "node"
+      "vite/client"
     ]
   },
   "include": [

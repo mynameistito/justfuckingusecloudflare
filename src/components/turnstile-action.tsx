@@ -6,6 +6,7 @@ import type { TurnstileAction } from "../domain/turnstile";
 const TURNSTILE_SCRIPT_ID = "cloudflare-turnstile-script";
 const TURNSTILE_SCRIPT_URL =
   "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+const TURNSTILE_POLL_LIMIT = 100;
 
 interface TurnstileOptions {
   readonly sitekey: string;
@@ -61,12 +62,15 @@ const TURNSTILE_ERROR_MESSAGE =
   "The human check could not load. Check content blockers and retry.";
 const TurnstileStatusContext = createContext<TurnstileStatus>("loading");
 const TurnstileSitekeyContext = createContext<string | null>(null);
-const missingTurnstileProvider: Dispatch<SetStateAction<boolean>> = () => {
+const missingTurnstileProvider = (): never => {
   throw new Error("Turnstile actions must be wrapped in a TurnstileProvider.");
 };
 const TurnstileActivationContext = createContext<
   Dispatch<SetStateAction<boolean>>
->(missingTurnstileProvider);
+>(() => missingTurnstileProvider());
+const TurnstileRetryContext = createContext<Dispatch<SetStateAction<number>>>(
+  () => missingTurnstileProvider()
+);
 
 const parseSitekey = (value: unknown): string | null => {
   if (
@@ -85,6 +89,7 @@ const parseSitekey = (value: unknown): string | null => {
 /** Load the public Turnstile configuration and script once for all Live Lab actions. */
 export const TurnstileProvider = ({ children }: TurnstileProviderProps) => {
   const [activated, setActivated] = useState(false);
+  const [reloadKey, setReloadKey] = useState(0);
   const [scriptState, setScriptState] = useState<"loading" | "ready" | "error">(
     () =>
       typeof window !== "undefined" && window.turnstile !== undefined
@@ -106,21 +111,29 @@ export const TurnstileProvider = ({ children }: TurnstileProviderProps) => {
     }
 
     const existing = document.querySelector(`#${TURNSTILE_SCRIPT_ID}`);
-    const script =
-      existing instanceof HTMLScriptElement
-        ? existing
-        : document.createElement("script");
+    if (reloadKey > 0) {
+      existing?.remove();
+    }
+    const useExistingScript =
+      reloadKey === 0 && existing instanceof HTMLScriptElement;
+    const script = useExistingScript
+      ? existing
+      : document.createElement("script");
     const handleLoad = (): void => setScriptState("ready");
     const handleError = (): void => setScriptState("error");
     const pollForApi = (): number | undefined => {
-      if (!(existing instanceof HTMLScriptElement)) {
+      if (!useExistingScript) {
         return undefined;
       }
 
+      let attempts = 0;
       const pollId = window.setInterval(() => {
         if (window.turnstile !== undefined) {
           window.clearInterval(pollId);
           setScriptState("ready");
+        } else if ((attempts += 1) >= TURNSTILE_POLL_LIMIT) {
+          window.clearInterval(pollId);
+          setScriptState("error");
         }
       }, 100);
       return pollId;
@@ -128,7 +141,7 @@ export const TurnstileProvider = ({ children }: TurnstileProviderProps) => {
 
     script.addEventListener("load", handleLoad);
     script.addEventListener("error", handleError);
-    if (!(existing instanceof HTMLScriptElement)) {
+    if (!useExistingScript) {
       script.id = TURNSTILE_SCRIPT_ID;
       script.src = TURNSTILE_SCRIPT_URL;
       script.async = true;
@@ -144,7 +157,7 @@ export const TurnstileProvider = ({ children }: TurnstileProviderProps) => {
         window.clearInterval(pollId);
       }
     };
-  }, [activated]);
+  }, [activated, reloadKey]);
 
   useEffect(() => {
     if (!activated) {
@@ -175,7 +188,7 @@ export const TurnstileProvider = ({ children }: TurnstileProviderProps) => {
 
     void loadConfiguration();
     return () => controller.abort();
-  }, [activated]);
+  }, [activated, reloadKey]);
 
   let status: TurnstileStatus = "idle";
   if (!activated) {
@@ -184,6 +197,8 @@ export const TurnstileProvider = ({ children }: TurnstileProviderProps) => {
     status = "error";
   } else if (scriptState === "ready" && sitekeyState._tag === "ready") {
     status = "ready";
+  } else {
+    status = "loading";
   }
   const sitekey = sitekeyState._tag === "ready" ? sitekeyState.sitekey : null;
 
@@ -191,7 +206,9 @@ export const TurnstileProvider = ({ children }: TurnstileProviderProps) => {
     <TurnstileStatusContext.Provider value={status}>
       <TurnstileSitekeyContext.Provider value={sitekey}>
         <TurnstileActivationContext.Provider value={setActivated}>
-          {children}
+          <TurnstileRetryContext.Provider value={setReloadKey}>
+            {children}
+          </TurnstileRetryContext.Provider>
         </TurnstileActivationContext.Provider>
       </TurnstileSitekeyContext.Provider>
     </TurnstileStatusContext.Provider>
@@ -210,6 +227,7 @@ export const TurnstileActionButton = ({
   const status = useContext(TurnstileStatusContext);
   const sitekey = useContext(TurnstileSitekeyContext);
   const setActivated = useContext(TurnstileActivationContext);
+  const retryTurnstile = useContext(TurnstileRetryContext);
   const [state, setState] = useState<GateState>({ _tag: "loading" });
   const containerRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<string | null>(null);
@@ -329,6 +347,13 @@ export const TurnstileActionButton = ({
     if (status === "idle") {
       executeOnReadyRef.current = true;
       setActivated(true);
+      setState({ _tag: "challenging" });
+      return;
+    }
+    if (status === "error") {
+      executeOnReadyRef.current = true;
+      setActivated(true);
+      retryTurnstile((current) => current + 1);
       setState({ _tag: "challenging" });
       return;
     }
