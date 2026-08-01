@@ -1,10 +1,11 @@
 import { defineConfig } from "oxlint";
 import core from "ultracite/oxlint/core";
+import jsPlugins from "ultracite/oxlint/js-plugins";
 import react from "ultracite/oxlint/react";
 import vitest from "ultracite/oxlint/vitest";
-import jsPlugins from "ultracite/oxlint/js-plugins";
-const selectedJsPluginNames = new Set(["github","sonarjs","react-doctor"]);
-const selectedJsPluginRulePrefixes = new Set(["github","sonarjs","react-doctor"]);
+// These plugins load typescript-eslint, which does not support TypeScript 7 yet.
+const selectedJsPluginNames = new Set(["react-doctor"]);
+const selectedJsPluginRulePrefixes = new Set(["react-doctor"]);
 
 const selectedJsPlugins = {
   ...jsPlugins,
