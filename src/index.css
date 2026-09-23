@@ -1,1 +1,20 @@
 @import "tailwindcss";
+
+@theme {
+  --color-brand: #f6821f;
+  --color-brand-light: #fb923c;
+  --color-brand-dark: #ea580c;
+  --color-surface: #0a0a0a;
+  --color-surface-raised: #171717;
+  --color-line: #262626;
+  --color-line-strong: #404040;
+  --color-muted-dim: #525252;
+  --color-muted: #737373;
+  --color-muted-foreground: #a3a3a3;
+  --color-foreground-soft: #d4d4d4;
+  --animate-soft-bounce: bounce 2s ease-out infinite;
+}
+
+@utility font-anton {
+  font-family: "Anton", sans-serif;
+}

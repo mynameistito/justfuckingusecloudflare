@@ -34,12 +34,6 @@ const HomePage: React.FC = () => {
 
   return (
     <>
-      <a
-        className="sr-only focus:not-sr-only focus:absolute focus:top-6 focus:left-6 focus:z-50 focus:rounded-full focus:bg-orange-500 focus:px-6 focus:py-3 focus:font-bold focus:font-mono focus:text-black focus:uppercase focus:tracking-tight focus:outline-none"
-        href="#main-content"
-      >
-        Skip to main content
-      </a>
       <main id="main-content">
         <Hero />
         <Rant />
@@ -54,7 +48,7 @@ const HomePage: React.FC = () => {
   );
 };
 
-const ScrollToTop: React.FC = () => {
+const RouterContent: React.FC = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -64,18 +58,19 @@ const ScrollToTop: React.FC = () => {
     }
   }, [pathname]);
 
-  return null;
-};
-
-const App: React.FC = () => (
-  <BrowserRouter>
-    <ScrollToTop />
-    <div className="min-h-screen selection:bg-orange-500 selection:text-black">
+  return (
+    <div className="selection:bg-brand min-h-screen selection:text-black">
       <Routes>
         <Route element={<HomePage />} path="/" />
         <Route element={<PrivacyPolicy />} path="/privacy-policy" />
       </Routes>
     </div>
+  );
+};
+
+const App: React.FC = () => (
+  <BrowserRouter>
+    <RouterContent />
   </BrowserRouter>
 );
 

@@ -6,23 +6,23 @@ export const Rant: React.FC = () => {
   const { to } = usePersonalization();
 
   return (
-    <section className="border-neutral-800 border-b bg-neutral-950 px-6 py-24 md:py-32">
+    <section className="border-line bg-surface border-b px-6 py-24 md:py-32">
       <div className="mx-auto max-w-4xl">
-        <h2 className="mb-8 font-anton text-4xl text-white uppercase tracking-tight md:text-5xl lg:text-6xl">
+        <h2 className="font-anton mb-8 text-4xl tracking-tight text-white uppercase md:text-5xl lg:text-6xl">
           {to ? (
             <>
-              <span className="text-orange-500">{to.toUpperCase()}</span>,
-              YOU&apos;RE <span className="text-orange-500">FUCKING</span>{" "}
-              KILLING ME HERE
+              <span className="text-brand">{to.toUpperCase()}</span>,
+              YOU&apos;RE <span className="text-brand">FUCKING</span> KILLING ME
+              HERE
             </>
           ) : (
             <>
-              YOU&apos;RE <span className="text-orange-500">FUCKING</span>{" "}
-              KILLING ME HERE
+              YOU&apos;RE <span className="text-brand">FUCKING</span> KILLING ME
+              HERE
             </>
           )}
         </h2>
-        <div className="space-y-6 font-mono text-base text-neutral-300 leading-relaxed md:text-lg">
+        <div className="text-foreground-soft space-y-6 font-mono text-base leading-relaxed md:text-lg">
           <p>
             {to ? `${to}, y` : "Y"}ou&apos;ve got Vercel for frontend, Railway
             for backend, AWS S3 for storage, PlanetScale for DB, Redis Labs for
@@ -34,12 +34,12 @@ export const Rant: React.FC = () => {
           </p>
           <p>
             Meanwhile Cloudflare is literally{" "}
-            <span className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent">
+            <span className="from-brand to-brand-light bg-gradient-to-r bg-clip-text font-bold text-transparent">
               BEGGING
             </span>{" "}
             you to use their{" "}
             <a
-              className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent decoration-orange-500 hover:underline"
+              className="from-brand to-brand-light decoration-brand bg-gradient-to-r bg-clip-text font-bold text-transparent hover:underline"
               href="https://www.cloudflare.com/developer-platform/products/workers/"
               rel="noopener noreferrer"
               target="_blank"
@@ -48,7 +48,7 @@ export const Rant: React.FC = () => {
             </a>
             ,{" "}
             <a
-              className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent decoration-orange-500 hover:underline"
+              className="from-brand to-brand-light decoration-brand bg-gradient-to-r bg-clip-text font-bold text-transparent hover:underline"
               href="https://www.cloudflare.com/developer-platform/products/pages/"
               rel="noopener noreferrer"
               target="_blank"
@@ -57,7 +57,7 @@ export const Rant: React.FC = () => {
             </a>
             ,{" "}
             <a
-              className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent decoration-orange-500 hover:underline"
+              className="from-brand to-brand-light decoration-brand bg-gradient-to-r bg-clip-text font-bold text-transparent hover:underline"
               href="https://www.cloudflare.com/developer-platform/products/r2/"
               rel="noopener noreferrer"
               target="_blank"
@@ -66,7 +66,7 @@ export const Rant: React.FC = () => {
             </a>
             ,{" "}
             <a
-              className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent decoration-orange-500 hover:underline"
+              className="from-brand to-brand-light decoration-brand bg-gradient-to-r bg-clip-text font-bold text-transparent hover:underline"
               href="https://www.cloudflare.com/developer-platform/products/d1/"
               rel="noopener noreferrer"
               target="_blank"
@@ -75,7 +75,7 @@ export const Rant: React.FC = () => {
             </a>
             ,{" "}
             <a
-              className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent decoration-orange-500 hover:underline"
+              className="from-brand to-brand-light decoration-brand bg-gradient-to-r bg-clip-text font-bold text-transparent hover:underline"
               href="https://www.cloudflare.com/developer-platform/products/workers-kv/"
               rel="noopener noreferrer"
               target="_blank"
@@ -84,7 +84,7 @@ export const Rant: React.FC = () => {
             </a>
             ,{" "}
             <a
-              className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent decoration-orange-500 hover:underline"
+              className="from-brand to-brand-light decoration-brand bg-gradient-to-r bg-clip-text font-bold text-transparent hover:underline"
               href="https://www.cloudflare.com/developer-platform/products/durable-objects/"
               rel="noopener noreferrer"
               target="_blank"
@@ -93,7 +93,7 @@ export const Rant: React.FC = () => {
             </a>
             ,{" "}
             <a
-              className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent decoration-orange-500 hover:underline"
+              className="from-brand to-brand-light decoration-brand bg-gradient-to-r bg-clip-text font-bold text-transparent hover:underline"
               href="https://www.cloudflare.com/developer-platform/products/cloudflare-queues/"
               rel="noopener noreferrer"
               target="_blank"
@@ -102,7 +102,7 @@ export const Rant: React.FC = () => {
             </a>
             ,{" "}
             <a
-              className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent decoration-orange-500 hover:underline"
+              className="from-brand to-brand-light decoration-brand bg-gradient-to-r bg-clip-text font-bold text-transparent hover:underline"
               href="https://www.cloudflare.com/developer-platform/products/workflows/"
               rel="noopener noreferrer"
               target="_blank"
@@ -111,7 +111,7 @@ export const Rant: React.FC = () => {
             </a>
             ,{" "}
             <a
-              className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent decoration-orange-500 hover:underline"
+              className="from-brand to-brand-light decoration-brand bg-gradient-to-r bg-clip-text font-bold text-transparent hover:underline"
               href="https://www.cloudflare.com/developer-platform/products/workers-ai/"
               rel="noopener noreferrer"
               target="_blank"
@@ -120,7 +120,7 @@ export const Rant: React.FC = () => {
             </a>
             ,{" "}
             <a
-              className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text font-bold text-transparent decoration-orange-500 hover:underline"
+              className="from-brand to-brand-light decoration-brand bg-gradient-to-r bg-clip-text font-bold text-transparent hover:underline"
               href="https://www.cloudflare.com/developer-platform/products/vectorize/"
               rel="noopener noreferrer"
               target="_blank"
