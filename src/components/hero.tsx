@@ -14,7 +14,7 @@ export const Hero: React.FC = () => {
             sent you this link, you need to:{" "}
           </p>
         )}
-        <p className="text-brand mb-4 font-mono text-2xl tracking-widest uppercase md:text-3xl lg:text-4xl">
+        <p className="text-brand tracking-kicker mb-4 font-mono text-2xl uppercase md:text-3xl lg:text-4xl">
           JUST
         </p>
         <h1 className="font-anton mb-6 text-5xl tracking-tight text-white uppercase md:text-7xl lg:text-8xl xl:text-9xl">

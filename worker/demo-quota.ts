@@ -42,7 +42,7 @@ export class DemoQuota extends DurableObject<Env> {
     return { allowed: true, limit, resetAt, used };
   }
 
-  public override async alarm(): Promise<void> {
-    await this.ctx.storage.deleteAll();
+  public override alarm(): void {
+    this.ctx.storage.sql.exec("DELETE FROM usage WHERE id = 1");
   }
 }

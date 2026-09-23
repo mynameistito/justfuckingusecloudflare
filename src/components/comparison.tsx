@@ -106,7 +106,7 @@ export const Comparison: React.FC = () => (
               rel="noopener noreferrer"
               target="_blank"
             >
-              <article className="group border-line bg-surface-raised hover:border-brand/50 rounded-2xl border p-6 transition-colors duration-300 hover:shadow-lg md:p-8">
+              <article className="group border-line bg-surface-raised hover:border-brand/50 transition-card rounded-2xl border p-6 transition-colors duration-300 hover:shadow-lg md:p-8">
                 <div className="mb-6 flex items-start gap-4">
                   <div className="bg-brand/10 text-brand group-hover:bg-brand rounded-xl p-3 transition-colors group-hover:text-black">
                     {card.icon}
