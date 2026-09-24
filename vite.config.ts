@@ -5,7 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
-const __dirname = import.meta.dirname;
+const projectRoot = import.meta.dirname;
 
 export default defineConfig({
   build: {
@@ -21,7 +21,7 @@ export default defineConfig({
   },
   plugins: [
     cloudflare({
-      configPath: path.resolve(__dirname, "wrangler.jsonc"),
+      configPath: path.resolve(projectRoot, "wrangler.jsonc"),
     }),
     tailwindcss(),
     react({
@@ -29,10 +29,10 @@ export default defineConfig({
       jsxRuntime: "automatic",
     }),
   ],
-  publicDir: path.resolve(__dirname, "public"),
+  publicDir: path.resolve(projectRoot, "public"),
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "src"),
+      "@": path.resolve(projectRoot, "src"),
     },
     extensions: [".mjs", ".js", ".mts", ".ts", ".jsx", ".tsx", ".json"],
   },

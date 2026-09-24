@@ -25,6 +25,7 @@ package-lock.json
 
 # Wrangler
 src/.wrangler
+.wrangler/
 
 # Cursor
 .cursor

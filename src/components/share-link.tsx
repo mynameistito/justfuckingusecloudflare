@@ -46,12 +46,12 @@ export const ShareLink: React.FC = () => {
   const previewYourName = normalizeName(yourName) ?? "";
 
   return (
-    <section className="border-neutral-800 border-b bg-neutral-950 px-6 py-24 md:py-32">
+    <section className="border-line bg-surface border-b px-6 py-24 md:py-32">
       <div className="mx-auto max-w-4xl">
-        <h2 className="mb-8 font-anton text-4xl text-white uppercase tracking-tight md:text-5xl lg:text-6xl">
-          KNOW SOMEONE WHO NEEDS <span className="text-orange-500">HELP</span>?
+        <h2 className="font-anton mb-8 text-4xl tracking-tight text-white uppercase md:text-5xl lg:text-6xl">
+          KNOW SOMEONE WHO NEEDS <span className="text-brand">HELP</span>?
         </h2>
-        <p className="mb-8 font-mono text-base text-neutral-400 md:text-lg">
+        <p className="text-muted-foreground mb-8 font-mono text-base md:text-lg">
           Share this link with them. They&apos;ll see a personalized version
           just for them.
         </p>
@@ -59,13 +59,13 @@ export const ShareLink: React.FC = () => {
         <div className="space-y-6">
           <div>
             <label
-              className="mb-2 block font-bold font-mono text-neutral-300 text-sm uppercase tracking-tight"
+              className="text-foreground-soft mb-2 block font-mono text-sm font-bold tracking-tight uppercase"
               htmlFor="your-name"
             >
               Your Name
             </label>
             <input
-              className="w-full rounded-lg border border-neutral-700 bg-neutral-900 px-4 py-3 font-mono text-white placeholder:text-neutral-600 focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50"
+              className="border-line-strong bg-surface-raised placeholder:text-muted-dim focus:border-brand focus:ring-brand/50 w-full rounded-lg border px-4 py-3 font-mono text-white focus:ring-2 focus:outline-none"
               id="your-name"
               onChange={(e) => {
                 setYourName(e.target.value);
@@ -78,13 +78,13 @@ export const ShareLink: React.FC = () => {
 
           <div>
             <label
-              className="mb-2 block font-bold font-mono text-neutral-300 text-sm uppercase tracking-tight"
+              className="text-foreground-soft mb-2 block font-mono text-sm font-bold tracking-tight uppercase"
               htmlFor="their-name"
             >
               Their Name
             </label>
             <input
-              className="w-full rounded-lg border border-neutral-700 bg-neutral-900 px-4 py-3 font-mono text-white placeholder:text-neutral-600 focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50"
+              className="border-line-strong bg-surface-raised placeholder:text-muted-dim focus:border-brand focus:ring-brand/50 w-full rounded-lg border px-4 py-3 font-mono text-white focus:ring-2 focus:outline-none"
               id="their-name"
               onChange={(e) => {
                 setTheirName(e.target.value);
@@ -96,10 +96,10 @@ export const ShareLink: React.FC = () => {
           </div>
 
           {previewTheirName && previewYourName && (
-            <div className="rounded-lg border border-neutral-700 bg-neutral-900 p-4">
-              <p className="font-mono text-neutral-400 text-sm">
+            <div className="border-line-strong bg-surface-raised rounded-lg border p-4">
+              <p className="text-muted-foreground font-mono text-sm">
                 They&apos;ll see:{" "}
-                <span className="text-orange-500">
+                <span className="text-brand">
                   &quot;Hey {previewTheirName}, if {previewYourName} sent you
                   this link, you need to...&quot;
                 </span>
@@ -109,7 +109,7 @@ export const ShareLink: React.FC = () => {
 
           <button
             aria-label="Copy share link"
-            className="w-full rounded-full border-2 border-orange-500 bg-orange-500 px-10 py-5 font-bold font-mono text-black uppercase tracking-tight transition-all hover:bg-orange-400 hover:shadow-[0_0_40px_rgba(246,130,31,0.4)] focus-visible:outline-2 focus-visible:outline-orange-500 focus-visible:outline-offset-4 active:bg-orange-600 disabled:cursor-not-allowed disabled:border-neutral-700 disabled:bg-neutral-800 disabled:text-neutral-500 disabled:hover:bg-neutral-800 disabled:hover:shadow-none sm:w-auto"
+            className="border-brand bg-brand hover:bg-brand-light focus-visible:outline-brand active:bg-brand-dark disabled:border-line-strong disabled:bg-line disabled:text-muted disabled:hover:bg-line w-full rounded-full border-2 px-10 py-5 font-mono font-bold tracking-tight text-black uppercase transition-colors hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-4 disabled:cursor-not-allowed disabled:hover:shadow-none sm:w-auto"
             disabled={isDisabled}
             onClick={handleCopyLink}
             type="button"

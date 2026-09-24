@@ -85,11 +85,11 @@ const cards = [
 ];
 
 export const Comparison: React.FC = () => (
-  <section className="border-neutral-800 border-b bg-neutral-950 px-6 py-24 md:py-32">
+  <section className="border-line bg-surface border-b px-6 py-24 md:py-32">
     <div className="mx-auto max-w-7xl">
-      <h2 className="mb-12 text-center font-anton text-3xl uppercase tracking-tight md:mb-20 md:text-5xl lg:text-6xl">
+      <h2 className="font-anton mb-12 text-center text-3xl tracking-tight uppercase md:mb-20 md:text-5xl lg:text-6xl">
         STOP PAYING FOR THIS{" "}
-        <span className="text-orange-500 underline decoration-8 decoration-orange-500/20 underline-offset-8">
+        <span className="text-brand decoration-brand/20 underline decoration-8 underline-offset-8">
           BULLSHIT
         </span>
       </h2>
@@ -106,16 +106,16 @@ export const Comparison: React.FC = () => (
               rel="noopener noreferrer"
               target="_blank"
             >
-              <article className="group rounded-2xl border border-neutral-800 bg-neutral-900 p-6 transition-all duration-300 hover:border-orange-500/50 hover:shadow-[0_0_30px_rgba(246,130,31,0.1)] md:p-8">
+              <article className="group border-line bg-surface-raised hover:border-brand/50 transition-card rounded-2xl border p-6 transition-colors duration-300 hover:shadow-lg md:p-8">
                 <div className="mb-6 flex items-start gap-4">
-                  <div className="rounded-xl bg-orange-500/10 p-3 text-orange-500 transition-colors group-hover:bg-orange-500 group-hover:text-black">
+                  <div className="bg-brand/10 text-brand group-hover:bg-brand rounded-xl p-3 transition-colors group-hover:text-black">
                     {card.icon}
                   </div>
                   <div>
-                    <h3 className="font-anton text-2xl uppercase tracking-wide transition-colors group-hover:text-orange-400">
+                    <h3 className="font-anton group-hover:text-brand-light text-2xl tracking-wide uppercase transition-colors">
                       {card.title}
                     </h3>
-                    <p className="mt-1 font-mono text-neutral-500 text-xs uppercase">
+                    <p className="text-muted mt-1 font-mono text-xs uppercase">
                       vs. {card.vs}
                     </p>
                   </div>
@@ -123,14 +123,14 @@ export const Comparison: React.FC = () => (
                 <p
                   className={
                     isCdnCard
-                      ? "mb-6 min-h-[60px] text-neutral-400 text-xs leading-snug md:h-16 md:text-sm"
-                      : "mb-6 min-h-[80px] text-neutral-400 text-sm leading-relaxed md:h-20 md:text-base"
+                      ? "text-muted-foreground mb-6 min-h-[60px] text-xs leading-snug md:h-16 md:text-sm"
+                      : "text-muted-foreground mb-6 min-h-[80px] text-sm leading-relaxed md:h-20 md:text-base"
                   }
                 >
                   {card.desc}
                 </p>
-                <div className="border-neutral-800 border-t pt-6">
-                  <span className="rounded-full border border-orange-500/20 bg-orange-500/5 px-3 py-1 font-bold font-mono text-orange-500 text-xs uppercase tracking-tighter">
+                <div className="border-line border-t pt-6">
+                  <span className="border-brand/20 bg-brand/5 text-brand rounded-full border px-3 py-1 font-mono text-xs font-bold tracking-tighter uppercase">
                     {card.free}
                   </span>
                 </div>

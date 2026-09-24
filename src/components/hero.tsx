@@ -6,21 +6,20 @@ export const Hero: React.FC = () => {
   const { to, from } = usePersonalization();
 
   return (
-    <section className="relative min-h-screen overflow-hidden border-neutral-800 border-b bg-linear-to-b from-neutral-950 to-neutral-900 px-6 py-24 md:py-32">
+    <section className="border-line from-surface to-surface-raised relative min-h-screen overflow-hidden border-b bg-linear-to-b px-6 py-24 md:py-32">
       <div className="mx-auto max-w-7xl text-center">
         {from && (
-          <p className="mb-6 font-mono text-lg text-neutral-300 md:text-xl">
-            Hey there, if{" "}
-            <span className="font-bold text-orange-500">{from}</span> sent you
-            this link, you need to:{" "}
+          <p className="text-foreground-soft mb-6 font-mono text-lg md:text-xl">
+            Hey there, if <span className="text-brand font-bold">{from}</span>{" "}
+            sent you this link, you need to:{" "}
           </p>
         )}
-        <p className="mb-4 font-mono text-2xl text-orange-500 uppercase tracking-[0.4em] md:text-3xl lg:text-4xl">
+        <p className="text-brand tracking-kicker mb-4 font-mono text-2xl uppercase md:text-3xl lg:text-4xl">
           JUST
         </p>
-        <h1 className="mb-6 font-anton text-5xl text-white uppercase tracking-tight md:text-7xl lg:text-8xl xl:text-9xl">
+        <h1 className="font-anton mb-6 text-5xl tracking-tight text-white uppercase md:text-7xl lg:text-8xl xl:text-9xl">
           <span className="block">FUCKING</span>
-          <span className="block text-orange-500 underline decoration-8 decoration-orange-500/20 underline-offset-8">
+          <span className="text-brand decoration-brand/20 block underline decoration-8 underline-offset-8">
             USE
           </span>
           <span className="block">CLOUDFLARE</span>
@@ -28,18 +27,18 @@ export const Hero: React.FC = () => {
             {to ? `${to.toUpperCase()}` : "YOU DEGENERATE"}
           </span>
         </h1>
-        <p className="mx-auto mb-8 max-w-2xl font-mono text-base text-neutral-400 md:text-lg lg:text-xl">
+        <p className="text-muted-foreground mx-auto mb-8 max-w-2xl font-mono text-base md:text-lg lg:text-xl">
           Stop paying{" "}
-          <strong className="text-orange-500">SEVENTEEN DIFFERENT BILLS</strong>{" "}
-          for your shitty todo app. Stop pretending you&apos;re an infra genius
-          when you&apos;re just{" "}
-          <strong className="text-orange-500">bleeding money</strong>.
+          <strong className="text-brand">SEVENTEEN DIFFERENT BILLS</strong> for
+          your shitty todo app. Stop pretending you&apos;re an infra genius when
+          you&apos;re just{" "}
+          <strong className="text-brand">bleeding money</strong>.
         </p>
       </div>
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+      <div className="animate-soft-bounce absolute bottom-8 left-1/2 -translate-x-1/2">
         <svg
           aria-label="Scroll down"
-          className="h-8 w-8 text-orange-500 md:h-10 md:w-10"
+          className="text-brand h-8 w-8 md:h-10 md:w-10"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"

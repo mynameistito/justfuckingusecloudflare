@@ -4,14 +4,14 @@ import { Link } from "react-router-dom";
 export const PrivacyPolicy: React.FC = () => (
   <div className="mx-auto max-w-4xl px-6 py-16">
     <div className="mx-auto max-w-3xl">
-      <h1 className="font-anton text-5xl text-white uppercase tracking-tight md:text-6xl">
+      <h1 className="font-anton text-5xl tracking-tight text-white uppercase md:text-6xl">
         The Fucking Privacy Policy
       </h1>
-      <p className="mt-4 font-mono text-neutral-400 text-sm">
+      <p className="text-muted-foreground mt-4 font-mono text-sm">
         Last updated: April 25, 2026
       </p>
 
-      <div className="mt-12 space-y-8 font-sans text-neutral-300">
+      <div className="text-foreground-soft mt-12 space-y-8 font-sans">
         <section>
           <p className="mt-4 leading-relaxed">
             Yeah we know, another goddamn wall of lawyer text. But here&apos;s
@@ -22,14 +22,14 @@ export const PrivacyPolicy: React.FC = () => (
         </section>
 
         <section>
-          <h2 className="font-anton text-3xl text-white uppercase tracking-tight">
+          <h2 className="font-anton text-3xl tracking-tight text-white uppercase">
             What We Collect (Spoiler: Not Your Soul)
           </h2>
           <p className="mt-4 leading-relaxed">
             We use Cloudflare Web Analytics — privacy-respecting, no cookies, no
             fingerprinting. It grabs only anonymized, aggregated garbage like:
           </p>
-          <ul className="mt-4 ml-6 list-disc space-y-2 font-mono text-neutral-400">
+          <ul className="text-muted-foreground mt-4 ml-6 list-disc space-y-2 font-mono">
             <li>Page views and how you stumble around the site</li>
             <li>How long you stare at our beautiful rage</li>
             <li>Referrer (just the domain, not your life story)</li>
@@ -51,7 +51,7 @@ export const PrivacyPolicy: React.FC = () => (
         </section>
 
         <section>
-          <h2 className="font-anton text-3xl text-white uppercase tracking-tight">
+          <h2 className="font-anton text-3xl tracking-tight text-white uppercase">
             Public Shame (Aggregated Only)
           </h2>
           <p className="mt-4 leading-relaxed">
@@ -64,7 +64,7 @@ export const PrivacyPolicy: React.FC = () => (
         </section>
 
         <section>
-          <h2 className="font-anton text-3xl text-white uppercase tracking-tight">
+          <h2 className="font-anton text-3xl tracking-tight text-white uppercase">
             No Cookies. No Bullshit Banners.
           </h2>
           <p className="mt-4 leading-relaxed">
@@ -76,10 +76,10 @@ export const PrivacyPolicy: React.FC = () => (
         </section>
 
         <section>
-          <h2 className="font-anton text-3xl text-white uppercase tracking-tight">
+          <h2 className="font-anton text-3xl tracking-tight text-white uppercase">
             Third-Party Services (The Only Ones We Couldn&apos;t Avoid)
           </h2>
-          <ul className="mt-4 ml-6 list-disc space-y-2 font-mono text-neutral-400">
+          <ul className="text-muted-foreground mt-4 ml-6 list-disc space-y-2 font-mono">
             <li>
               <strong className="text-white">Cloudflare Web Analytics</strong> →
               analytics (privacy-first, no cookies, data stays on Cloudflare)
@@ -97,7 +97,7 @@ export const PrivacyPolicy: React.FC = () => (
         </section>
 
         <section>
-          <h2 className="font-anton text-3xl text-white uppercase tracking-tight">
+          <h2 className="font-anton text-3xl tracking-tight text-white uppercase">
             Data Goes Where?
           </h2>
           <p className="mt-4 leading-relaxed">
@@ -108,7 +108,7 @@ export const PrivacyPolicy: React.FC = () => (
         </section>
 
         <section>
-          <h2 className="font-anton text-3xl text-white uppercase tracking-tight">
+          <h2 className="font-anton text-3xl tracking-tight text-white uppercase">
             Your Rights (GDPR & Friends)
           </h2>
           <p className="mt-4 leading-relaxed">
@@ -117,12 +117,12 @@ export const PrivacyPolicy: React.FC = () => (
             default.
           </p>
           <p className="mt-4 leading-relaxed">Still wanna fight the power?</p>
-          <ul className="mt-4 ml-6 list-disc space-y-2 font-mono text-neutral-400">
+          <ul className="text-muted-foreground mt-4 ml-6 list-disc space-y-2 font-mono">
             <li>Block analytics requests with uBlock/uMatrix/whatever</li>
             <li>
               Cry to Cloudflare at{" "}
               <a
-                className="text-orange-500 transition-colors hover:text-orange-400"
+                className="text-brand hover:text-brand-light transition-colors"
                 href="https://www.cloudflare.com/privacypolicy/"
                 rel="noopener noreferrer"
                 target="_blank"
@@ -140,7 +140,7 @@ export const PrivacyPolicy: React.FC = () => (
         </section>
 
         <section>
-          <h2 className="font-anton text-3xl text-white uppercase tracking-tight">
+          <h2 className="font-anton text-3xl tracking-tight text-white uppercase">
             Changes to This Policy
           </h2>
           <p className="mt-4 leading-relaxed">
@@ -151,17 +151,17 @@ export const PrivacyPolicy: React.FC = () => (
         </section>
 
         <section>
-          <h2 className="font-anton text-3xl text-white uppercase tracking-tight">
+          <h2 className="font-anton text-3xl tracking-tight text-white uppercase">
             Contact
           </h2>
           <p className="mt-4 leading-relaxed">
             Got beef? Open an issue here and yell into the void:
           </p>
-          <div className="mt-4 space-y-2 font-mono text-neutral-400">
+          <div className="text-muted-foreground mt-4 space-y-2 font-mono">
             <p>
               GitHub:{" "}
               <a
-                className="text-orange-500 transition-colors hover:text-orange-400"
+                className="text-brand hover:text-brand-light transition-colors"
                 href="https://github.com/mynameistito/justfuckingusecloudflare"
                 rel="noopener noreferrer"
                 target="_blank"
@@ -172,25 +172,25 @@ export const PrivacyPolicy: React.FC = () => (
           </div>
         </section>
 
-        <section className="mt-12 border-neutral-800 border-t pt-8">
-          <p className="font-anton text-2xl text-white uppercase leading-relaxed tracking-tight">
+        <section className="border-line mt-12 border-t pt-8">
+          <p className="font-anton text-2xl leading-relaxed tracking-tight text-white uppercase">
             Stop Fucking Worrying About Privacy Here.
           </p>
-          <p className="mt-4 font-anton text-2xl text-white uppercase leading-relaxed tracking-tight">
+          <p className="font-anton mt-4 text-2xl leading-relaxed tracking-tight text-white uppercase">
             We&apos;re Not The Villains.
           </p>
-          <p className="mt-4 font-anton text-2xl text-white uppercase leading-relaxed tracking-tight">
+          <p className="font-anton mt-4 text-2xl leading-relaxed tracking-tight text-white uppercase">
             We&apos;re The Ones Telling You To Stop Paying several Bills.
           </p>
-          <p className="mt-4 font-anton text-2xl text-orange-500 uppercase leading-relaxed tracking-tight">
+          <p className="font-anton text-brand mt-4 text-2xl leading-relaxed tracking-tight uppercase">
             Just FuckingUse Cloudflare.
           </p>
         </section>
       </div>
 
-      <div className="mt-12 border-neutral-800 border-t pt-8">
+      <div className="border-line mt-12 border-t pt-8">
         <Link
-          className="inline-flex items-center gap-2 rounded-full border border-neutral-700 bg-transparent px-4 py-2 font-mono text-neutral-400 text-sm transition-all hover:border-orange-500 hover:text-orange-500 focus-visible:outline-2 focus-visible:outline-orange-500 focus-visible:outline-offset-2"
+          className="border-line-strong text-muted-foreground hover:border-brand hover:text-brand focus-visible:outline-brand inline-flex items-center gap-2 rounded-full border bg-transparent px-4 py-2 font-mono text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
           to="/"
         >
           ← Back to Home

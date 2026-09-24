@@ -2,21 +2,21 @@ import type React from "react";
 import { Link } from "react-router-dom";
 
 export const Footer: React.FC = () => (
-  <footer className="border-neutral-800 border-t bg-neutral-950 px-6 py-12">
+  <footer className="border-line bg-surface border-t px-6 py-12">
     <div className="mx-auto max-w-7xl">
       <div className="flex flex-col items-center justify-between gap-8 md:flex-row md:items-start">
         <div className="text-center md:text-left">
-          <p className="font-anton text-white text-xl uppercase tracking-tight">
+          <p className="font-anton text-xl tracking-tight text-white uppercase">
             Just Fucking Use Cloudflare
           </p>
-          <p className="mt-2 font-mono text-neutral-500 text-sm">
+          <p className="text-muted mt-2 font-mono text-sm">
             Stop fucking around. Start fucking building.
           </p>
         </div>
         <div className="flex flex-wrap items-center justify-center gap-3 md:justify-end">
           <a
             aria-label="Sign up for Cloudflare"
-            className="rounded-full border border-neutral-700 bg-transparent px-4 py-2 font-mono text-neutral-400 text-sm transition-all hover:border-orange-500 hover:text-orange-500 focus-visible:outline-2 focus-visible:outline-orange-500 focus-visible:outline-offset-2"
+            className="border-line-strong text-muted-foreground hover:border-brand hover:text-brand focus-visible:outline-brand rounded-full border bg-transparent px-4 py-2 font-mono text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
             href="https://dash.cloudflare.com/sign-up"
             rel="noopener noreferrer"
             target="_blank"
@@ -25,7 +25,7 @@ export const Footer: React.FC = () => (
           </a>
           <a
             aria-label="Cloudflare Developer Documentation"
-            className="rounded-full border border-neutral-700 bg-transparent px-4 py-2 font-mono text-neutral-400 text-sm transition-all hover:border-orange-500 hover:text-orange-500 focus-visible:outline-2 focus-visible:outline-orange-500 focus-visible:outline-offset-2"
+            className="border-line-strong text-muted-foreground hover:border-brand hover:text-brand focus-visible:outline-brand rounded-full border bg-transparent px-4 py-2 font-mono text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
             href="https://developers.cloudflare.com"
             rel="noopener noreferrer"
             target="_blank"
@@ -34,7 +34,7 @@ export const Footer: React.FC = () => (
           </a>
           <a
             aria-label="Cloudflare Blog"
-            className="rounded-full border border-neutral-700 bg-transparent px-4 py-2 font-mono text-neutral-400 text-sm transition-all hover:border-orange-500 hover:text-orange-500 focus-visible:outline-2 focus-visible:outline-orange-500 focus-visible:outline-offset-2"
+            className="border-line-strong text-muted-foreground hover:border-brand hover:text-brand focus-visible:outline-brand rounded-full border bg-transparent px-4 py-2 font-mono text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
             href="https://blog.cloudflare.com"
             rel="noopener noreferrer"
             target="_blank"
@@ -43,7 +43,7 @@ export const Footer: React.FC = () => (
           </a>
           <a
             aria-label="Cloudflare Community"
-            className="rounded-full border border-neutral-700 bg-transparent px-4 py-2 font-mono text-neutral-400 text-sm transition-all hover:border-orange-500 hover:text-orange-500 focus-visible:outline-2 focus-visible:outline-orange-500 focus-visible:outline-offset-2"
+            className="border-line-strong text-muted-foreground hover:border-brand hover:text-brand focus-visible:outline-brand rounded-full border bg-transparent px-4 py-2 font-mono text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
             href="https://community.cloudflare.com"
             rel="noopener noreferrer"
             target="_blank"
@@ -52,7 +52,7 @@ export const Footer: React.FC = () => (
           </a>
           <a
             aria-label="Cloudflare Domains"
-            className="rounded-full border border-neutral-700 bg-transparent px-4 py-2 font-mono text-neutral-400 text-sm transition-all hover:border-orange-500 hover:text-orange-500 focus-visible:outline-2 focus-visible:outline-orange-500 focus-visible:outline-offset-2"
+            className="border-line-strong text-muted-foreground hover:border-brand hover:text-brand focus-visible:outline-brand rounded-full border bg-transparent px-4 py-2 font-mono text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
             href="https://www.cloudflare.com/products/registrar/"
             rel="noopener noreferrer"
             target="_blank"
@@ -61,22 +61,22 @@ export const Footer: React.FC = () => (
           </a>
         </div>
       </div>
-      <div className="mt-8 border-neutral-800 border-t pt-8 text-center">
-        <p className="font-mono text-neutral-600 text-xs">
+      <div className="border-line mt-8 border-t pt-8 text-center">
+        <p className="text-muted-dim font-mono text-xs">
           <Link
-            className="text-orange-500 transition-colors hover:text-orange-400"
+            className="text-brand hover:text-brand-light transition-colors"
             to="/privacy-policy"
           >
             Privacy Policy
           </Link>
         </p>
-        <p className="mt-4 font-mono text-neutral-600 text-xs">
+        <p className="text-muted-dim mt-4 font-mono text-xs">
           Not affiliated with Cloudflare. Just someone who loves their products.
         </p>
-        <p className="mt-2 font-mono text-neutral-600 text-xs">
+        <p className="text-muted-dim mt-2 font-mono text-xs">
           Inspired by{" "}
           <a
-            className="text-orange-500 transition-colors hover:text-orange-400"
+            className="text-brand hover:text-brand-light transition-colors"
             href="https://justfuckingusehtml.com"
             rel="noopener noreferrer"
             target="_blank"
@@ -85,7 +85,7 @@ export const Footer: React.FC = () => (
           </a>
           ,{" "}
           <a
-            className="text-orange-500 transition-colors hover:text-orange-400"
+            className="text-brand hover:text-brand-light transition-colors"
             href="https://justfuckingusetailwind.com"
             rel="noopener noreferrer"
             target="_blank"
@@ -94,7 +94,7 @@ export const Footer: React.FC = () => (
           </a>
           ,{" "}
           <a
-            className="text-orange-500 transition-colors hover:text-orange-400"
+            className="text-brand hover:text-brand-light transition-colors"
             href="https://justfuckingusereact.com"
             rel="noopener noreferrer"
             target="_blank"
@@ -103,7 +103,7 @@ export const Footer: React.FC = () => (
           </a>{" "}
           and the{" "}
           <a
-            className="text-orange-500 transition-colors hover:text-orange-400"
+            className="text-brand hover:text-brand-light transition-colors"
             href="https://justfuckinguse.com"
             rel="noopener noreferrer"
             target="_blank"
@@ -112,10 +112,10 @@ export const Footer: React.FC = () => (
           </a>{" "}
           ecosystem.
         </p>
-        <p className="mt-2 font-mono text-neutral-600 text-xs">
+        <p className="text-muted-dim mt-2 font-mono text-xs">
           Made by:{" "}
           <a
-            className="text-orange-500 transition-colors hover:text-orange-400"
+            className="text-brand hover:text-brand-light transition-colors"
             href="https://mynameistito.com"
             rel="noopener noreferrer"
             target="_blank"

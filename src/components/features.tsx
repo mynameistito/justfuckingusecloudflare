@@ -20,20 +20,20 @@ const features = [
 ];
 
 export const Features: React.FC = () => (
-  <section className="border-neutral-800 border-b bg-neutral-900 px-6 py-24 md:py-32">
+  <section className="border-line bg-surface-raised border-b px-6 py-24 md:py-32">
     <div className="mx-auto max-w-7xl">
-      <h2 className="mb-4 text-center font-anton text-3xl text-white uppercase tracking-tight md:text-5xl lg:text-6xl">
+      <h2 className="font-anton mb-4 text-center text-3xl tracking-tight text-white uppercase md:text-5xl lg:text-6xl">
         One platform. Everything you need.
       </h2>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {features.map((feature) => (
           <div
-            className="flex items-center gap-3 rounded-xl border border-neutral-800 bg-neutral-950 p-4 transition-all hover:border-orange-500/50 hover:bg-neutral-900"
+            className="border-line bg-surface hover:border-brand/50 hover:bg-surface-raised flex items-center gap-3 rounded-xl border p-4 transition-colors"
             key={feature}
           >
-            <CheckCircle2 className="h-5 w-5 flex-shrink-0 text-orange-500" />
-            <span className="font-mono text-neutral-300 text-sm">
+            <CheckCircle2 className="text-brand h-5 w-5 flex-shrink-0" />
+            <span className="text-foreground-soft font-mono text-sm">
               {feature}
             </span>
           </div>
