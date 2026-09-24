@@ -12,8 +12,18 @@ export class DemoQuota extends DurableObject<Env> {
   public constructor(ctx: DurableObjectState, env: Env) {
     super(ctx, env);
     this.ctx.storage.sql.exec(
-      "CREATE TABLE IF NOT EXISTS usage (id INTEGER PRIMARY KEY CHECK (id = 1), used INTEGER NOT NULL)"
+      "CREATE TABLE IF NOT EXISTS usage (id INTEGER PRIMARY KEY CHECK (id = 1), used INTEGER NOT NULL, reset_at INTEGER NOT NULL DEFAULT 0)"
     );
+    const columns = [
+      ...this.ctx.storage.sql.exec<{ readonly name: string }>(
+        "PRAGMA table_info(usage)"
+      ),
+    ];
+    if (!columns.some(({ name }) => name === "reset_at")) {
+      this.ctx.storage.sql.exec(
+        "ALTER TABLE usage ADD COLUMN reset_at INTEGER NOT NULL DEFAULT 0"
+      );
+    }
   }
 
   public async take(limit: number, resetAt: string): Promise<QuotaDecision> {
@@ -21,12 +31,16 @@ export class DemoQuota extends DurableObject<Env> {
       throw new Error("Invalid quota limit");
     }
 
-    const current =
-      [
-        ...this.ctx.storage.sql.exec<{ readonly used: number }>(
-          "SELECT used FROM usage WHERE id = 1"
-        ),
-      ][0]?.used ?? 0;
+    const resetTimestamp = Date.parse(resetAt);
+    if (!Number.isFinite(resetTimestamp) || resetTimestamp <= Date.now()) {
+      throw new Error("Invalid quota reset time");
+    }
+
+    const [stored] = this.ctx.storage.sql.exec<{
+      readonly used: number;
+      readonly reset_at: number;
+    }>("SELECT used, reset_at FROM usage WHERE id = 1");
+    const current = stored?.reset_at === resetTimestamp ? stored.used : 0;
 
     if (current >= limit) {
       return { allowed: false, limit, resetAt, used: current };
@@ -34,10 +48,11 @@ export class DemoQuota extends DurableObject<Env> {
 
     const used = current + 1;
     this.ctx.storage.sql.exec(
-      "INSERT INTO usage (id, used) VALUES (1, ?) ON CONFLICT(id) DO UPDATE SET used = excluded.used",
-      used
+      "INSERT INTO usage (id, used, reset_at) VALUES (1, ?, ?) ON CONFLICT(id) DO UPDATE SET used = excluded.used, reset_at = excluded.reset_at",
+      used,
+      resetTimestamp
     );
-    await this.ctx.storage.setAlarm(Date.parse(resetAt));
+    await this.ctx.storage.setAlarm(resetTimestamp);
 
     return { allowed: true, limit, resetAt, used };
   }

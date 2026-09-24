@@ -38,11 +38,9 @@
   font-weight: 700;
   text-transform: uppercase;
   transform: translateY(-150%);
-  transition: transform 150ms ease-out;
-}
+  transition: transform 150ms ease-out !important;
 
-@layer components {
-  .skip-link:focus-visible {
+  &:focus-visible {
     transform: translateY(1rem);
   }
 }

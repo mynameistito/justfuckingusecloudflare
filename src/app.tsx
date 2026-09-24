@@ -37,7 +37,7 @@ const HomePage: React.FC = () => {
       <a className="skip-link" href="#main-content">
         Skip to main content
       </a>
-      <main id="main-content">
+      <main id="main-content" tabIndex={-1}>
         <Hero />
         <Rant />
         <Comparison />
