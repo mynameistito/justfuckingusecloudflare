@@ -40,7 +40,10 @@ export class DemoQuota extends DurableObject<Env> {
       readonly used: number;
       readonly reset_at: number;
     }>("SELECT used, reset_at FROM usage WHERE id = 1");
-    const current = stored?.reset_at === resetTimestamp ? stored.used : 0;
+    const current =
+      stored && (stored.reset_at === 0 || stored.reset_at === resetTimestamp)
+        ? stored.used
+        : 0;
 
     if (current >= limit) {
       return { allowed: false, limit, resetAt, used: current };
