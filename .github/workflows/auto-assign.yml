@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   assign-issue:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Assign issue to mynameistito
         uses: actions/github-script@v8
