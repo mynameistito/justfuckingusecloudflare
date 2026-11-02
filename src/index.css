@@ -3,10 +3,11 @@
 @import "tailwindcss";
 
 :root {
+  color-scheme: light;
   font-family: Arial, sans-serif;
-  color: #242424;
-  background: #fff;
-  font-size: 14px;
+  color: var(--text-color-kumo-default);
+  background: var(--color-kumo-base);
+  font-size: 16px;
 }
 #root {
   isolation: isolate;
@@ -16,12 +17,13 @@ html {
 }
 body {
   margin: 0;
+  font-size: 14px;
 }
 * {
   box-sizing: border-box;
 }
 :focus-visible {
-  outline: 2px solid #f6821f;
+  outline: 2px solid var(--text-color-kumo-brand);
   outline-offset: 3px;
 }
 .shell {
@@ -29,8 +31,8 @@ body {
   margin-inline: auto;
 }
 .site-header {
-  border-bottom: 1px solid #e8e8e8;
-  background: white;
+  border-bottom: 1px solid var(--color-kumo-line);
+  background: var(--color-kumo-base);
 }
 .header-inner {
   min-height: 76px;
@@ -44,11 +46,11 @@ body {
   align-items: center;
   gap: 9px;
   font-weight: 600;
-  color: #252525;
+  color: var(--text-color-kumo-default);
 }
 .brand svg,
 .footer-brand svg {
-  color: #f6821f;
+  color: var(--text-color-kumo-brand);
   flex: none;
 }
 .nav {
@@ -65,7 +67,11 @@ body {
 }
 .hero {
   overflow: hidden;
-  background: linear-gradient(120deg, #fff 48%, #fff8f2);
+  background: linear-gradient(
+    120deg,
+    var(--color-kumo-base) 48%,
+    var(--color-kumo-elevated)
+  );
 }
 .hero-grid {
   min-height: 600px;
@@ -81,8 +87,8 @@ body {
   gap: 24px;
 }
 .eyebrow {
-  color: #bd5100;
-  font-size: 12px;
+  color: var(--text-color-kumo-badge-orange-subtle);
+  font-size: 14px;
   font-weight: 600;
   margin: 0 0 16px;
 }
@@ -98,7 +104,7 @@ p {
 h1,
 h2,
 h3 {
-  color: #202020;
+  color: var(--text-color-kumo-strong);
   font-weight: 600;
 }
 h1 {
@@ -106,7 +112,7 @@ h1 {
   line-height: 1.04;
 }
 h1 span {
-  color: #d86100;
+  color: var(--text-color-kumo-badge-orange-subtle);
 }
 h2 {
   font-size: clamp(32px, 4vw, 48px);
@@ -133,17 +139,6 @@ p {
   align-items: center;
   gap: 8px;
 }
-.action-primary {
-  background: #f6821f;
-  color: #171717;
-  font-weight: 600;
-  text-decoration: none;
-  padding: 14px 20px;
-  border-radius: 4px;
-}
-.action-primary:hover {
-  background: #e87512;
-}
 .network {
   position: relative;
   height: 450px;
@@ -153,8 +148,8 @@ p {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(#f3dfd0 1px, transparent 1px),
-    linear-gradient(90deg, #f3dfd0 1px, transparent 1px);
+    linear-gradient(var(--color-kumo-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-kumo-line) 1px, transparent 1px);
   background-size: 36px 36px;
   mask-image: radial-gradient(ellipse, black, transparent 72%);
 }
@@ -162,7 +157,7 @@ p {
   position: absolute;
   top: 50%;
   left: 50%;
-  border: 1px solid #e8a46c;
+  border: 1px solid var(--color-kumo-line);
   border-radius: 50%;
   transform: translate(-50%, -50%);
 }
@@ -187,7 +182,7 @@ p {
   justify-items: center;
   gap: 4px;
   text-align: center;
-  color: #cc5900;
+  color: var(--text-color-kumo-badge-orange-subtle);
   font-weight: 600;
 }
 .node {
@@ -195,8 +190,8 @@ p {
   width: 11px;
   height: 11px;
   border-radius: 50%;
-  background: #f6821f;
-  box-shadow: 0 0 0 5px #ffead9;
+  background: var(--text-color-kumo-brand);
+  box-shadow: 0 0 0 5px var(--color-kumo-tint);
 }
 .node-one {
   top: 16%;
@@ -216,8 +211,8 @@ p {
 }
 .network-label {
   position: absolute;
-  color: #905127;
-  font-size: 10px;
+  color: var(--text-color-kumo-badge-orange-subtle);
+  font-size: 14px;
   font-weight: 600;
 }
 .label-one {
@@ -253,7 +248,7 @@ p {
   gap: 20px;
 }
 .platform {
-  background: #f7f7f7;
+  background: var(--color-kumo-elevated);
 }
 .section-heading {
   display: flex;
@@ -281,11 +276,11 @@ p {
   min-height: 235px;
 }
 .product-icon {
-  color: #e56d0a;
+  color: var(--text-color-kumo-brand);
   margin-bottom: 12px;
 }
 .cta {
-  background: #fff1e5;
+  background: var(--color-kumo-elevated);
   padding-block: 80px;
 }
 .cta-inner {
@@ -322,14 +317,14 @@ p {
   display: none;
 }
 .status {
-  color: #555;
+  color: var(--text-color-kumo-subtle);
 }
 .attribution {
   padding-bottom: 50px;
 }
 .site-footer {
-  background: #f7f7f7;
-  border-top: 1px solid #e5e5e5;
+  background: var(--color-kumo-elevated);
+  border-top: 1px solid var(--color-kumo-line);
   padding-block: 50px 30px;
 }
 .footer-top,
@@ -350,7 +345,7 @@ p {
   gap: 24px;
 }
 .footer-bottom {
-  border-top: 1px solid #ddd;
+  border-top: 1px solid var(--color-kumo-line);
   padding-top: 24px;
 }
 .policy {
@@ -379,7 +374,7 @@ p {
   position: absolute;
   left: 16px;
   top: -100px;
-  background: white;
+  background: var(--color-kumo-base);
   padding: 12px;
   z-index: 1;
 }
@@ -436,10 +431,10 @@ p {
     width: min(100% - 32px, 1200px);
   }
   .brand {
-    font-size: 12px;
+    font-size: 14px;
   }
   .header-action {
-    font-size: 12px;
+    font-size: 14px;
   }
   .network {
     height: 300px;

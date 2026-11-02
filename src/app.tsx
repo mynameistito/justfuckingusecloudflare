@@ -1,4 +1,11 @@
-import { Button, Input, LayerCard, Link, Text } from "@cloudflare/kumo";
+import {
+  Button,
+  Input,
+  LayerCard,
+  Link,
+  LinkButton,
+  Text,
+} from "@cloudflare/kumo";
 import {
   ArrowRightIcon,
   CloudIcon,
@@ -8,7 +15,7 @@ import {
   LockKeyIcon,
 } from "@phosphor-icons/react";
 import { useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 
 import { normalizeName, usePersonalization } from "./hooks/use-personalization";
 
@@ -39,35 +46,38 @@ const products = [
   },
 ];
 
-const Header: React.FC = () => (
-  <header className="site-header">
-    <div className="shell header-inner">
-      <Link href="/" variant="plain" className="brand">
-        <CloudIcon weight="fill" size={30} aria-hidden="true" />
-        <span>
-          Just fucking use <strong>Cloudflare</strong>
-        </span>
-      </Link>
-      <nav aria-label="Main navigation" className="nav">
-        <Link href="/#platform" variant="plain">
-          The platform
+const Header: React.FC = () => {
+  const { search } = useLocation();
+  return (
+    <header className="site-header">
+      <div className="shell header-inner">
+        <Link href={`/${search}`} variant="plain" className="brand">
+          <CloudIcon weight="fill" size={30} aria-hidden="true" />
+          <span>
+            Just fucking use <strong>Cloudflare</strong>
+          </span>
         </Link>
-        <Link href="/#why" variant="plain">
-          Why Cloudflare
+        <nav aria-label="Main navigation" className="nav">
+          <Link href={`/${search}#platform`} variant="plain">
+            The platform
+          </Link>
+          <Link href={`/${search}#why`} variant="plain">
+            Why Cloudflare
+          </Link>
+          <Link href={`/${search}#share`} variant="plain">
+            Share
+          </Link>
+        </nav>
+        <Link
+          className="header-action"
+          href="https://dash.cloudflare.com/sign-up"
+        >
+          Start building <ArrowRightIcon aria-hidden="true" />
         </Link>
-        <Link href="/#share" variant="plain">
-          Share
-        </Link>
-      </nav>
-      <Link
-        className="header-action"
-        href="https://dash.cloudflare.com/sign-up"
-      >
-        Start building <ArrowRightIcon aria-hidden="true" />
-      </Link>
-    </div>
-  </header>
-);
+      </div>
+    </header>
+  );
+};
 
 const NetworkVisual: React.FC = () => (
   <div className="network" aria-hidden="true">
@@ -114,7 +124,7 @@ const ShareLink: React.FC = () => {
     <section className="share-section" id="share">
       <div className="shell share-layout">
         <div>
-          <p className="eyebrow">SPREAD THE WORD</p>
+          <p className="eyebrow">Spread the word</p>
           <h2>Know someone who needs a little intervention?</h2>
           <Text>
             Send them a personalized nudge. Because friends don’t let friends
@@ -205,11 +215,11 @@ const HomePage: React.FC = () => {
   return (
     <>
       <Header />
-      <main id="main-content">
+      <main id="main-content" tabIndex={-1}>
         <section className="hero">
           <div className="shell hero-grid">
             <div className="hero-copy">
-              <p className="eyebrow">THE INTERNET IS COMPLICATED ENOUGH</p>
+              <p className="eyebrow">The internet is complicated enough</p>
               {(to || from) && (
                 <Text variant="secondary">
                   {to ? `Hey ${to}` : "Hey there"}
@@ -225,12 +235,12 @@ const HomePage: React.FC = () => {
                 brings it all together.
               </Text>
               <div className="actions">
-                <Link
-                  className="action-primary"
+                <LinkButton
+                  variant="primary"
                   href="https://dash.cloudflare.com/sign-up"
                 >
                   Start building <ArrowRightIcon aria-hidden="true" />
-                </Link>
+                </LinkButton>
                 <Link href="#platform">
                   Explore the platform <ArrowRightIcon aria-hidden="true" />
                 </Link>
@@ -242,7 +252,7 @@ const HomePage: React.FC = () => {
         <section className="intro" id="why">
           <div className="shell intro-grid">
             <div>
-              <p className="eyebrow">A BETTER WAY TO BUILD</p>
+              <p className="eyebrow">A better way to build</p>
               <h2>Your infrastructure shouldn’t be your full-time job.</h2>
             </div>
             <div className="intro-copy">
@@ -267,7 +277,7 @@ const HomePage: React.FC = () => {
           <div className="shell">
             <div className="section-heading">
               <div>
-                <p className="eyebrow">THE PLATFORM</p>
+                <p className="eyebrow">The platform</p>
                 <h2>Everything you need. Less of the nonsense.</h2>
               </div>
               <Text variant="secondary">
@@ -289,19 +299,19 @@ const HomePage: React.FC = () => {
         <section className="cta">
           <div className="shell cta-inner">
             <div>
-              <p className="eyebrow">READY WHEN YOU ARE</p>
+              <p className="eyebrow">Ready when you are</p>
               <h2>Go build something already.</h2>
               <Text>
                 Your idea deserves better than another weekend configuring
                 infrastructure.
               </Text>
             </div>
-            <Link
-              className="action-primary"
+            <LinkButton
+              variant="primary"
               href="https://dash.cloudflare.com/sign-up"
             >
               Get started with Cloudflare <ArrowRightIcon aria-hidden="true" />
-            </Link>
+            </LinkButton>
           </div>
         </section>
         <ShareLink />
@@ -321,9 +331,9 @@ const HomePage: React.FC = () => {
 const PrivacyPolicy: React.FC = () => (
   <>
     <Header />
-    <main className="shell policy" id="main-content">
+    <main className="shell policy" id="main-content" tabIndex={-1}>
       <Link href="/">← Back to home</Link>
-      <p className="eyebrow">THE FINE PRINT</p>
+      <p className="eyebrow">The fine print</p>
       <h1>The fucking privacy policy</h1>
       <Text variant="secondary">Last updated: April 25, 2026</Text>
       <div className="policy-content">
