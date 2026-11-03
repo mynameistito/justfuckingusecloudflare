@@ -255,40 +255,43 @@ export const Marketing: React.FC = () => {
           </Button>
         )}
       </section>
-      <div className="content-grid">
-        <section className="section" id="platform" data-motion-region>
-          <div className="section-title">
-            <Text as="h2">Region: Earth</Text>
+      <section
+        className="section platform-section"
+        id="platform"
+        data-motion-region
+      >
+        <div className="section-title">
+          <Text as="h2">Region: Earth</Text>
+          <Text variant="secondary">
+            One network for your apps, data, and all the shit in between.
+          </Text>
+        </div>
+        <MarketingGlobe autoRotate={motionRunning && globeVisible} />
+        <div className="stats-grid">
+          <LayerCard className="stat">
+            <GlobeHemisphereWestIcon size={22} />
+            <Text as="h3">Run everywhere</Text>
             <Text variant="secondary">
-              One network for your apps, data, and all the shit in between.
+              A global network close to your users, wherever the hell they are.
             </Text>
-          </div>
-          <MarketingGlobe autoRotate={motionRunning && globeVisible} />
-          <div className="stats-grid">
-            <LayerCard className="stat">
-              <GlobeHemisphereWestIcon size={22} />
-              <Text as="h3">Run everywhere</Text>
-              <Text variant="secondary">
-                A global network close to your users, wherever the hell they
-                are.
-              </Text>
-            </LayerCard>
-            <LayerCard className="stat">
-              <LightningIcon size={22} />
-              <Text as="h3">Build anything</Text>
-              <Text variant="secondary">
-                Compute, storage, databases, AI, and more on one platform.
-              </Text>
-            </LayerCard>
-            <LayerCard className="stat">
-              <ShieldCheckIcon size={22} />
-              <Text as="h3">Secure by default</Text>
-              <Text variant="secondary">
-                DDoS protection, SSL, performance, and Zero Trust included.
-              </Text>
-            </LayerCard>
-          </div>
-        </section>
+          </LayerCard>
+          <LayerCard className="stat">
+            <LightningIcon size={22} />
+            <Text as="h3">Build anything</Text>
+            <Text variant="secondary">
+              Compute, storage, databases, AI, and more on one platform.
+            </Text>
+          </LayerCard>
+          <LayerCard className="stat">
+            <ShieldCheckIcon size={22} />
+            <Text as="h3">Secure by default</Text>
+            <Text variant="secondary">
+              DDoS protection, SSL, performance, and Zero Trust included.
+            </Text>
+          </LayerCard>
+        </div>
+      </section>
+      <div className="content-grid">
         <section className="section" data-motion-region>
           <div className="section-title">
             <Text as="h2">Your stack could be this simple</Text>

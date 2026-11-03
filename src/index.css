@@ -145,17 +145,29 @@ p {
   position: relative;
 }
 .globe-scene {
-  height: 650px;
+  height: min(100vw, 1100px);
   position: relative;
   overflow: hidden;
 }
 .globe {
   position: absolute;
-  width: min(700px, 100%);
+  width: min(1200px, 100%);
   aspect-ratio: 1;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+.globe svg {
+  outline: none;
+}
+.globe:has(svg:focus-visible) {
+  border-radius: 50%;
+  outline: 2px solid var(--text-color-kumo-brand);
+  outline-offset: -12px;
+}
+.platform-section .stats-grid {
+  width: min(100% - 80px, 1200px);
+  margin-inline: auto;
 }
 .globe-callout {
   position: absolute;
@@ -391,7 +403,7 @@ p {
     padding-top: 80px;
   }
   .globe-scene {
-    height: 600px;
+    height: 100vw;
   }
   .stats-grid,
   .product-grid,
