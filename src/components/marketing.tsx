@@ -1,4 +1,11 @@
-import { GlobeMap, LayerCard, Link, LinkButton, Text } from "@cloudflare/kumo";
+import {
+  Button,
+  GlobeMap,
+  LayerCard,
+  Link,
+  LinkButton,
+  Text,
+} from "@cloudflare/kumo";
 import {
   CheckCircleIcon,
   GlobeHemisphereWestIcon,
@@ -6,6 +13,7 @@ import {
   ShieldCheckIcon,
 } from "@phosphor-icons/react";
 
+import { useMarketingMotion } from "../hooks/use-marketing-motion";
 import { usePersonalization } from "../hooks/use-personalization";
 
 const products = [
@@ -100,9 +108,32 @@ const extraProducts = [
 /** Main landing page sections and the original product comparisons. */
 export const Marketing: React.FC = () => {
   const { to, from } = usePersonalization();
+  const {
+    rootRef,
+    videoRef,
+    motionAllowed,
+    playing,
+    setPlaying,
+    videoReady,
+    motionRunning,
+    globeVisible,
+  } = useMarketingMotion();
   return (
-    <>
-      <section className="shell hero">
+    <div ref={rootRef} data-motion-running={motionRunning}>
+      <section className="shell hero" data-motion-region>
+        {/* Background footage and poster: Cloudflare homepage, https://www.cloudflare.com/ */}
+        <video
+          ref={videoRef}
+          className="hero-video"
+          poster="/cloudflare-hero-poster.avif"
+          src={videoReady ? "/cloudflare-hero.mp4" : undefined}
+          muted
+          loop
+          playsInline
+          preload="none"
+          aria-hidden="true"
+        />
+        <div className="hero-shade" aria-hidden="true" />
         <div className="hero-content">
           {from && (
             <Text>
@@ -123,16 +154,25 @@ export const Marketing: React.FC = () => {
             Start building for free
           </LinkButton>
         </div>
+        {motionAllowed && (
+          <Button
+            className="motion-toggle"
+            variant="secondary"
+            onClick={() => setPlaying(!playing)}
+          >
+            {playing ? "Pause animations" : "Play animations"}
+          </Button>
+        )}
       </section>
       <div className="content-grid">
-        <section className="section" id="platform">
+        <section className="section" id="platform" data-motion-region>
           <div className="section-title">
             <Text as="h2">Region: Earth</Text>
             <Text variant="secondary">
               One network for your apps, data, and all the shit in between.
             </Text>
           </div>
-          <div className="globe-wrap" aria-hidden="true">
+          <div className="globe-wrap" aria-hidden="true" data-motion-region>
             <div className="globe">
               <GlobeMap
                 landColor="var(--text-color-kumo-brand)"
@@ -141,10 +181,21 @@ export const Marketing: React.FC = () => {
                 showGraticule
                 isDarkMode
                 draggable={false}
+                autoRotate={motionRunning && globeVisible}
+                autoRotateSpeed={3}
                 showTooltip={false}
                 defaultRotation={[-145, -20, -15]}
               />
             </div>
+            <svg
+              className="globe-connections"
+              viewBox="0 0 970 340"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              <path d="M 120 135 Q 300 20 480 160 T 850 170" />
+              <circle className="connection-dot" cx="480" cy="160" r="4" />
+            </svg>
             <div className="globe-note note-left">
               One platform
               <br />
@@ -181,7 +232,7 @@ export const Marketing: React.FC = () => {
             </LayerCard>
           </div>
         </section>
-        <section className="section" id="why">
+        <section className="section" id="why" data-motion-region>
           <div className="section-title">
             <Text as="h2">
               {to ? `${to}, you're` : "You're"} fucking killing me here
@@ -202,6 +253,10 @@ export const Marketing: React.FC = () => {
             </LayerCard>
             <LayerCard className="versus orange-panel">
               <Text as="h3">Shipping with Cloudflare</Text>
+              <div className="shipping-status">
+                <span aria-hidden="true" /> Ready to ship{" "}
+                <span className="sr-only">(illustration)</span>
+              </div>
               <Text>
                 Meanwhile Cloudflare is begging you to use Workers, Pages, R2,
                 D1, KV, Durable Objects, Queues, Workflows, AI, and Vectorize.
@@ -220,7 +275,7 @@ export const Marketing: React.FC = () => {
             </LayerCard>
           </div>
         </section>
-        <section className="section" id="comparison">
+        <section className="section" id="comparison" data-motion-region>
           <div className="section-title">
             <Text as="h2">Stop paying for this bullshit</Text>
             <Text variant="secondary">
@@ -239,7 +294,7 @@ export const Marketing: React.FC = () => {
             ))}
           </div>
         </section>
-        <section className="section">
+        <section className="section" data-motion-region>
           <div className="section-title">
             <Text as="h2">One platform. Everything you need.</Text>
             <Text variant="secondary">
@@ -256,7 +311,7 @@ export const Marketing: React.FC = () => {
           </div>
         </section>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -442,3 +442,89 @@ p {
     scroll-behavior: auto;
   }
 }
+.hero-video,
+.hero-shade {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.hero-video {
+  object-fit: cover;
+}
+.hero-shade {
+  background: rgba(0, 0, 0, 0.58);
+}
+.hero-content p {
+  color: #fff;
+}
+.motion-toggle {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+}
+.globe-connections {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+.globe-connections path {
+  fill: none;
+  stroke: #f6821f;
+  stroke-width: 1;
+  opacity: 0.55;
+  stroke-dasharray: 4 7;
+}
+.connection-dot {
+  fill: #f6821f;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.shipping-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+.shipping-status > span:first-child {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+[data-motion-running="true"] .globe-wrap[data-in-view="true"] .connection-dot,
+[data-motion-running="true"]
+  .section[data-in-view="true"]
+  .shipping-status
+  > span:first-child {
+  animation: motion-pulse 2.2s ease-in-out infinite;
+}
+[data-motion-running="true"]
+  .section.motion-enter[data-in-view="true"]
+  > .section-title {
+  animation: motion-fade 1s ease-out both;
+}
+@keyframes motion-pulse {
+  50% {
+    opacity: 0.4;
+    transform: scale(1.5);
+  }
+}
+@keyframes motion-fade {
+  from {
+    opacity: 0.65;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+  }
+}
