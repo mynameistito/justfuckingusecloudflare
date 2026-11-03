@@ -1,5 +1,5 @@
 import { GlobeMap, LayerCard, Text } from "@cloudflare/kumo";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const locations = [
   {
@@ -44,6 +44,35 @@ export const MarketingGlobe: React.FC<MarketingGlobeProps> = ({
 }) => {
   const sceneRef = useRef<HTMLDivElement>(null);
   const [selected, setSelected] = useState(locations[0]);
+  const [idle, setIdle] = useState(false);
+  const idleTimer = useRef<number | null>(null);
+  const pointerHeld = useRef(false);
+  const waitForIdle = useCallback(() => {
+    setIdle(false);
+    if (idleTimer.current !== null) {
+      window.clearTimeout(idleTimer.current);
+    }
+    idleTimer.current = window.setTimeout(() => {
+      idleTimer.current = null;
+      if (!pointerHeld.current) {
+        setIdle(true);
+      }
+    }, 100);
+  }, []);
+
+  useEffect(() => {
+    idleTimer.current = window.setTimeout(() => {
+      idleTimer.current = null;
+      if (!pointerHeld.current) {
+        setIdle(true);
+      }
+    }, 100);
+    return () => {
+      if (idleTimer.current !== null) {
+        window.clearTimeout(idleTimer.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const scene = sceneRef.current;
@@ -122,7 +151,35 @@ export const MarketingGlobe: React.FC<MarketingGlobeProps> = ({
   return (
     <div className="globe-wrap" data-motion-region>
       <div ref={sceneRef} className="globe-scene">
-        <div className="globe">
+        <div
+          className="globe"
+          data-auto-rotating={autoRotate && idle}
+          onFocusCapture={(event) => {
+            // Keep keyboard focus, but replace Kumo's focus-until-blur pause
+            // with the same short idle delay used for pointer interactions.
+            event.stopPropagation();
+            waitForIdle();
+          }}
+          onKeyDownCapture={waitForIdle}
+          onKeyUpCapture={waitForIdle}
+          onPointerDownCapture={() => {
+            pointerHeld.current = true;
+            waitForIdle();
+          }}
+          onPointerMoveCapture={waitForIdle}
+          onPointerUpCapture={() => {
+            pointerHeld.current = false;
+            waitForIdle();
+          }}
+          onPointerCancelCapture={() => {
+            pointerHeld.current = false;
+            waitForIdle();
+          }}
+          onLostPointerCapture={() => {
+            pointerHeld.current = false;
+            waitForIdle();
+          }}
+        >
           <GlobeMap
             aria-label="Interactive Cloudflare network globe"
             landColor="var(--text-color-kumo-brand)"
@@ -131,7 +188,7 @@ export const MarketingGlobe: React.FC<MarketingGlobeProps> = ({
             showGraticule
             isDarkMode
             draggable
-            autoRotate={autoRotate}
+            autoRotate={autoRotate && idle}
             autoRotateSpeed={3}
             showTooltip={false}
             defaultRotation={[-145, -20, -15]}
