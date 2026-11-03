@@ -1,4 +1,11 @@
-import { Button, Input, LayerCard, Link, Text } from "@cloudflare/kumo";
+import {
+  Button,
+  DropdownMenu,
+  Input,
+  LayerCard,
+  Link,
+  Text,
+} from "@cloudflare/kumo";
 import { CloudIcon } from "@phosphor-icons/react";
 import { useState } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
@@ -8,6 +15,7 @@ import { normalizeName, usePersonalization } from "./hooks/use-personalization";
 
 const Header: React.FC = () => {
   const { search } = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
   return (
     <header className="site-header">
       <div className="shell header-inner">
@@ -22,11 +30,55 @@ const Header: React.FC = () => {
           <Link href={`/${search}#why`} variant="plain">
             Why Cloudflare
           </Link>
+          <Link href={`/${search}#comparison`} variant="plain">
+            Products
+          </Link>
           <Link href={`/${search}#share`} variant="plain">
             Share
           </Link>
         </nav>
-        <Link href="https://dash.cloudflare.com/sign-up">Start building →</Link>
+        <Link
+          className="header-action"
+          href="https://dash.cloudflare.com/sign-up"
+        >
+          Start building →
+        </Link>
+        <div className="mobile-menu">
+          <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
+            <DropdownMenu.Trigger render={<Button variant="secondary" />}>
+              Menu
+            </DropdownMenu.Trigger>
+            <DropdownMenu.Content>
+              <DropdownMenu.LinkItem
+                href={`/${search}#platform`}
+                onClick={() => setMenuOpen(false)}
+              >
+                The platform
+              </DropdownMenu.LinkItem>
+              <DropdownMenu.LinkItem
+                href={`/${search}#why`}
+                onClick={() => setMenuOpen(false)}
+              >
+                Why Cloudflare
+              </DropdownMenu.LinkItem>
+              <DropdownMenu.LinkItem
+                href={`/${search}#comparison`}
+                onClick={() => setMenuOpen(false)}
+              >
+                Products
+              </DropdownMenu.LinkItem>
+              <DropdownMenu.LinkItem
+                href={`/${search}#share`}
+                onClick={() => setMenuOpen(false)}
+              >
+                Share
+              </DropdownMenu.LinkItem>
+              <DropdownMenu.LinkItem href="https://dash.cloudflare.com/sign-up">
+                Start building
+              </DropdownMenu.LinkItem>
+            </DropdownMenu.Content>
+          </DropdownMenu>
+        </div>
       </div>
     </header>
   );
@@ -126,6 +178,18 @@ const Footer: React.FC = () => {
         </div>
         <div className="footer-column">
           <Text as="h3">Explore</Text>
+          <Link href="https://www.cloudflare.com/developer-platform/products/workers/">
+            Workers
+          </Link>
+          <Link href="https://www.cloudflare.com/developer-platform/products/d1/">
+            D1
+          </Link>
+          <Link href="https://www.cloudflare.com/developer-platform/products/r2/">
+            R2
+          </Link>
+          <Link href="https://www.cloudflare.com/developer-platform/products/pages/">
+            Pages
+          </Link>
           <Link href="https://community.cloudflare.com">Community</Link>
           <Link href="https://www.cloudflare.com/products/registrar/">
             Domains

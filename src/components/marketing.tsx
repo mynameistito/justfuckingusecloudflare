@@ -1,9 +1,10 @@
 import {
   Button,
-  GlobeMap,
   LayerCard,
   Link,
   LinkButton,
+  Select,
+  Tabs,
   Text,
 } from "@cloudflare/kumo";
 import {
@@ -12,9 +13,11 @@ import {
   LightningIcon,
   ShieldCheckIcon,
 } from "@phosphor-icons/react";
+import { useEffect, useRef, useState } from "react";
 
 import { useMarketingMotion } from "../hooks/use-marketing-motion";
 import { usePersonalization } from "../hooks/use-personalization";
+import { MarketingGlobe } from "./marketing-globe";
 
 const products = [
   [
@@ -99,15 +102,103 @@ const features = [
   "DDoS protection included",
   "Security, performance & Zero Trust",
 ];
+const featureArt = [
+  "~ $ deploy",
+  "● — ● — ●",
+  "✓  Ready to ship",
+  "◇  Secure by default",
+];
 const extraProducts = [
   ["KV", "workers-kv"],
   ["Durable Objects", "durable-objects"],
   ["Vectorize", "vectorize"],
 ] as const;
 
+const categories = [
+  {
+    label: "Compute",
+    names: ["Workers", "Queues", "Workflows"],
+    value: "compute",
+  },
+  {
+    label: "Data",
+    names: ["D1 Database", "R2 Storage", "Workers AI"],
+    value: "data",
+  },
+  { label: "Web", names: ["CDN", "Registrar", "Pages"], value: "web" },
+];
+const stories = [
+  {
+    detail:
+      "Workers and Pages bring your code and frontend together, with Git integration and real preview deployments.",
+    label: "Build",
+    title: "Build and deploy without the infrastructure circus.",
+    value: "build",
+  },
+  {
+    detail:
+      "Use D1 for SQLite at the edge and R2 for object storage without egress fees.",
+    label: "Store",
+    title: "Keep your data close to your code.",
+    value: "data",
+  },
+  {
+    detail:
+      "Queues and Workflows connect your services and keep long-running tasks moving.",
+    label: "Connect",
+    title: "Let the platform handle the moving parts.",
+    value: "connect",
+  },
+];
+
+const CategoryPicker: React.FC<{
+  value: string;
+  onChange: (value: string) => void;
+  options: { value: string; label: string }[];
+  label: string;
+  panelId: string;
+}> = ({ value, onChange, options, label, panelId }) => {
+  const pickerRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    // Kumo's compact Tabs API does not yet expose tab-list ARIA props.
+    const list = pickerRef.current?.querySelector('[role="tablist"]');
+    list?.setAttribute("aria-label", label);
+    for (const tab of pickerRef.current?.querySelectorAll('[role="tab"]') ??
+      []) {
+      tab.setAttribute("aria-controls", panelId);
+    }
+  }, [label, panelId]);
+  return (
+    <div className="category-picker" ref={pickerRef}>
+      <div className="desktop-picker">
+        <Tabs tabs={options} value={value} onValueChange={onChange} />
+      </div>
+      <div className="mobile-picker">
+        <Select
+          aria-label={label}
+          items={options}
+          value={value}
+          onValueChange={(next) => {
+            if (next) {
+              onChange(next);
+            }
+          }}
+        />
+      </div>
+    </div>
+  );
+};
+
 /** Main landing page sections and the original product comparisons. */
 export const Marketing: React.FC = () => {
   const { to, from } = usePersonalization();
+  const [category, setCategory] = useState("compute");
+  const [story, setStory] = useState("build");
+  const selectedStory =
+    stories.find((item) => item.value === story) ?? stories[0];
+  const selectedCategory =
+    categories.find((item) => item.value === category) ?? categories[0];
+  const selectedNames = new Set(selectedCategory.names);
   const {
     rootRef,
     videoRef,
@@ -172,41 +263,7 @@ export const Marketing: React.FC = () => {
               One network for your apps, data, and all the shit in between.
             </Text>
           </div>
-          <div className="globe-wrap" aria-hidden="true" data-motion-region>
-            <div className="globe">
-              <GlobeMap
-                landColor="var(--text-color-kumo-brand)"
-                landHatchSpacing={5}
-                oceanColor="transparent"
-                showGraticule
-                isDarkMode
-                draggable={false}
-                autoRotate={motionRunning && globeVisible}
-                autoRotateSpeed={3}
-                showTooltip={false}
-                defaultRotation={[-145, -20, -15]}
-              />
-            </div>
-            <svg
-              className="globe-connections"
-              viewBox="0 0 970 340"
-              preserveAspectRatio="none"
-              aria-hidden="true"
-            >
-              <path d="M 120 135 Q 300 20 480 160 T 850 170" />
-              <circle className="connection-dot" cx="480" cy="160" r="4" />
-            </svg>
-            <div className="globe-note note-left">
-              One platform
-              <br />
-              One bill
-            </div>
-            <div className="globe-note note-right">
-              300+ edge locations
-              <br />
-              Actually generous free tiers
-            </div>
-          </div>
+          <MarketingGlobe autoRotate={motionRunning && globeVisible} />
           <div className="stats-grid">
             <LayerCard className="stat">
               <GlobeHemisphereWestIcon size={22} />
@@ -232,6 +289,49 @@ export const Marketing: React.FC = () => {
             </LayerCard>
           </div>
         </section>
+        <section className="section" data-motion-region>
+          <div className="section-title">
+            <Text as="h2">Your stack could be this simple</Text>
+            <Text variant="secondary">
+              One platform for the things you actually need to build.
+            </Text>
+          </div>
+          <div className="story-frame">
+            <CategoryPicker
+              value={story}
+              onChange={setStory}
+              options={stories}
+              label="Choose a use case"
+              panelId="use-case-panel"
+            />
+            <div
+              className="story-content"
+              aria-live="polite"
+              id="use-case-panel"
+              role="tabpanel"
+              aria-label={selectedStory.label}
+              tabIndex={0}
+            >
+              <div>
+                <Text as="h3">{selectedStory.title}</Text>
+                <Text>{selectedStory.detail}</Text>
+              </div>
+              <div className="story-diagram" aria-hidden="true">
+                <span>Code</span>
+                <span>Cloudflare</span>
+                <span>Everywhere</span>
+              </div>
+            </div>
+          </div>
+          <div className="story-strip">
+            <span>Workers</span>
+            <span>Pages</span>
+            <span>D1</span>
+            <span>R2</span>
+            <span>Queues</span>
+            <span>Workflows</span>
+          </div>
+        </section>
         <section className="section" id="why" data-motion-region>
           <div className="section-title">
             <Text as="h2">
@@ -242,7 +342,15 @@ export const Marketing: React.FC = () => {
             </Text>
           </div>
           <div className="versus-grid">
-            <LayerCard className="versus">
+            <LayerCard className="versus incident-panel">
+              <div className="incident-labels" aria-hidden="true">
+                <span>Vercel</span>
+                <span>Railway</span>
+                <span>AWS S3</span>
+                <span>PlanetScale</span>
+                <span>Redis Labs</span>
+                <span>Cloudinary</span>
+              </div>
               <Text as="h3">Fighting infrastructure</Text>
               <Text>
                 You’ve got Vercel for frontend, Railway for backend, AWS S3 for
@@ -282,16 +390,44 @@ export const Marketing: React.FC = () => {
               The same jobs, without the multi-vendor circus.
             </Text>
           </div>
-          <div className="product-grid">
-            {products.map(([title, vs, description, free, url]) => (
-              <LayerCard className="product-card" key={title}>
-                <Text as="h3">{title}</Text>
-                <Text variant="secondary">vs. {vs}</Text>
-                <Text>{description}</Text>
-                <Text DANGEROUS_className="product-free">{free}</Text>
-                <Link href={url}>Explore {title} →</Link>
-              </LayerCard>
-            ))}
+          <CategoryPicker
+            value={category}
+            onChange={setCategory}
+            options={categories}
+            label="Choose a product category"
+            panelId="product-category-panel"
+          />
+          <div
+            className="comparison-frame"
+            id="product-category-panel"
+            role="tabpanel"
+            aria-label={selectedCategory.label}
+            tabIndex={0}
+          >
+            <div className="comparison-intro">
+              <div>
+                <Text as="h3">{selectedCategory.label} on one platform</Text>
+                <Text>Pick the tools you need and get back to building.</Text>
+              </div>
+              <div className="comparison-visual" aria-hidden="true">
+                <span>Build</span>
+                <span>Deploy</span>
+                <span>Run everywhere</span>
+              </div>
+            </div>
+            <div className="product-grid" aria-live="polite">
+              {products
+                .filter(([title]) => selectedNames.has(title))
+                .map(([title, vs, description, free, url]) => (
+                  <LayerCard className="product-card" key={title}>
+                    <Text as="h3">{title}</Text>
+                    <Text variant="secondary">vs. {vs}</Text>
+                    <Text>{description}</Text>
+                    <Text DANGEROUS_className="product-free">{free}</Text>
+                    <Link href={url}>Explore {title} →</Link>
+                  </LayerCard>
+                ))}
+            </div>
           </div>
         </section>
         <section className="section" data-motion-region>
@@ -301,11 +437,28 @@ export const Marketing: React.FC = () => {
               A lot less wiring things together. A lot more shipping.
             </Text>
           </div>
-          <div className="feature-grid">
-            {features.map((feature) => (
-              <LayerCard className="feature" key={feature}>
-                <CheckCircleIcon size={20} />
-                <Text>{feature}</Text>
+          <div className="feature-mosaic">
+            {[
+              features.slice(0, 4),
+              features.slice(4, 7),
+              features.slice(7, 11),
+              features.slice(11),
+            ].map((group, index) => (
+              <LayerCard
+                className={`feature-panel feature-panel-${index + 1}`}
+                key={group[0]}
+              >
+                <div className="feature-art" aria-hidden="true">
+                  {featureArt[index]}
+                </div>
+                <div className="feature-list">
+                  {group.map((feature) => (
+                    <div className="feature-point" key={feature}>
+                      <CheckCircleIcon size={18} />
+                      <Text>{feature}</Text>
+                    </div>
+                  ))}
+                </div>
               </LayerCard>
             ))}
           </div>
@@ -337,6 +490,12 @@ export const FinalCta: React.FC = () => (
       <LinkButton href="https://developers.cloudflare.com" variant="secondary">
         Fine, read the docs first
       </LinkButton>
+    </div>
+    <div className="benefits-strip">
+      <span>Zero cold starts. Ever.</span>
+      <span>No egress fees on R2 storage</span>
+      <span>Real preview deployments</span>
+      <span>DDoS protection included</span>
     </div>
   </section>
 );
