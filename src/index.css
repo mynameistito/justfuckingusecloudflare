@@ -145,13 +145,13 @@ p {
   position: relative;
 }
 .globe-scene {
-  height: min(100vw, 1100px);
+  height: min(92vw, 840px);
   position: relative;
   overflow: hidden;
 }
 .globe {
   position: absolute;
-  width: min(1200px, 100%);
+  width: min(880px, 92%);
   aspect-ratio: 1;
   left: 50%;
   top: 50%;
