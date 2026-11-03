@@ -31,6 +31,7 @@ export default defineConfig({
   ],
   publicDir: path.resolve(projectRoot, "public"),
   resolve: {
+    dedupe: ["react", "react-dom"],
     alias: {
       "@": path.resolve(projectRoot, "src"),
     },
