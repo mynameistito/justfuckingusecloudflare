@@ -169,6 +169,43 @@ p {
   width: min(100% - 80px, 1200px);
   margin-inline: auto;
 }
+@media (min-width: 801px) {
+  .section.platform-section {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    height: calc(100svh - 73px);
+    margin-top: 72px;
+    padding-top: 16px;
+    padding-bottom: 12px;
+    scroll-margin-top: 73px;
+  }
+  .platform-section .section-title {
+    padding-bottom: 12px;
+    gap: 8px;
+  }
+  .platform-section .globe-wrap {
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    min-height: 0;
+  }
+  .platform-section .globe-scene {
+    container-type: size;
+    height: 100%;
+    min-height: 0;
+  }
+  .platform-section .globe {
+    width: min(880px, 92%, 100cqh);
+  }
+  .platform-section .globe-instructions {
+    gap: 4px;
+    padding-bottom: 12px;
+  }
+  .platform-section .stat {
+    min-height: 150px;
+    padding: 18px 24px;
+    gap: 8px;
+  }
+}
 .globe-callout {
   position: absolute;
   top: 0;
