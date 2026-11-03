@@ -31,10 +31,10 @@ export default defineConfig({
   ],
   publicDir: path.resolve(projectRoot, "public"),
   resolve: {
-    dedupe: ["react", "react-dom"],
     alias: {
       "@": path.resolve(projectRoot, "src"),
     },
+    dedupe: ["react", "react-dom"],
     extensions: [".mjs", ".js", ".mts", ".ts", ".jsx", ".tsx", ".json"],
   },
   root: "src",
